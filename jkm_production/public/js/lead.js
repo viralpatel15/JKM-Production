@@ -12,7 +12,6 @@ frappe.ui.form.on("Lead", {
 });
 
 frappe.ui.form.on("Lead Items", {
-
 	calculate: function (frm, cdt, cdn) {
 		let row = frappe.get_doc(cdt, cdn);
 		frappe.model.set_value(cdt, cdn, "amount", flt(row.qty) * flt(row.rate));
