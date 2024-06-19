@@ -40,7 +40,17 @@ app_license = "mit"
 
 # Home Pages
 # ----------
+doc_events = {
+	"Lead":{
+		"validate":"jkm_production.jkm_production.doc_events.lead.validate",
+		"after_insert":"jkm_production.jkm_production.doc_events.lead.after_insert"
+	}
+}
 
+doctype_js = { 
+	"Lead": "public/js/lead.js",
+	"Opportunity": "public/js/opportunity.js",
+}
 # application home page (will override Website Settings)
 # home_page = "login"
 
