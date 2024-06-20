@@ -2,6 +2,9 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Costing Details", {
+    onload:frm=>{
+        frm.get_field('items').grid.cannot_add_rows = true;
+    },
     refresh:frm=>{
         frm.set_query("items_quotation", function () {
 			return {
@@ -11,6 +14,7 @@ frappe.ui.form.on("Costing Details", {
 				},
 			};
 		});
+        frm.get_field('items').grid.cannot_add_rows = true;
         frm.set_query("supplier_quotation", function () {
 			return {
 				filters: {
@@ -50,6 +54,9 @@ frappe.ui.form.on("Costing Details", {
 				},
 			};
 		});
+    },
+    taxes_and_charges:frm=>{
+        frm.set_value("grand_total", frm.doc.total_amount_domestic + frm.doc.taxes_and_charges)
     },
     fetch_details:frm=>{
         if(frm.doc.items_quotation){
@@ -147,7 +154,6 @@ frappe.ui.form.on("Costing Details", {
                         row.base_rate = element.base_rate
                         row.item_code = element.item_code
                         row.item_name = element.item_name
-                        row.qty = element.qty
                         row.rate = element.rate
                         frm.refresh_field("shipping_charges");
                     });
@@ -294,6 +300,12 @@ frappe.ui.form.on("Export Charges", {
         frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
         frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate)
         calculate_totals(frm, cdt, cdn)
+    },
+    export_charges_remove:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    export_charges_add:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
     }
 })
 
@@ -307,3 +319,28 @@ function calculate_totals(frm , cdt, cdn){
     frm.set_value("grand_total_e", total_amount_e + flt(frm.doc.total_taxes_and_charges))
 }
 
+frappe.ui.form.on('Local Transport Charges', {
+    rate:(frm, cdt, cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount)
+    },
+    shipping_charges_add:(frm, cdt, cdn)=>{
+        let d = locals[cdt][cdn]
+        total_amount_domestic = 0 
+        frm.doc.shipping_charges.forEach(r=>{
+            total_amount_domestic += r.base_amount
+        })
+        frm.set_value('total_amount_domestic', total_amount_domestic)
+    },
+    shipping_charges_remove:(frm, cdt, cdn)=>{
+        let d = locals[cdt][cdn]
+        total_amount_domestic = 0 
+        frm.doc.shipping_charges.forEach(r=>{
+            total_amount_domestic += r.base_amount
+        })
+        frm.set_value('total_amount_domestic', total_amount_domestic)
+    }
+    
+})
