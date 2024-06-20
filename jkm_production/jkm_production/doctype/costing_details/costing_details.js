@@ -167,6 +167,7 @@ frappe.ui.form.on("Costing Details", {
     },
     fetch_export_charges:frm=>{
         if(frm.doc.export_quotation){
+            let quotation = frm.doc.export_quotation
             frappe.call({
                 method:"jkm_production.jkm_production.doctype.costing_details.costing_details.get_item_details",
                 args:{
@@ -184,7 +185,7 @@ frappe.ui.form.on("Costing Details", {
                         row.exchange_rate = element.custom_exchange_rate
                         row.rate_currency = element.custom_rate_currency
                         row.rate = element.rate
-                        row.quotation_id = frm.doc.export_quotation
+                        row.quotation_id = quotation
                         frm.refresh_field("export_charges");
                     });
                     frm.set_value('total_amount_e', e.message.total)
