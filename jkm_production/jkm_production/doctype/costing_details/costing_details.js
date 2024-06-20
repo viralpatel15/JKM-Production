@@ -7,6 +7,7 @@ frappe.ui.form.on("Costing Details", {
 			return {
 				filters: {
 					docstatus: 1,
+                    custom_quotation_request_for: "Product Quotation"
 				},
 			};
 		});
@@ -15,7 +16,8 @@ frappe.ui.form.on("Costing Details", {
 				filters: {
 					docstatus: 1,
                     custom_place_of_delivery:frm.doc.place_of_delivery,
-                    custom_port_of_origin:frm.doc.port_of_origin
+                    custom_port_of_origin:frm.doc.port_of_origin,
+                    custom_quotation_request_for: ['!=',"Product Quotation"]
 				},
 			};
 		});
@@ -29,7 +31,8 @@ frappe.ui.form.on("Costing Details", {
 				filters: {
 					docstatus: 1,
                     custom_port_of_origin :frm.doc.port_of_origin_e,
-                    custom_port_of_destination :frm.doc.port_of_destination_e
+                    custom_port_of_destination :frm.doc.port_of_destination_e,
+                    custom_quotation_request_for: ['!=',"Product Quotation"]
 				},
 			};
 		});
@@ -99,6 +102,10 @@ frappe.ui.form.on("Costing Details", {
                         row.total_weight=element.total_weight
                         row.uom=element.uom
                         row.warehouse= element.warehouse
+                        row.currency = element.custom_currency
+                        row.exchange_rate = element.custom_exchange_rate
+                        row.rate_currency = element.custom_rate_currency
+                        row.rate = element.rate
                         row.weight_per_unit=element.weight_per_unit
                         frappe.model.get_value("Item", row.item_code, ['custom_length', 'custom_width', 'custom_height'], r=> {
                             frappe.model.set_value(row.doctype, row.name, 'custom_length', r.custom_length)
@@ -173,6 +180,7 @@ frappe.ui.form.on("Costing Details", {
                         row.base_rate = element.base_rate
                         row.item_code = element.item_code
                         row.item_name = element.item_name
+                        row.currency = element.custom_currency
                         row.exchange_rate = element.custom_exchange_rate
                         row.rate_currency = element.custom_rate_currency
                         row.rate = element.rate
