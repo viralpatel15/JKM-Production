@@ -13,10 +13,9 @@
  "fields": [
   {
    "fieldname": "charges_details",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Charges Details",
-   "options": "Item",
    "reqd": 1
   },
   {
@@ -36,7 +35,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-17 16:12:06.007264",
+ "modified": "2024-06-20 22:38:22.247886",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Other Charges",

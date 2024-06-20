@@ -30,6 +30,11 @@ frappe.ui.form.on("Costing Details", {
                 filters: { is_stock_item: 0 },
             };
         };
+        cur_frm.fields_dict["shipping_charges"].grid.get_field("item_code").get_query = function (doc, cdt, cdn) {
+            return {
+                filters: { is_stock_item: 0 },
+            };
+        };
         frm.set_query("export_quotation", function () {
 			return {
 				filters: {
