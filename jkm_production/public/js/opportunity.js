@@ -1,10 +1,5 @@
 
 frappe.ui.form.on("Opportunity", {
-    
-   
-    setup:frm=>{
-		frm.trigger('party_name')
-	},
 	party_name:frm=>{
 		if(frm.doc.opportunity_from == "Lead"){
 			console.log('get')
