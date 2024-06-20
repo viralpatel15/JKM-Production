@@ -19,34 +19,41 @@
   "total_cost__total_qty",
   "product_details_section",
   "items_quotation",
+  "fetch_details",
   "items",
   "section_break_tbft",
   "total_quantity",
+  "total_cbm",
   "column_break_grds",
   "total_amount",
   "total_taxes_and_charges_d",
   "grand_total_d",
   "domestic",
   "local_transportar_section",
-  "supplier",
   "place_of_delivery",
   "column_break_lyye",
-  "supplier_name",
   "port_of_origin",
-  "section_break_fyzr",
+  "section_break_grcb",
   "supplier_quotation",
+  "supplier",
+  "column_break_zcgw",
+  "supplier_name",
+  "section_break_fyzr",
   "shipping_charges",
   "total_amount_domestic",
   "taxes_and_charges",
   "grand_total",
   "export_charges_tab",
-  "supplier_id",
   "port_of_origin_e",
   "column_break_nfla",
-  "supplier_name_",
   "port_of_destination_e",
-  "section_break_vzar",
+  "section_break_qgym",
   "export_quotation",
+  "supplier_id",
+  "fetch_export_charges",
+  "column_break_xyed",
+  "supplier_name_",
+  "section_break_vzar",
   "export_charges",
   "total_amount_e",
   "total_taxes_and_charges",
@@ -115,6 +122,7 @@
    "label": "Local Transportar"
   },
   {
+   "fetch_from": "supplier_quotation.supplier",
    "fieldname": "supplier",
    "fieldtype": "Link",
    "label": "Supplier",
@@ -132,12 +140,11 @@
    "read_only": 1
   },
   {
-   "fetch_from": "supplier_quotation.custom_place_of_delivery",
    "fieldname": "place_of_delivery",
    "fieldtype": "Link",
    "label": "Place of Delivery",
    "options": "Origin",
-   "read_only": 1
+   "reqd": 1
   },
   {
    "fieldname": "section_break_fyzr",
@@ -162,7 +169,7 @@
   {
    "fieldname": "items_quotation",
    "fieldtype": "Link",
-   "label": "Items Quotation",
+   "label": "Select Quotation",
    "options": "Supplier Quotation"
   },
   {
@@ -213,8 +220,7 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Product Details",
-   "options": "Supplier Quotation Item",
-   "read_only": 1
+   "options": "Supplier Quotation Item"
   },
   {
    "fieldname": "naming_series",
@@ -231,12 +237,11 @@
    "reqd": 1
   },
   {
-   "fetch_from": "supplier_quotation.custom_port_of_origin",
    "fieldname": "port_of_origin",
    "fieldtype": "Link",
    "label": "Port of Origin",
    "options": "Origin",
-   "read_only": 1
+   "reqd": 1
   },
   {
    "fieldname": "shipping_charges",
@@ -269,20 +274,18 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "export_quotation.custom_port_of_origin",
    "fieldname": "port_of_origin_e",
    "fieldtype": "Link",
    "label": "Port of Origin",
    "options": "Origin",
-   "read_only": 1
+   "reqd": 1
   },
   {
-   "fetch_from": "export_quotation.custom_port_of_destination",
    "fieldname": "port_of_destination_e",
    "fieldtype": "Link",
    "label": "Final Destination",
    "options": "Origin",
-   "read_only": 1
+   "reqd": 1
   },
   {
    "fieldname": "section_break_vzar",
@@ -343,12 +346,43 @@
    "fieldtype": "Currency",
    "label": "Total Cost / Total QTY",
    "read_only": 1
+  },
+  {
+   "fieldname": "fetch_details",
+   "fieldtype": "Button",
+   "label": "Fetch Details"
+  },
+  {
+   "fieldname": "section_break_qgym",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_xyed",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_grcb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_zcgw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_cbm",
+   "fieldtype": "Float",
+   "label": "Total CBM"
+  },
+  {
+   "fieldname": "fetch_export_charges",
+   "fieldtype": "Button",
+   "label": "Fetch Export Charges"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-19 10:15:06.506912",
+ "modified": "2024-06-19 23:08:22.453789",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",

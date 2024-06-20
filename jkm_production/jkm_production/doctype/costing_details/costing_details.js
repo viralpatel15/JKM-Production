@@ -14,7 +14,8 @@ frappe.ui.form.on("Costing Details", {
 			return {
 				filters: {
 					docstatus: 1,
-                    supplier:frm.doc.supplier
+                    custom_place_of_delivery:frm.doc.place_of_delivery,
+                    custom_port_of_origin:frm.doc.port_of_origin
 				},
 			};
 		});
@@ -27,7 +28,8 @@ frappe.ui.form.on("Costing Details", {
 			return {
 				filters: {
 					docstatus: 1,
-                    supplier:frm.doc.supplier_id
+                    custom_port_of_origin :frm.doc.port_of_origin_e,
+                    custom_port_of_destination :frm.doc.port_of_destination_e
 				},
 			};
 		});
@@ -46,7 +48,7 @@ frappe.ui.form.on("Costing Details", {
 			};
 		});
     },
-    items_quotation:frm=>{
+    fetch_details:frm=>{
         if(frm.doc.items_quotation){
             frappe.call({
                 method:"jkm_production.jkm_production.doctype.costing_details.costing_details.get_item_details",
@@ -54,7 +56,6 @@ frappe.ui.form.on("Costing Details", {
                     docname : frm.doc.items_quotation
                 },
                 callback:e=>{
-                    frm.doc.items = []
                     e.message.items.forEach(element => {
                         let row = frm.add_child("items");
                         row.amount = element.amount
@@ -99,6 +100,11 @@ frappe.ui.form.on("Costing Details", {
                         row.uom=element.uom
                         row.warehouse= element.warehouse
                         row.weight_per_unit=element.weight_per_unit
+                        frappe.model.get_value("Item", row.item_code, ['custom_length', 'custom_width', 'custom_height'], r=> {
+                            frappe.model.set_value(row.doctype, row.name, 'custom_length', r.custom_length)
+                            frappe.model.set_value(row.doctype, row.name, 'custom_width', r.custom_width)
+                            frappe.model.set_value(row.doctype, row.name, 'custom_height', r.custom_height)
+                        })
                         frm.refresh_field("items");
                     });
                     frm.set_value('total_quantity', e.message.total_qty)
@@ -107,6 +113,7 @@ frappe.ui.form.on("Costing Details", {
                     frm.set_value('grand_total_d', e.message.grand_total)
                 }
             })
+            frm.set_value('items_quotation', '')
         }
         else{
             frm.doc.items = []
@@ -133,6 +140,7 @@ frappe.ui.form.on("Costing Details", {
                         row.base_rate = element.base_rate
                         row.item_code = element.item_code
                         row.item_name = element.item_name
+                        row.qty = element.qty
                         row.rate = element.rate
                         frm.refresh_field("shipping_charges");
                     });
@@ -150,7 +158,7 @@ frappe.ui.form.on("Costing Details", {
             frm.refresh_field("shipping_charges");
         }
     },
-    export_quotation:frm=>{
+    fetch_export_charges:frm=>{
         if(frm.doc.export_quotation){
             frappe.call({
                 method:"jkm_production.jkm_production.doctype.costing_details.costing_details.get_item_details",
@@ -166,6 +174,7 @@ frappe.ui.form.on("Costing Details", {
                         row.base_rate = element.base_rate
                         row.item_code = element.item_code
                         row.item_name = element.item_name
+                        row.qty = element.qty
                         row.rate = element.rate
                         frm.refresh_field("export_charges");
                     });
@@ -174,6 +183,7 @@ frappe.ui.form.on("Costing Details", {
                     frm.set_value('grand_total_e', e.message.grand_total)
                 }
             })
+            frm.set_value('export_quotation', '')
         }
         else{
             frm.doc.export_quotation = []
@@ -210,17 +220,69 @@ frappe.ui.form.on("Other Charges", {
     },
 })
 
+frappe.ui.form.on("Supplier Quotation Item", {
+    item_code:function(frm, cdt, cdn){
+        calculate_cbm(frm, cdt, cdn)
+    },
+    custom_length:(frm, cdt, cdn)=>{
+        calculate_cbm(frm, cdt, cdn)
+    },
+    custom_width:(frm, cdt, cdn)=>{
+        calculate_cbm(frm, cdt, cdn)
+    },
+    custom_height:(frm, cdt, cdn)=>{
+        calculate_cbm(frm, cdt, cdn)
+    },
+    custom_cbm_qty:(frm, cdt, cdn)=>{
+        calculate_cbm(frm, cdt, cdn)
+    }
+
+})
+function calculate_cbm(frm, cdt, cdn){
+    let d = locals[cdt][cdn]
+    let custom_total_cbm = (d.custom_length * d.custom_width * d.custom_height)/1000000 * d.custom_cbm_qty
+    frappe.model.set_value(cdt, cdn, 'custom_total_cbm', custom_total_cbm)
+    let total_cbm = 0
+    frm.doc.items.forEach(r=>{
+        total_cbm += r.custom_total_cbm  
+    })
+    frm.set_value("total_cbm", total_cbm)
+}
+
 frappe.ui.form.on("Export Charges", {
     rate:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate)
-        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
         calculate_totals(frm, cdt, cdn)
     }, 
     amount:(frm,cdt, cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount * d.custom_exchange_rate)
+        calculate_totals(frm, cdt, cdn)
+    },
+    export_charges_add:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    export_charges_remove:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_exchange_rate:(frm, cdt, cdn) =>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_rate:(frm, cdt, cdn) =>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
         calculate_totals(frm, cdt, cdn)
     }
 })
@@ -229,7 +291,7 @@ function calculate_totals(frm , cdt, cdn){
     let d = locals[cdt][cdn]
     total_amount_e = 0
     frm.doc.export_charges.forEach(r=>{
-        total_amount_e += d.base_amount
+        total_amount_e += r.base_amount
     })
     frm.set_value("total_amount_e", total_amount_e)
     frm.set_value("grand_total_e", total_amount_e + flt(frm.doc.total_taxes_and_charges))

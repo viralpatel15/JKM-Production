@@ -9,6 +9,7 @@
   "item_code",
   "item_name",
   "section_break_quug",
+  "qty",
   "rate",
   "amount",
   "column_break_mysb",
@@ -21,7 +22,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Item Code",
-   "options": "Item"
+   "options": "Item",
+   "reqd": 1
   },
   {
    "fetch_from": "item_code.item_name",
@@ -43,6 +45,7 @@
   {
    "fieldname": "amount",
    "fieldtype": "Currency",
+   "in_list_view": 1,
    "label": "Amount"
   },
   {
@@ -58,12 +61,19 @@
    "fieldname": "base_amount",
    "fieldtype": "Currency",
    "label": "Amount (Company Currency)"
+  },
+  {
+   "default": "1",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-19 10:21:58.786944",
+ "modified": "2024-06-19 21:21:16.023534",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Local Transport Charges",
