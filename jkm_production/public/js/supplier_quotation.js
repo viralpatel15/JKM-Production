@@ -17,6 +17,10 @@ frappe.ui.form.on("Supplier Quotation", {
 frappe.ui.form.on("Supplier Quotation Item", {
     custom_rate_currency:(frm, cdt, cdn) => {
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency * d.custom_exchange_rate)
+    },
+    custom_exchange_rate:(frm, cdt, cdn) => {
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency * d.custom_exchange_rate)
     }
 })
