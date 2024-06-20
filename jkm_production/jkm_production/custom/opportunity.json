@@ -19,7 +19,7 @@
    "dt": "Opportunity",
    "fetch_from": null,
    "fetch_if_empty": 0,
-   "fieldname": "custom_incoterm",
+   "fieldname": "incoterm",
    "fieldtype": "Link",
    "hidden": 0,
    "hide_border": 0,
@@ -42,7 +42,7 @@
    "modified": "2024-06-19 19:41:35.526313",
    "modified_by": "Administrator",
    "module": null,
-   "name": "Opportunity-custom_incoterm",
+   "name": "Opportunity-incoterm",
    "no_copy": 0,
    "non_negative": 0,
    "options": "Incoterm",
@@ -324,7 +324,7 @@
    "property": "field_order",
    "property_type": "Data",
    "row_name": null,
-   "value": "[\"naming_series\", \"opportunity_from\", \"party_name\", \"customer_name\", \"status\", \"column_break0\", \"opportunity_type\", \"source\", \"opportunity_owner\", \"column_break_10\", \"sales_stage\", \"expected_closing\", \"probability\", \"custom_incoterm\", \"organization_details_section\", \"industry\", \"no_of_employees\", \"annual_revenue\", \"customer_group\", \"column_break_23\", \"city\", \"state\", \"country\", \"territory\", \"market_segment\", \"website\", \"column_break_31\", \"section_break_14\", \"currency\", \"column_break_36\", \"conversion_rate\", \"column_break_17\", \"opportunity_amount\", \"base_opportunity_amount\", \"more_info\", \"company\", \"campaign\", \"transaction_date\", \"column_break1\", \"language\", \"amended_from\", \"title\", \"first_response_time\", \"lost_detail_section\", \"lost_reasons\", \"order_lost_reason\", \"column_break_56\", \"competitors\", \"contact_info\", \"primary_contact_section\", \"contact_person\", \"job_title\", \"column_break_54\", \"contact_email\", \"contact_mobile\", \"column_break_22\", \"whatsapp\", \"phone\", \"phone_ext\", \"address_contact_section\", \"address_html\", \"customer_address\", \"address_display\", \"column_break3\", \"contact_html\", \"contact_display\", \"items_section\", \"items\", \"section_break_32\", \"base_total\", \"column_break_33\", \"total\", \"custom_tab_break_934ix\", \"custom_reminder_date\", \"custom_follow_up_table\", \"activities_tab\", \"open_activities_html\", \"all_activities_section\", \"all_activities_html\", \"notes_tab\", \"notes_html\", \"notes\", \"dashboard_tab\"]"
+   "value": "[\"naming_series\", \"opportunity_from\", \"party_name\", \"customer_name\", \"status\", \"column_break0\", \"opportunity_type\", \"source\", \"opportunity_owner\", \"column_break_10\", \"sales_stage\", \"expected_closing\", \"probability\", \"incoterm\", \"organization_details_section\", \"industry\", \"no_of_employees\", \"annual_revenue\", \"customer_group\", \"column_break_23\", \"city\", \"state\", \"country\", \"territory\", \"market_segment\", \"website\", \"column_break_31\", \"section_break_14\", \"currency\", \"column_break_36\", \"conversion_rate\", \"column_break_17\", \"opportunity_amount\", \"base_opportunity_amount\", \"more_info\", \"company\", \"campaign\", \"transaction_date\", \"column_break1\", \"language\", \"amended_from\", \"title\", \"first_response_time\", \"lost_detail_section\", \"lost_reasons\", \"order_lost_reason\", \"column_break_56\", \"competitors\", \"contact_info\", \"primary_contact_section\", \"contact_person\", \"job_title\", \"column_break_54\", \"contact_email\", \"contact_mobile\", \"column_break_22\", \"whatsapp\", \"phone\", \"phone_ext\", \"address_contact_section\", \"address_html\", \"customer_address\", \"address_display\", \"column_break3\", \"contact_html\", \"contact_display\", \"items_section\", \"items\", \"section_break_32\", \"base_total\", \"column_break_33\", \"total\", \"custom_tab_break_934ix\", \"custom_reminder_date\", \"custom_follow_up_table\", \"activities_tab\", \"open_activities_html\", \"all_activities_section\", \"all_activities_html\", \"notes_tab\", \"notes_html\", \"notes\", \"dashboard_tab\"]"
   },
   {
    "_assign": null,
