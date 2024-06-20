@@ -263,6 +263,14 @@ frappe.ui.form.on("Export Charges", {
         frappe.model.set_value(cdt, cdn, 'base_amount', d.amount * d.custom_exchange_rate)
         calculate_totals(frm, cdt, cdn)
     },
+    rate_currency:function(frm,cdt, cdn){
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        calculate_totals(frm, cdt, cdn)
+    },
     export_charges_add:(frm, cdt, cdn)=>{
         calculate_totals(frm, cdt, cdn)
     },
