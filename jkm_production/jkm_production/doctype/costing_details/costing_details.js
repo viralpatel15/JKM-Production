@@ -325,6 +325,12 @@ frappe.ui.form.on('Local Transport Charges', {
         frappe.model.set_value(cdt, cdn, 'amount', d.rate)
         frappe.model.set_value(cdt, cdn, 'base_rate', d.rate)
         frappe.model.set_value(cdt, cdn, 'base_amount', d.amount)
+        total_amount_domestic = 0 
+        frm.doc.shipping_charges.forEach(r=>{
+            total_amount_domestic += r.base_amount
+        })
+        frm.set_value('total_amount_domestic', total_amount_domestic)
+        frm.set_value('grand_total', total_amount_domestic + frm.doc.taxes_and_charges)
     },
     shipping_charges_add:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
@@ -333,6 +339,7 @@ frappe.ui.form.on('Local Transport Charges', {
             total_amount_domestic += r.base_amount
         })
         frm.set_value('total_amount_domestic', total_amount_domestic)
+        frm.set_value('grand_total', total_amount_domestic + frm.doc.taxes_and_charges)
     },
     shipping_charges_remove:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
@@ -341,6 +348,7 @@ frappe.ui.form.on('Local Transport Charges', {
             total_amount_domestic += r.base_amount
         })
         frm.set_value('total_amount_domestic', total_amount_domestic)
+        frm.set_value('grand_total', total_amount_domestic + frm.doc.taxes_and_charges)
     }
     
 })
