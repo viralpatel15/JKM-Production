@@ -166,7 +166,6 @@ frappe.ui.form.on("Costing Details", {
                     docname : frm.doc.export_quotation
                 },
                 callback:e=>{
-                    frm.doc.export_charges = []
                     e.message.items.forEach(element => {
                         let row = frm.add_child("export_charges");
                         row.amount = element.amount
@@ -174,23 +173,17 @@ frappe.ui.form.on("Costing Details", {
                         row.base_rate = element.base_rate
                         row.item_code = element.item_code
                         row.item_name = element.item_name
-                        row.qty = element.qty
+                        row.exchange_rate = element.custom_exchange_rate
+                        row.rate_currency = element.custom_rate_currency
                         row.rate = element.rate
+                        row.quotation_id = frm.doc.export_quotation
                         frm.refresh_field("export_charges");
                     });
                     frm.set_value('total_amount_e', e.message.total)
-                    frm.set_value('total_taxes_and_charges', e.message.total_taxes_and_charges)
                     frm.set_value('grand_total_e', e.message.grand_total)
                 }
             })
             frm.set_value('export_quotation', '')
-        }
-        else{
-            frm.doc.export_quotation = []
-            frm.set_value('total_amount_e', 0)
-            frm.set_value('total_taxes_and_charges', 0)
-            frm.set_value('grand_total_e', 0)
-            frm.refresh_field("export_charges");
         }
     }
 });
@@ -252,23 +245,23 @@ function calculate_cbm(frm, cdt, cdn){
 frappe.ui.form.on("Export Charges", {
     rate:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
-        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
-        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate )
         calculate_totals(frm, cdt, cdn)
     }, 
     amount:(frm,cdt, cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount * d.custom_exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount * d.exchange_rate)
         calculate_totals(frm, cdt, cdn)
     },
     rate_currency:function(frm,cdt, cdn){
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
-        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
-        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amouont * d.exchange_rate)
         calculate_totals(frm, cdt, cdn)
     },
     export_charges_add:(frm, cdt, cdn)=>{
@@ -277,20 +270,20 @@ frappe.ui.form.on("Export Charges", {
     export_charges_remove:(frm, cdt, cdn)=>{
         calculate_totals(frm, cdt, cdn)
     },
-    custom_exchange_rate:(frm, cdt, cdn) =>{
+    exchange_rate:(frm, cdt, cdn) =>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
-        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
-        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate)
         calculate_totals(frm, cdt, cdn)
     },
     custom_rate:(frm, cdt, cdn) =>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency)
-        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.custom_exchange_rate)
-        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.custom_exchange_rate * d.qty)
-        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate)
         calculate_totals(frm, cdt, cdn)
     }
 })

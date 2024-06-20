@@ -50,6 +50,7 @@ doc_events = {
 doctype_js = { 
 	"Lead": "public/js/lead.js",
 	"Opportunity": "public/js/opportunity.js",
+	"Supplier Quotation": "public/js/supplier_quotation.js",
 }
 # application home page (will override Website Settings)
 # home_page = "login"
