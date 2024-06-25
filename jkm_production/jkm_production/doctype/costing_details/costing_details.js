@@ -41,13 +41,6 @@ frappe.ui.form.on("Costing Details", {
 				},
 			};
 		});
-        frm.set_query("supplier", function () {
-			return {
-				filters: {
-					is_transporter: 1,
-				},
-			};
-		});
         frm.set_query("supplier_id", function () {
 			return {
 				filters: {
@@ -124,7 +117,6 @@ frappe.ui.form.on("Costing Details", {
                     });
                     frm.set_value('total_quantity', e.message.total_qty)
                     frm.set_value('total_amount', e.message.total)
-                    frm.set_value('total_taxes_and_charges_d', e.message.total_taxes_and_charges)
                     frm.set_value('grand_total_d', e.message.grand_total)
                 }
             })
@@ -134,7 +126,6 @@ frappe.ui.form.on("Costing Details", {
             frm.doc.items = []
             frm.set_value('total_quantity', 0)
             frm.set_value('total_amount', 0)
-            frm.set_value('total_taxes_and_charges_d', 0)
             frm.set_value('grand_total_d', 0)
             frm.refresh_field("items");
         }

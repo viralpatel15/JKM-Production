@@ -25,7 +25,6 @@
   "total_cbm",
   "column_break_grds",
   "total_amount",
-  "total_taxes_and_charges_d",
   "grand_total_d",
   "domestic",
   "local_transportar_section",
@@ -34,9 +33,7 @@
   "port_of_origin",
   "section_break_grcb",
   "supplier_quotation",
-  "supplier",
   "column_break_zcgw",
-  "supplier_name",
   "section_break_fyzr",
   "shipping_charges",
   "total_amount_domestic",
@@ -125,22 +122,8 @@
    "label": "Local Transportar"
   },
   {
-   "fetch_from": "supplier_quotation.supplier",
-   "fieldname": "supplier",
-   "fieldtype": "Link",
-   "label": "Supplier",
-   "options": "Supplier"
-  },
-  {
    "fieldname": "column_break_lyye",
    "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "supplier.supplier_name",
-   "fieldname": "supplier_name",
-   "fieldtype": "Data",
-   "label": "Supplier Name",
-   "read_only": 1
   },
   {
    "fieldname": "place_of_delivery",
@@ -330,12 +313,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "total_taxes_and_charges_d",
-   "fieldtype": "Currency",
-   "label": "Total Taxes And Charges",
-   "read_only": 1
-  },
-  {
    "fieldname": "grand_total_d",
    "fieldtype": "Currency",
    "label": "Grand Total"
@@ -397,7 +374,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-25 16:58:14.115763",
+ "modified": "2024-06-25 21:23:37.998882",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",
