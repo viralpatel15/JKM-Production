@@ -11,7 +11,6 @@ frappe.ui.form.on("Costing Details", {
 				},
 			};
 		});
-        frm.get_field('items').grid.cannot_add_rows = true;
         frm.set_query("supplier_quotation", function () {
 			return {
 				filters: {
@@ -248,6 +247,12 @@ frappe.ui.form.on("Supplier Quotation Item", {
     },
     custom_rate_currency:(frm,cdt,cdn) =>{
         calculate_product_totals(frm, cdt, cdn)
+    },
+    qty:(frm,cdt,cdn) =>{
+        calculate_product_totals(frm, cdt, cdn)
+    },
+    items_add:(frm,cdt,cdn)=>{
+
     }
 
 })
@@ -313,16 +318,28 @@ frappe.ui.form.on("Export Charges", {
     },
     export_charges_add:(frm, cdt, cdn)=>{
         calculate_totals(frm, cdt, cdn)
+    },
+    include_in_fob_value:(frm,cdt,cdn)=>{
+        calculate_totals(frm, cdt, cdn)
     }
 })
 
 function calculate_totals(frm , cdt, cdn){
     let d = locals[cdt][cdn]
     total_amount_e = 0
+    total_fob_value = 0
+    total_cif_value = 0
     frm.doc.export_charges.forEach(r=>{
         total_amount_e += r.base_amount
+        if(r.include_in_fob_value){
+            total_fob_value += r.base_amount
+        }else{
+            total_cif_value += r.base_amount
+        }
     })
     frm.set_value("total_amount_e", total_amount_e)
+    frm.set_value("total_fob_value", total_fob_value)
+    frm.set_value("total_cif_value", total_cif_value)
     frm.set_value("grand_total_e", total_amount_e + flt(frm.doc.total_taxes_and_charges))
 }
 

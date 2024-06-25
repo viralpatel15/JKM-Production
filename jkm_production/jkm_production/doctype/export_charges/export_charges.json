@@ -8,6 +8,7 @@
  "field_order": [
   "item_code",
   "item_name",
+  "include_in_fob_value",
   "column_break_kkkc",
   "exchange_rate",
   "currency",
@@ -102,12 +103,19 @@
    "fieldtype": "Link",
    "label": "Quotation ID",
    "options": "Supplier Quotation"
+  },
+  {
+   "default": "0",
+   "fieldname": "include_in_fob_value",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Include in FOB Value"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-20 08:49:45.555372",
+ "modified": "2024-06-25 16:56:49.634623",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Export Charges",

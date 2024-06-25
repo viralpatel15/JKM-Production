@@ -54,9 +54,13 @@
   "supplier_name_",
   "section_break_vzar",
   "export_charges",
+  "section_break_shln",
+  "grand_total_e",
   "total_amount_e",
   "total_taxes_and_charges",
-  "grand_total_e",
+  "column_break_ephu",
+  "total_fob_value",
+  "total_cif_value",
   "tab_4_tab",
   "other_charges_section",
   "other_charges",
@@ -370,12 +374,30 @@
    "fieldname": "fetch_export_charges",
    "fieldtype": "Button",
    "label": "Fetch Export Charges"
+  },
+  {
+   "fieldname": "section_break_shln",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ephu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_fob_value",
+   "fieldtype": "Currency",
+   "label": "Total Fob Value"
+  },
+  {
+   "fieldname": "total_cif_value",
+   "fieldtype": "Currency",
+   "label": "Total CIF Value"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-25 08:58:33.719314",
+ "modified": "2024-06-25 16:58:14.115763",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",
