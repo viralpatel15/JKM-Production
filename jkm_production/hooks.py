@@ -125,9 +125,9 @@ doctype_js = {
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-# 	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Supplier Quotation": "jkm_production.jkm_production.doc_events.supplier_quotation.jkmsupplierquotation"
+}
 
 # Document Events
 # ---------------

@@ -2,9 +2,6 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Costing Details", {
-    onload:frm=>{
-        frm.get_field('items').grid.cannot_add_rows = true;
-    },
     refresh:frm=>{
         frm.set_query("items_quotation", function () {
 			return {
@@ -248,18 +245,23 @@ frappe.ui.form.on("Supplier Quotation Item", {
     },
     custom_cbm_qty:(frm, cdt, cdn)=>{
         calculate_cbm(frm, cdt, cdn)
+    },
+    custom_rate_currency:(frm,cdt,cdn) =>{
+        calculate_product_totals(frm, cdt, cdn)
     }
 
 })
 function calculate_cbm(frm, cdt, cdn){
     let d = locals[cdt][cdn]
-    let custom_total_cbm = (d.custom_length * d.custom_width * d.custom_height)/1000000 * d.custom_cbm_qty
-    frappe.model.set_value(cdt, cdn, 'custom_total_cbm', custom_total_cbm)
-    let total_cbm = 0
-    frm.doc.items.forEach(r=>{
-        total_cbm += r.custom_total_cbm  
-    })
-    frm.set_value("total_cbm", total_cbm)
+    if(d.parenttype == "Costing Details"){
+        let custom_total_cbm = (d.custom_length * d.custom_width * d.custom_height)/1000000 * d.custom_cbm_qty
+        frappe.model.set_value(cdt, cdn, 'custom_total_cbm', custom_total_cbm)
+        let total_cbm = 0
+        frm.doc.items.forEach(r=>{
+            total_cbm += r.custom_total_cbm  
+        })
+        frm.set_value("total_cbm", total_cbm)
+    }
 }
 
 frappe.ui.form.on("Export Charges", {
@@ -357,3 +359,24 @@ frappe.ui.form.on('Local Transport Charges', {
     }
     
 })
+
+function calculate_product_totals(frm, cdt, cdn){
+    let d = locals[cdt][cdn]
+    if(d.parenttype == "Costing Details"){
+    if(!d.custom_currency){
+        frappe.model.set_value(cdt, cdn, 'custom_currency', 'INR') 
+    }
+    if(!d.custom_exchange_rate){
+        frappe.model.set_value(cdt, cdn, 'custom_exchange_rate', 1) 
+    }
+        frappe.model.set_value(cdt, cdn, 'rate', d.custom_exchange_rate * d.custom_rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate * d.qty)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate) 
+        frappe.model.set_value(cdt, cdn, 'net_rate', d.rate) 
+        frappe.model.set_value(cdt, cdn, 'net_amount', d.amount)
+        frappe.model.set_value(cdt, cdn, 'base_net_amount', d.net_amount)
+        frappe.model.set_value(cdt, cdn, 'base_net_rate', d.net_rate)
+        frappe.model.set_value(cdt, cdn, 'taxable_value', d.base_net_amount)
+    }
+}

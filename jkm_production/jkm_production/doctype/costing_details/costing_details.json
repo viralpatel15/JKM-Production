@@ -16,7 +16,6 @@
   "company",
   "posting_date",
   "opportunity",
-  "total_cost__total_qty",
   "product_details_section",
   "items_quotation",
   "fetch_details",
@@ -342,12 +341,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "total_cost__total_qty",
-   "fieldtype": "Currency",
-   "label": "Total Cost / Total QTY",
-   "read_only": 1
-  },
-  {
    "fieldname": "fetch_details",
    "fieldtype": "Button",
    "label": "Fetch Details"
@@ -382,7 +375,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-19 23:08:22.453789",
+ "modified": "2024-06-25 08:58:33.719314",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",

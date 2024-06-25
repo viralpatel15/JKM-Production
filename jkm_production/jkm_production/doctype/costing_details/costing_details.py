@@ -30,7 +30,6 @@ class CostingDetails(Document):
 		
 		if total_cost:
 			self.total_cost = total_cost
-			self.total_cost__total_qty = total_cost / self.total_quantity
 
 
 @frappe.whitelist()		
