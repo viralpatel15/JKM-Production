@@ -47,8 +47,7 @@ class CostingDetails(Document):
 				row.custom_cif_charges = self.total_cif_value / self.total_quantity
 		for row in self.items:
 			row.custom_total_fob_value = row.base_rate + row.custom_cost_per_packages + row.custom_local_transport_charges + row.custom_shipping_fob + row.custom_other_charges
-			row.custom_total_cif_value = row.custom_cif_charges
-
+			row.custom_total_cif_value = row.custom_cif_charges + row.custom_total_fob_value
 
 @frappe.whitelist()		
 def get_item_details(docname):

@@ -1,9 +1,7 @@
 frappe.ui.form.on("Supplier Quotation", {
     refresh:(frm)=>{
         frm.doc.items.forEach(e => {
-            console.log("gey")
             if(!e.custom_exchange_rate){
-                console.log("enter")
                 frappe.model.set_value(e.doctype, e.name, "custom_exchange_rate", 1)
             }
             if(!e.custom_currency){
