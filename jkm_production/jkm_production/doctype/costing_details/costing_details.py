@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-
+from frappe.utils import flt
 
 class CostingDetails(Document):
 	def validate(self):
@@ -46,13 +46,21 @@ class CostingDetails(Document):
 				row.custom_cif_charges = self.total_cif_value / self.total_quantity
 		total_cbm = 0
 		for row in self.items:
-			row.custom_total_fob_value = row.base_rate + row.custom_cost_per_packages + row.custom_local_transport_charges + row.custom_shipping_fob + row.custom_other_charges
-			row.custom_total_cif_value = row.custom_cif_charges + row.custom_total_fob_value
-			row.custom_total_cbm = (row.custom_length * row.custom_width * row.custom_height)/1000000 * row.custom_cbm_qty
-			total_cbm += total_cbm
+			row.custom_total_fob_value = flt(row.base_rate) + flt(row.custom_cost_per_packages) + flt(row.custom_local_transport_charges) + flt(row.custom_shipping_fob) + flt(row.custom_other_charges)
+			row.custom_total_cif_value = flt(row.custom_cif_charges) + flt(row.custom_total_fob_value)
+			row.custom_total_cbm = (flt(row.custom_length) * flt(row.custom_width) * flt(row.custom_height))/1000000 * flt(row.custom_cbm_qty)
+			total_cbm += flt(total_cbm)
 
 		self.total_cbm = total_cbm
 
 @frappe.whitelist()		
 def get_item_details(docname):
 	return frappe.get_doc("Supplier Quotation", docname)
+
+@frappe.whitelist()
+def get_items_conversion_fector(uom, item_code):
+	item = frappe.get_doc("Item", item_code)
+	for row in item.uoms:
+		if row.uom == uom:
+			return row.conversion_factor 
+	return 1  

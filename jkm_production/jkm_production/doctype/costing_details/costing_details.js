@@ -222,7 +222,17 @@ frappe.ui.form.on("Other Charges", {
 
 frappe.ui.form.on("Supplier Quotation Item", {
     item_code:function(frm, cdt, cdn){
+        let d = locals[cdt][cdn]
+        frappe.model.get_value("Item", d.item_code, 'stock_uom', r=>{
+            if(!d.uom){
+                frappe.model.set_value(cdt,cdn,'uom',r.stock_uom)
+            }
+        })
         calculate_cbm(frm, cdt, cdn)
+        // get_uom_conversion(frm,cdt,cdn)
+    },
+    uom:function(frm,cdt,cdn){
+        get_uom_conversion(frm,cdt,cdn)
     },
     custom_length:(frm, cdt, cdn)=>{
         calculate_cbm(frm, cdt, cdn)
@@ -247,6 +257,21 @@ frappe.ui.form.on("Supplier Quotation Item", {
     }
 
 })
+function get_uom_conversion(frm,cdt,cdn){
+    let d = locals[cdt][cdn]
+    frappe.call({
+        method:"jkm_production.jkm_production.doctype.costing_details.costing_details.get_items_conversion_fector",
+        args:{
+            uom : d.uom,
+            item_code : d.item_code
+        },
+        callback:r=>{
+            console.log(r.message)
+            frappe.model.set_value(cdt,cdn,'conversion_factor', r.message)
+            frappe.model.set_value(cdt,cdn,'stock_qty', r.message * d.qty)
+        }
+    })
+}
 function calculate_cbm(frm, cdt, cdn){
     let d = locals[cdt][cdn]
     if(d.parenttype == "Costing Details"){
