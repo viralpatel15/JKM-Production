@@ -17,7 +17,6 @@ class CostingDetails(Document):
 		self.total_quantity = total_qty
 		self.total_amount = net_amount
 
-
 		total_cost = 0
 		if self.grand_total_d:
 			total_cost += self.grand_total_d
@@ -45,9 +44,14 @@ class CostingDetails(Document):
 		if self.total_cif_value:
 			for row in self.items:
 				row.custom_cif_charges = self.total_cif_value / self.total_quantity
+		total_cbm = 0
 		for row in self.items:
 			row.custom_total_fob_value = row.base_rate + row.custom_cost_per_packages + row.custom_local_transport_charges + row.custom_shipping_fob + row.custom_other_charges
 			row.custom_total_cif_value = row.custom_cif_charges + row.custom_total_fob_value
+			row.custom_total_cbm = (row.custom_length * row.custom_width * row.custom_height)/1000000 * row.custom_cbm_qty
+			total_cbm += total_cbm
+
+		self.total_cbm = total_cbm
 
 @frappe.whitelist()		
 def get_item_details(docname):
