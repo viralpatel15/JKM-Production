@@ -128,8 +128,7 @@
    "fieldname": "place_of_delivery",
    "fieldtype": "Link",
    "label": "Place of Delivery",
-   "options": "Origin",
-   "reqd": 1
+   "options": "Origin"
   },
   {
    "fieldname": "section_break_fyzr",
@@ -225,8 +224,7 @@
    "fieldname": "port_of_origin",
    "fieldtype": "Link",
    "label": "Port of Origin",
-   "options": "Origin",
-   "reqd": 1
+   "options": "Origin"
   },
   {
    "fieldname": "shipping_charges",
@@ -262,15 +260,13 @@
    "fieldname": "port_of_origin_e",
    "fieldtype": "Link",
    "label": "Port of Origin",
-   "options": "Origin",
-   "reqd": 1
+   "options": "Origin"
   },
   {
    "fieldname": "port_of_destination_e",
    "fieldtype": "Link",
    "label": "Final Destination",
-   "options": "Origin",
-   "reqd": 1
+   "options": "Origin"
   },
   {
    "fieldname": "section_break_vzar",
@@ -368,7 +364,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-26 09:16:14.909431",
+ "modified": "2024-06-26 13:32:53.577599",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",
