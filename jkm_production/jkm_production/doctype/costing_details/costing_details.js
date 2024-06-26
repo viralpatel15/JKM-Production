@@ -105,9 +105,18 @@ frappe.ui.form.on("Costing Details", {
                         row.warehouse= element.warehouse
                         row.currency = element.custom_currency
                         row.exchange_rate = element.custom_exchange_rate
-                        row.rate_currency = element.custom_rate_currency
+                        row.custom_rate_currency = element.custom_rate_currency
                         row.rate = element.rate
-                        row.weight_per_unit=element.weight_per_unit
+                        row.custom_length = element.custom_length
+                        row.custom_width = element.custom_width
+                        row.custom_height = element.custom_height
+                        row.custom_haz = element.custom_haz
+                        row.custom_total_packages = element.custom_total_packages
+                        row.custom_packing_size = element.custom_packing_size
+                        row.weight_per_unit = element.weight_per_unit
+                        row.custom_total_cbm= element.custom_total_cbm
+                        row.custom_cbm_qty = element.custom_cbm_qty
+                        row.custom_packing_type= element.custom_packing_type
                         frappe.model.get_value("Item", row.item_code, ['custom_length', 'custom_width', 'custom_height'], r=> {
                             frappe.model.set_value(row.doctype, row.name, 'custom_length', r.custom_length)
                             frappe.model.set_value(row.doctype, row.name, 'custom_width', r.custom_width)
@@ -117,7 +126,6 @@ frappe.ui.form.on("Costing Details", {
                     });
                     frm.set_value('total_quantity', e.message.total_qty)
                     frm.set_value('total_amount', e.message.total)
-                    frm.set_value('grand_total_d', e.message.grand_total)
                 }
             })
             frm.set_value('items_quotation', '')
@@ -126,7 +134,6 @@ frappe.ui.form.on("Costing Details", {
             frm.doc.items = []
             frm.set_value('total_quantity', 0)
             frm.set_value('total_amount', 0)
-            frm.set_value('grand_total_d', 0)
             frm.refresh_field("items");
         }
     },

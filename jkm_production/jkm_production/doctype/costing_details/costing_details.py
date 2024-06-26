@@ -18,8 +18,6 @@ class CostingDetails(Document):
 		self.total_amount = net_amount
 
 		total_cost = 0
-		if self.grand_total_d:
-			total_cost += self.grand_total_d
 		if self.grand_total:
 			total_cost += self.grand_total
 		if self.grand_total_e:

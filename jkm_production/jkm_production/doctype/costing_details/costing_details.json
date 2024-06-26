@@ -25,7 +25,6 @@
   "total_cbm",
   "column_break_grds",
   "total_amount",
-  "grand_total_d",
   "domestic",
   "local_transportar_section",
   "place_of_delivery",
@@ -313,11 +312,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "grand_total_d",
-   "fieldtype": "Currency",
-   "label": "Grand Total"
-  },
-  {
    "fieldname": "column_break_grds",
    "fieldtype": "Column Break"
   },
@@ -374,7 +368,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-25 21:23:37.998882",
+ "modified": "2024-06-26 09:16:14.909431",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",
