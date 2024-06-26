@@ -214,7 +214,6 @@ frappe.ui.form.on("Costing Details", {
                 }
             })
             frm.set_value('export_quotation', '')
-           
         }
     }
 });
