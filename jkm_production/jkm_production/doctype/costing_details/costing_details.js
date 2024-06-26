@@ -117,10 +117,11 @@ frappe.ui.form.on("Costing Details", {
                         row.custom_total_cbm= element.custom_total_cbm
                         row.custom_cbm_qty = element.custom_cbm_qty
                         row.custom_packing_type= element.custom_packing_type
-                        frappe.model.get_value("Item", row.item_code, ['custom_length', 'custom_width', 'custom_height'], r=> {
+                        frappe.model.get_value("Item", row.item_code, ['custom_length', 'custom_width', 'custom_height','custom_packing'], r=> {
                             frappe.model.set_value(row.doctype, row.name, 'custom_length', r.custom_length)
                             frappe.model.set_value(row.doctype, row.name, 'custom_width', r.custom_width)
                             frappe.model.set_value(row.doctype, row.name, 'custom_height', r.custom_height)
+                            frappe.model.set_value(row.doctype, row.name, 'custom_packing_type', r.custom_packing)
                         })
                         frm.refresh_field("items");
                     });
@@ -251,8 +252,12 @@ frappe.ui.form.on("Supplier Quotation Item", {
                 frappe.model.set_value(cdt,cdn,'uom',r.stock_uom)
             }
         })
+        frappe.model.get_value("Item", d.item_code, 'custom_packing', r=>{
+            if(!d.uom){
+                frappe.model.set_value(cdt,cdn,'custom_packing_type',r.custom_packing)
+            }
+        })
         calculate_cbm(frm, cdt, cdn)
-        // get_uom_conversion(frm,cdt,cdn)
     },
     uom:function(frm,cdt,cdn){
         get_uom_conversion(frm,cdt,cdn)
@@ -276,7 +281,15 @@ frappe.ui.form.on("Supplier Quotation Item", {
         calculate_product_totals(frm, cdt, cdn)
     },
     items_add:(frm,cdt,cdn)=>{
-
+        let d = locals[cdt][cdn]
+        if(d.custom_packing_type){
+            frappe.model.get_value("Packing", d.custom_packing_type, 'package', r => {
+                frappe.model.set_value(cdt, cdn, 'custom_packing_size', r.package)
+            })
+        }
+        if(d.custom_packing_size){
+            frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
+        }
     },
     custom_packing_type:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
