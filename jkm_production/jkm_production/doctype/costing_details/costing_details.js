@@ -254,7 +254,18 @@ frappe.ui.form.on("Supplier Quotation Item", {
     },
     items_add:(frm,cdt,cdn)=>{
 
-    }
+    },
+    custom_packing_type:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        if(d.custom_packing_type){
+            frappe.model.get_value("Packing", d.custom_packing_type, 'package', r => {
+                frappe.model.set_value(cdt, cdn, 'custom_packing_size', r.package)
+            })
+        }
+        if(d.custom_packing_size){
+            frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
+        }
+    },
 
 })
 function get_uom_conversion(frm,cdt,cdn){

@@ -34,6 +34,9 @@ frappe.ui.form.on("Supplier Quotation Item", {
                 frappe.model.set_value(cdt, cdn, 'custom_packing_size', r.package)
             })
         }
+        if(d.custom_packing_size){
+            frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
+        }
     },
     custom_length:(frm, cdt, cdn)=>{
         calculate_cbm(frm, cdt, cdn)
