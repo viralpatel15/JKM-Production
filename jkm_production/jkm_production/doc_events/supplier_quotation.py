@@ -12,6 +12,8 @@ class jkmsupplierquotation(SupplierQuotation):
         for row in self.items:
             if row.custom_rate_currency:
                 row.rate = row.custom_rate_currency * row.custom_exchange_rate
+            if row.custom_packing_size:
+                row.custom_total_packages = row.qty / row.custom_packing_size
                 
         super().validate()
 
