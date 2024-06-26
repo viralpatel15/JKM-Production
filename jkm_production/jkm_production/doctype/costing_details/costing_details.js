@@ -198,6 +198,21 @@ frappe.ui.form.on("Costing Details", {
                 }
             })
             frm.set_value('export_quotation', '')
+            total_amount_e = 0
+            total_fob_value = 0
+            total_cif_value = 0
+            frm.doc.export_charges.forEach(r=>{
+                total_amount_e += r.base_amount
+                if(r.include_in_fob_value){
+                    total_fob_value += r.base_amount
+                }else{
+                    total_cif_value += r.base_amount
+                }
+            })
+            frm.set_value("total_amount_e", total_amount_e)
+            frm.set_value("total_fob_value", total_fob_value)
+            frm.set_value("total_cif_value", total_cif_value)
+            frm.set_value("grand_total_e", total_amount_e + flt(frm.doc.total_taxes_and_charges))
         }
     }
 });
