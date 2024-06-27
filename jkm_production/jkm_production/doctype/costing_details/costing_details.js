@@ -281,6 +281,7 @@ frappe.ui.form.on("Supplier Quotation Item", {
         if(d.custom_packing_size){
             frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
         }
+        calculate_cbm(frm, cdt, cdn)
     },
     custom_packing_type:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
