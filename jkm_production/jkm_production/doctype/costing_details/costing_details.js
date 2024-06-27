@@ -49,9 +49,6 @@ frappe.ui.form.on("Costing Details", {
 			};
 		});
     },
-    taxes_and_charges:frm=>{
-        frm.set_value("grand_total", frm.doc.total_amount_domestic + frm.doc.taxes_and_charges)
-    },
     fetch_details:frm=>{
         if(frm.doc.items_quotation){
             frappe.call({
@@ -158,7 +155,6 @@ frappe.ui.form.on("Costing Details", {
                         frm.refresh_field("shipping_charges");
                     });
                     frm.set_value('total_amount_domestic', e.message.total)
-                    frm.set_value('taxes_and_charges', e.message.total_taxes_and_charges)
                     frm.set_value('grand_total', e.message.grand_total)
                 }
             })
@@ -166,7 +162,6 @@ frappe.ui.form.on("Costing Details", {
         else{
             frm.doc.shipping_charges = []
             frm.set_value('total_amount_domestic', 0)
-            frm.set_value('taxes_and_charges', 0)
             frm.set_value('grand_total', 0)
             frm.refresh_field("shipping_charges");
         }
@@ -195,7 +190,6 @@ frappe.ui.form.on("Costing Details", {
                         frm.refresh_field("export_charges");
                     });
                     frm.set_value('total_amount_e', e.message.total)
-                    frm.set_value('grand_total_e', e.message.grand_total)
                     total_amount_e = 0
                     total_fob_value = 0
                     total_cif_value = 0
@@ -211,7 +205,6 @@ frappe.ui.form.on("Costing Details", {
                     frm.set_value("total_amount_e", total_amount_e)
                     frm.set_value("total_fob_value", total_fob_value)
                     frm.set_value("total_cif_value", total_cif_value)
-                    frm.set_value("grand_total_e", total_amount_e + flt(frm.doc.total_taxes_and_charges))
                 }
             })
             frm.set_value('export_quotation', '')
@@ -403,7 +396,6 @@ function calculate_totals(frm , cdt, cdn){
     frm.set_value("total_amount_e", total_amount_e)
     frm.set_value("total_fob_value", total_fob_value)
     frm.set_value("total_cif_value", total_cif_value)
-    frm.set_value("grand_total_e", total_amount_e + flt(frm.doc.total_taxes_and_charges))
 }
 
 frappe.ui.form.on('Local Transport Charges', {
@@ -417,7 +409,6 @@ frappe.ui.form.on('Local Transport Charges', {
             total_amount_domestic += r.base_amount
         })
         frm.set_value('total_amount_domestic', total_amount_domestic)
-        frm.set_value('grand_total', total_amount_domestic + frm.doc.taxes_and_charges)
     },
     shipping_charges_add:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
@@ -426,7 +417,6 @@ frappe.ui.form.on('Local Transport Charges', {
             total_amount_domestic += r.base_amount
         })
         frm.set_value('total_amount_domestic', total_amount_domestic)
-        frm.set_value('grand_total', total_amount_domestic + frm.doc.taxes_and_charges)
     },
     shipping_charges_remove:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
@@ -435,7 +425,6 @@ frappe.ui.form.on('Local Transport Charges', {
             total_amount_domestic += r.base_amount
         })
         frm.set_value('total_amount_domestic', total_amount_domestic)
-        frm.set_value('grand_total', total_amount_domestic + frm.doc.taxes_and_charges)
     }
     
 })

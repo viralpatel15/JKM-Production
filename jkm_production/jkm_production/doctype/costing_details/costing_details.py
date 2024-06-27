@@ -18,10 +18,10 @@ class CostingDetails(Document):
 		self.total_amount = net_amount
 
 		total_cost = 0
-		if self.grand_total:
-			total_cost += self.grand_total
-		if self.grand_total_e:
-			total_cost += self.grand_total_e
+		if self.total_amount_domestic:
+			total_cost += self.total_amount_domestic
+		if self.total_amount_e:
+			total_cost += self.total_amount_e
 		if self.total_amount_charges:
 			total_cost += self.total_amount_charges
 		
@@ -29,8 +29,8 @@ class CostingDetails(Document):
 			self.total_cost = total_cost
 		
 		local_transport = 0 
-		if self.grand_total:
-			local_transport = self.grand_total/self.total_quantity
+		if self.total_amount_domestic:
+			local_transport = self.total_amount_domestic/self.total_quantity
 			for row in self.items:
 				row.custom_local_transport_charges = local_transport
 		if self.total_fob_value:
