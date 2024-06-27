@@ -155,14 +155,12 @@ frappe.ui.form.on("Costing Details", {
                         frm.refresh_field("shipping_charges");
                     });
                     frm.set_value('total_amount_domestic', e.message.total)
-                    frm.set_value('grand_total', e.message.grand_total)
                 }
             })
         }
         else{
             frm.doc.shipping_charges = []
             frm.set_value('total_amount_domestic', 0)
-            frm.set_value('grand_total', 0)
             frm.refresh_field("shipping_charges");
         }
     },
