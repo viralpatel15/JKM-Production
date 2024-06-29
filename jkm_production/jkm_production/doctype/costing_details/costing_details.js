@@ -280,8 +280,21 @@ frappe.ui.form.on("Supplier Quotation Item", {
         }
         if(d.custom_packing_size){
             frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
+            if(frm.doc.custom_cost_per_packages){
+                frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', d.custom_cost_per_packages * d.custom_packing_size / d.qty)
+            }
         }
         calculate_cbm(frm, cdt, cdn)
+    },
+    custom_cost_per_packages:(frm, cdt, cdn)=>{
+        if(frm.doc.custom_cost_per_packages && d.custom_packing_size){
+            frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', d.custom_cost_per_packages * d.custom_packing_size / d.qty)
+        }
+    },
+    custom_packing_size:(frm, cdt , cdn) => {
+        if(frm.doc.custom_cost_per_packages && d.custom_packing_size){
+            frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', d.custom_cost_per_packages * d.custom_packing_size / d.qty)
+        }
     },
     custom_packing_type:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
