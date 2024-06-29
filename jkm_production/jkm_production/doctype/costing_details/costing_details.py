@@ -45,7 +45,7 @@ class CostingDetails(Document):
 		total_cbm = 0
 		for row in self.items:
 			row.custom_per_qty_pallet_cost = flt(row.custom_cost_per_packages) * flt(row.custom_total_packages) / flt(row.qty)
-			row.custom_total_fob_value = flt(row.base_rate) + flt(row.custom_cost_per_packages) + flt(row.custom_local_transport_charges) + flt(row.custom_shipping_fob) + flt(row.custom_other_charges) + flt(row.custom_per_qty_pallet_cost)
+			row.custom_total_fob_value = flt(row.base_rate)  + flt(row.custom_local_transport_charges) + flt(row.custom_shipping_fob) + flt(row.custom_other_charges) + flt(row.custom_per_qty_pallet_cost)
 			row.custom_total_cif_value = flt(row.custom_cif_charges) + flt(row.custom_total_fob_value)
 			row.custom_total_cbm = (flt(row.custom_length) * flt(row.custom_width) * flt(row.custom_height))/1000000 * flt(row.custom_cbm_qty)
 			total_cbm += flt(row.custom_total_cbm)
