@@ -1,0 +1,277 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "naming_series:",
+ "creation": "2022-09-30 16:52:56.462545",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "date",
+  "supplier",
+  "supplier_name",
+  "column_break_5",
+  "company",
+  "remarks",
+  "status",
+  "section_break_mprp",
+  "manufacturing_date",
+  "expiry_date",
+  "section_break_xtmd",
+  "sample_requested_for",
+  "party",
+  "section_break_vohm",
+  "sample_details",
+  "section_break_16",
+  "amended_from",
+  "tab_break_trrv",
+  "supplier_address",
+  "address_display",
+  "column_break_rnms",
+  "contact_person",
+  "contact_display",
+  "contact_mobile",
+  "contact_email"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "section_break_16",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inward Sample",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inward Sample",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Supplier",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_vohm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sample_details",
+   "fieldtype": "Table",
+   "label": "Sample Details",
+   "options": "Inward Sample Details"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Requested\nDelivered\nExpired"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "INW-.###"
+  },
+  {
+   "fieldname": "section_break_xtmd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sample_requested_for",
+   "fieldtype": "Select",
+   "label": "Sample Requested For",
+   "options": "Lead\nOpportunity\nCustomer\nQuotation"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "sample_requested_for"
+  },
+  {
+   "fetch_from": "supplier.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "label": "Supplier Name"
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "tab_break_trrv",
+   "fieldtype": "Tab Break",
+   "label": "Address And Contact"
+  },
+  {
+   "fieldname": "supplier_address",
+   "fieldtype": "Link",
+   "label": "Supplier Address",
+   "options": "Address",
+   "reqd": 1
+  },
+  {
+   "fieldname": "address_display",
+   "fieldtype": "Small Text",
+   "label": "Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rnms",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Link",
+   "label": "Contact Person",
+   "options": "Contact",
+   "reqd": 1
+  },
+  {
+   "fieldname": "contact_display",
+   "fieldtype": "Small Text",
+   "label": "Contact Display",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_mobile",
+   "fieldtype": "Small Text",
+   "label": "Contact Mobile",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Small Text",
+   "label": "contact_email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_mprp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "manufacturing_date",
+   "fieldtype": "Date",
+   "label": "Manufacturing Date"
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date"
+  }
+ ],
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-06-30 13:32:41.861697",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "Inward Sample",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Purchase User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Analytics",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,72 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-30 10:27:27.847466",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "sample_size",
+  "uom",
+  "column_break_xqtb",
+  "sample_batch_no",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item"
+  },
+  {
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "label": "Item Name"
+  },
+  {
+   "fieldname": "column_break_xqtb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sample_batch_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sample Batch No",
+   "options": "Sample Batch Details"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "sample_size",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Sample Size"
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "UOM",
+   "options": "UOM"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-30 10:31:19.705153",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "Inward Sample Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

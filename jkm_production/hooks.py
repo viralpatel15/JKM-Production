@@ -44,6 +44,13 @@ doc_events = {
 	"Lead":{
 		"validate":"jkm_production.jkm_production.doc_events.lead.validate",
 		"after_insert":"jkm_production.jkm_production.doc_events.lead.after_insert"
+	},
+	"Payment Entry": {
+		"on_submit": "jkm_production.api.pe_on_submit",
+		"before_cancel": "jkm_production.api.pe_on_cancel",
+	},
+	"Journal Entry": {
+    	"on_cancel": "jkm_production.jkm_production.doc_events.journal_entry.before_cancel",
 	}
 }
 
@@ -51,7 +58,14 @@ doctype_js = {
 	"Lead": "public/js/lead.js",
 	"Opportunity": "public/js/opportunity.js",
 	"Supplier Quotation": "public/js/supplier_quotation.js",
+	"Payment Entry": "public/js/doctype_js/payment_entry.js",
+	"Sales Invoice": "public/js/doctype_js/sales_invoice.js",
+    "Journal Entry": "public/js/doctype_js/journal_entry.js"
 }
+
+
+
+
 # application home page (will override Website Settings)
 # home_page = "login"
 
