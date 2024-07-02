@@ -29,7 +29,7 @@ class OutwardSample(Document):
 			if row.item_code != frappe.db.get_value("Sample Batch Details", row.batch_no, 'item_code'):
 				frappe.throw("Row #{0}: Selected batch is not for item code {1}. Please select a correct batch".format(row.idx, row.item_code))
 			batch_qty = frappe.db.get_value("Sample Batch Details", row.batch_no, 'qty')
-			remaining_qty = batch_qty - row.sample_size
-			if remaining_qty < 0 or row.sample_size > batch_qty:
+			remaining_qty = batch_qty - row.quantity
+			if remaining_qty < 0 or row.quantity > batch_qty:
 				frappe.throw(f"Insufficient Qty Available in batch <b>{row.batch_no}</b>")
 			frappe.db.set_value('Sample Batch Details', row.batch_no, 'qty', remaining_qty)

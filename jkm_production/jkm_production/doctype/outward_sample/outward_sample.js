@@ -20,6 +20,14 @@ frappe.ui.form.on('Outward Sample', {
 				},
 			}
 		})
+		frm.set_query("customer_address", function (doc) {
+			return {
+				filters: {
+					link_doctype: doc.party_type,
+					link_name: doc.party,
+				},
+			}
+		})
 	},
 	party: function (frm) {
 		frm.set_query("contact_person", function (doc) {
@@ -33,6 +41,21 @@ frappe.ui.form.on('Outward Sample', {
 				};
 			}
 		});
+		if(frm.doc.party_type == "Quotation"){
+			frappe.model.get_value("Quotation", frm.doc.party,'customer_name', r=>{
+				frm.set_value('party_name', r.customer_name)
+			})
+		}	
+		if(frm.doc.party_type == "Lead"){
+			frappe.model.get_value("Lead", frm.doc.party,['company_name', 'first_name', 'salutation'], r=>{
+				if(r.company_name){
+					frm.set_value('party_name', r.company_name)
+				}
+				else{
+					frm.set_value('party_name', r.salutation + ' ' + r.first_name )
+				}
+			})
+		}	
 		frappe.call({
 			method: "jkm_production.api.get_party_details",
 			args: {
@@ -81,13 +104,7 @@ frappe.ui.form.on('Outward Sample', {
 			});
 		}
 	},
-	party:function(frm){
-		if(frm.doc.party_type == "Quotation"){
-			frappe.model.get_value("Quotation", frm.doc.party,'customer_name', r=>{
-				frm.set_value('party_name', r.customer_name)
-			})
-		}		
-	}
+	
 	
 });
 

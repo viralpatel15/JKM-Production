@@ -28,6 +28,13 @@ def create_outward_sample(source_name, target_doc=None):
 		source_name,
 		{
 			"Inward Sample": {"doctype": "Outward Sample", "field_map": {"name": "inward_ref"}},
+			"Inward Sample Details" : {
+				"doctype": "Outward Sample Detail",
+				'field_map' : {
+					'sample_size' : 'quantity'
+				},
+				'field_no_map': ['status']
+			}
 		},
 		target_doc,
 	)
