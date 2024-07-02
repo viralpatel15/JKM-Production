@@ -2,7 +2,14 @@
 // For license information, please see license.txt
 //fetch territory from party.
 // cur_frm.add_fetch("party", "territory", "destination");
-
+cur_frm.fields_dict["sample_details"].grid.get_field("batch_no").get_query = function (doc, cdt, cdn) {
+	let d = locals[cdt][cdn]
+	return {
+		filters: {
+			item_code : d.item_code
+		},
+	};
+};
 frappe.ui.form.on('Inward Sample', {
 	refresh: function (frm) {
 		frm.set_query("supplier_address", function (doc) {

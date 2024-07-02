@@ -18,42 +18,12 @@ class OutwardSample(Document):
 	def validate(self):
 		if not self.courier_tracking_no:
 			frappe.throw("Courier Tracking Number is Required")
-
-@frappe.whitelist()
-def make_quotation(source_name, target_doc=None):
-	def postprocess(source, target):
-		target.append('items', {
-			'item_code': source.product_name,
-			'item_name': source.product_name,
-			'outward_sample':source.name,
-			'sample_ref_no':source.ref_no,
-			'base_cost' : source.per_unit_price
-			})
-
-	doclist = get_mapped_doc("Outward Sample" , source_name,{
-		"Outward Sample":{
-			"doctype" : "Quotation",
-			"field_map":{
-				"link_to" : "quotation_to",
-				"party" : "customer",
-				"date" : "transaction_date" ,
-			},
-		}
-	},target_doc, postprocess)
-
-	return doclist
-
-@frappe.whitelist()
-def make_quality_inspection(source_name, target_doc=None):
-	doclist = get_mapped_doc("Outward Sample" , source_name,{
-		"Outward Sample":{
-			"doctype" : "Quality Inspection",
-			"field_map":{
-				"product_name" : "item_code",
-				"doctype" : "reference_type",
-				"name" : "reference_name" ,
-			},
-		}
-	},target_doc)
-
-	return doclist
+	def on_submit(self):
+		for row in self.details:
+			if row.item_code != frappe.db.get_value("Sample Batch Details", row.batch_no, 'item_code'):
+				frappe.throw("Row #{0}: Selected batch is not for item code {1}. Please select a correct batch".format(row.idx, row.item_code))
+			batch_qty = frappe.db.get_value("Sample Batch Details", row.batch_no, 'qty')
+			remaining_qty = batch_qty - row.sample_size
+			if remaining_qty < 0 or row.sample_size > batch_qty:
+				frappe.throw(f"Insufficient Qty Available in batch <b>{row.batch_no}</b>")
+			frappe.db.set_value('Sample Batch Details', row.batch_no, 'qty', remaining_qty)

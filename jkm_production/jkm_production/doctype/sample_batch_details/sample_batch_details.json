@@ -6,19 +6,46 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "sample_batch_no"
+  "sample_batch_no",
+  "item_code",
+  "qty",
+  "inward_sample"
  ],
  "fields": [
   {
    "allow_in_quick_entry": 1,
    "fieldname": "sample_batch_no",
    "fieldtype": "Data",
-   "label": "Sample Batch No"
+   "in_list_view": 1,
+   "label": "Sample Batch No",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item Code",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "label": "Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "inward_sample",
+   "fieldtype": "Link",
+   "label": "Inward Sample",
+   "options": "Inward Sample",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-29 15:05:15.227233",
+ "modified": "2024-07-01 21:39:01.494002",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Sample Batch Details",

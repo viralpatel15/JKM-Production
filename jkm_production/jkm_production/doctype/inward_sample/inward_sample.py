@@ -6,13 +6,19 @@ from __future__ import unicode_literals
 import frappe
 from frappe import db,_
 from frappe.model.document import Document
+from frappe.utils import getdate
 # from finbyzerp.api import before_naming as naming_series
 from frappe.model.mapper import get_mapped_doc
 
 class InwardSample(Document):
-	pass
-
+	def on_submit(self):	
+		for row in self.sample_details:
+			if inw := frappe.db.get_value("Sample Batch Details", row.batch_no, 'inward_sample'):
+				frappe.throw("Row {0} : Batch is allready used in inward sample <b>{1}</b>.<br><br>Please Create New Batch".format(row.idx, inw))
+			frappe.db.set_value("Sample Batch Details", row.batch_no, 'qty', row.sample_size)
+			frappe.db.set_value("Sample Batch Details", row.batch_no, 'inward_sample', self.name)
 		
+
 @frappe.whitelist()
 def create_outward_sample(source_name, target_doc=None):
 	doclist = get_mapped_doc(
@@ -24,4 +30,4 @@ def create_outward_sample(source_name, target_doc=None):
 		target_doc,
 	)
 
-	return doclist
+	return doclist				
