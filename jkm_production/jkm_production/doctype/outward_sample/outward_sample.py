@@ -18,6 +18,12 @@ class OutwardSample(Document):
 	def validate(self):
 		if not self.courier_tracking_no:
 			frappe.throw("Courier Tracking Number is Required")
+		total_qty = 0
+		for row in self.details:
+			total_qty += row.quantity
+		
+		self.total_qty = total_qty
+		
 	def on_submit(self):
 		for row in self.details:
 			if row.item_code != frappe.db.get_value("Sample Batch Details", row.batch_no, 'item_code'):

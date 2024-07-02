@@ -9,7 +9,9 @@
   "sample_batch_no",
   "item_code",
   "qty",
-  "inward_sample"
+  "inward_sample",
+  "manufacturing_date",
+  "expiry_date"
  ],
  "fields": [
   {
@@ -41,11 +43,23 @@
    "label": "Inward Sample",
    "options": "Inward Sample",
    "read_only": 1
+  },
+  {
+   "fieldname": "manufacturing_date",
+   "fieldtype": "Date",
+   "label": "Manufacturing Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "expiry_date",
+   "fieldtype": "Date",
+   "label": "Expiry Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-01 21:39:01.494002",
+ "modified": "2024-07-02 21:47:05.538140",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Sample Batch Details",

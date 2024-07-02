@@ -17,7 +17,7 @@
   "remarks",
   "status",
   "section_break_xtmd",
-  "sample_requested_for",
+  "party_type",
   "party",
   "section_break_vohm",
   "sample_details",
@@ -113,19 +113,14 @@
   },
   {
    "fieldname": "section_break_xtmd",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "sample_requested_for",
-   "fieldtype": "Select",
-   "label": "Sample Requested For",
-   "options": "Lead\nOpportunity\nCustomer\nQuotation"
+   "fieldtype": "Section Break",
+   "label": "Sample Request For"
   },
   {
    "fieldname": "party",
    "fieldtype": "Dynamic Link",
    "label": "Party",
-   "options": "sample_requested_for"
+   "options": "party_type"
   },
   {
    "fetch_from": "supplier.supplier_name",
@@ -185,11 +180,17 @@
    "fieldtype": "Small Text",
    "label": "contact_email",
    "read_only": 1
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "label": "Party Type",
+   "options": "Lead\nOpportunity\nCustomer\nQuotation"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 22:42:59.655404",
+ "modified": "2024-07-02 21:17:19.553191",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",

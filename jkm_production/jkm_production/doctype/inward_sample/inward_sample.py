@@ -17,6 +17,8 @@ class InwardSample(Document):
 				frappe.throw("Row {0} : Batch is allready used in inward sample <b>{1}</b>.<br><br>Please Create New Batch".format(row.idx, inw))
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'qty', row.sample_size)
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'inward_sample', self.name)
+			frappe.db.set_value("Sample Batch Details", row.batch_no, 'manufacturing_date', row.manufacturing_date)
+			frappe.db.set_value("Sample Batch Details", row.batch_no, 'expiry_date', row.expiry_date)
 		
 
 @frappe.whitelist()

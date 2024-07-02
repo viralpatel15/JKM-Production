@@ -13,10 +13,10 @@ cur_frm.add_fetch("item_code", "item_group", "item_group");
 
 frappe.ui.form.on('Outward Sample', {
 	refresh:function(frm){
-		frm.set_query("link_to", function () {
+		frm.set_query("party_type", function () {
 			return {
 				filters: {
-					name: ['in', "Customer, Opportunity, Lead, Quotation"],
+					name: ['in', "Customer, Lead, Quotation"],
 				},
 			}
 		})
@@ -27,7 +27,7 @@ frappe.ui.form.on('Outward Sample', {
 				return {
 					query: "frappe.contacts.doctype.contact.contact.contact_query",
 					filters: {
-						link_doctype: doc.link_to,
+						link_doctype: doc.party_types,
 						link_name: doc.party,
 					},
 				};
@@ -37,11 +37,11 @@ frappe.ui.form.on('Outward Sample', {
 			method: "jkm_production.api.get_party_details",
 			args: {
 				party: frm.doc.party,
-				party_type: frm.doc.link_to
+				party_type: frm.doc.party_type
 			},
 			callback: function (r) {
 				if (r.message) {
-					frm.set_value('party_name', r.message.party_name);
+					frm.set_value(r.message);
 				}
 			}
 		});
@@ -53,7 +53,7 @@ frappe.ui.form.on('Outward Sample', {
 			return {
 				query: "frappe.contacts.doctype.address.address.address_query",
 				filters: {
-					link_doctype: doc.link_to,
+					link_doctype: doc.party_type,
 					link_name: doc.party,
 				},
 			};
@@ -77,10 +77,16 @@ frappe.ui.form.on('Outward Sample', {
 				args: { contact: frm.doc.contact_person },
 				callback: function (r) {
 					if (r.message) frm.set_value(r.message);
-					console.log(r.message)
 				},
 			});
 		}
+	},
+	party:function(frm){
+		if(frm.doc.party_type == "Quotation"){
+			frappe.model.get_value("Quotation", frm.doc.party,'customer_name', r=>{
+				frm.set_value('party_name', r.customer_name)
+			})
+		}		
 	}
 	
 });
