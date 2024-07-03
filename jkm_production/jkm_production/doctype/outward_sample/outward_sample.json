@@ -154,6 +154,7 @@
    "options": "Inward Sample"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "courier_tracking_no",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -236,7 +237,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-03 17:09:40.970579",
+ "modified": "2024-07-03 17:24:14.040844",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Outward Sample",

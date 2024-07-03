@@ -12,7 +12,22 @@ cur_frm.add_fetch("item_code", "item_group", "item_group");
 
 
 frappe.ui.form.on('Outward Sample', {
+	setup:frm=>{
+		if(frm.doc.party_type == "Lead"){
+			frappe.model.get_value("Lead", frm.doc.party,['company_name', 'first_name', 'salutation'], r=>{
+				if(r.company_name){
+					frm.set_value('party_name', r.company_name)
+				}
+				else{
+					frm.set_value('party_name', r.salutation + ' ' + r.first_name )
+				}
+			})
+		}	
+	},
 	refresh:function(frm){
+		if(!frm.doc.satatus){
+			frm.set_value("status", 'Pending')
+		}
 		frm.set_query("party_type", function () {
 			return {
 				filters: {
