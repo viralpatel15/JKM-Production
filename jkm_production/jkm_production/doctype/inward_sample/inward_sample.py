@@ -13,12 +13,16 @@ from frappe.model.mapper import get_mapped_doc
 class InwardSample(Document):
 	def on_submit(self):	
 		for row in self.sample_details:
-			if inw := frappe.db.get_value("Sample Batch Details", row.batch_no, 'inward_sample'):
-				frappe.throw("Row {0} : Batch is allready used in inward sample <b>{1}</b>.<br><br>Please Create New Batch".format(row.idx, inw))
-			frappe.db.set_value("Sample Batch Details", row.batch_no, 'qty', row.sample_size)
-			frappe.db.set_value("Sample Batch Details", row.batch_no, 'inward_sample', self.name)
-			frappe.db.set_value("Sample Batch Details", row.batch_no, 'manufacturing_date', row.manufacturing_date)
-			frappe.db.set_value("Sample Batch Details", row.batch_no, 'expiry_date', row.expiry_date)
+			doc = frappe.new_doc("Sample Batch Details")
+			doc.sample_batch_no = row.batch_ref
+			doc.qty = row.sample_size
+			doc.item_code = row.item_code
+			doc.item_name = row.item_name
+			doc.inward_sample = self.name
+			doc.manufacturing_date = row.manufacturing_date
+			doc.expiry_date = row.expiry_date
+			doc.save()
+			row.batch_no = doc.name
 		
 
 @frappe.whitelist()
@@ -38,5 +42,6 @@ def create_outward_sample(source_name, target_doc=None):
 		},
 		target_doc,
 	)
+
 
 	return doclist				
