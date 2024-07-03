@@ -189,8 +189,13 @@
   }
  ],
  "is_submittable": 1,
- "links": [],
- "modified": "2024-07-02 21:17:19.553191",
+ "links": [
+  {
+   "link_doctype": "Outward Sample",
+   "link_fieldname": "inward_ref"
+  }
+ ],
+ "modified": "2024-07-03 18:52:12.972850",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",

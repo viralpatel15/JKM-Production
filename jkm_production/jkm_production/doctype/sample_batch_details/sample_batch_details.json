@@ -11,7 +11,9 @@
   "qty",
   "inward_sample",
   "manufacturing_date",
-  "expiry_date"
+  "expiry_date",
+  "column_break_bvly",
+  "disabled"
  ],
  "fields": [
   {
@@ -55,11 +57,21 @@
    "fieldtype": "Date",
    "label": "Expiry Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bvly",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-02 21:47:05.538140",
+ "modified": "2024-07-03 18:54:53.710850",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Sample Batch Details",
