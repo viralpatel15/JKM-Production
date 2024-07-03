@@ -31,5 +31,5 @@ class OutwardSample(Document):
 			batch_qty = frappe.db.get_value("Sample Batch Details", row.batch_no, 'qty')
 			remaining_qty = batch_qty - row.quantity
 			if remaining_qty < 0 or row.quantity > batch_qty:
-				frappe.throw(f"Insufficient Qty Available in batch <b>{row.batch_no}</b>")
+				frappe.throw(f"Insufficient Quantity {batch_qty} Available in batch <b>{row.batch_no}</b>")
 			frappe.db.set_value('Sample Batch Details', row.batch_no, 'qty', remaining_qty)
