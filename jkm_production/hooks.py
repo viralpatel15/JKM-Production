@@ -158,23 +158,12 @@ override_doctype_class = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"jkm_production.tasks.all"
-# 	],
-# 	"daily": [
-# 		"jkm_production.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"jkm_production.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"jkm_production.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"jkm_production.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	
+	"daily": [
+		"jkm_production.jkm_production.doctype.sample_batch_details.sample_batch_details.disable_batch"
+	]
+}
 
 # Testing
 # -------

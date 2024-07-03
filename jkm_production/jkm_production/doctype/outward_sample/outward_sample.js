@@ -10,6 +10,16 @@ cur_frm.add_fetch("item_code", "item_name", "item_name");
 cur_frm.add_fetch("item_code", "stock_uom", "uom");
 cur_frm.add_fetch("item_code", "item_group", "item_group");
 
+cur_frm.fields_dict["details"].grid.get_field("batch_no").get_query = function (doc, cdt, cdn) {
+	let d = locals[cdt][cdn]
+	return {
+		filters: {
+			item_code : d.item_code,
+			disabled : 0,
+			qty : ['>', 0]
+		},
+	};
+};
 
 frappe.ui.form.on('Outward Sample', {
 	setup:frm=>{
@@ -119,8 +129,6 @@ frappe.ui.form.on('Outward Sample', {
 			});
 		}
 	},
-	
-	
 });
 
 

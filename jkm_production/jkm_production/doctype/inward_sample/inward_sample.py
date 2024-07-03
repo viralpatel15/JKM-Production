@@ -23,6 +23,7 @@ class InwardSample(Document):
 			doc.expiry_date = row.expiry_date
 			doc.save()
 			row.batch_no = doc.name
+			
 	def before_cancel(self):
 		for row in self.sample_details:
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'disabled', 1)

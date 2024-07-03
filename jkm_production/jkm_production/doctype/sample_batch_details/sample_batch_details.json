@@ -55,8 +55,7 @@
   {
    "fieldname": "expiry_date",
    "fieldtype": "Date",
-   "label": "Expiry Date",
-   "read_only": 1
+   "label": "Expiry Date"
   },
   {
    "fieldname": "column_break_bvly",
@@ -71,7 +70,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-03 18:54:53.710850",
+ "modified": "2024-07-03 19:13:52.981059",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Sample Batch Details",
