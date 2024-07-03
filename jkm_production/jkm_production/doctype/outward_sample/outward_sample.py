@@ -36,5 +36,4 @@ class OutwardSample(Document):
 	def on_cancel(self):
 		for row in self.details:
 			batch_qty= frappe.db.get_value("Sample Batch Details", row.batch_no, "qty")
-
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'qty', batch_qty + row.quantity)
