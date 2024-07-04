@@ -11,6 +11,7 @@ from frappe.model.mapper import get_mapped_doc
 from frappe.desk.reportview import get_match_cond, get_filters_cond
 from erpnext.utilities.product import get_price
 from frappe.utils import nowdate,flt
+import json
 
 # from finbyzerp.api import before_naming as naming_series
 
@@ -37,3 +38,30 @@ class OutwardSample(Document):
 		for row in self.details:
 			batch_qty= frappe.db.get_value("Sample Batch Details", row.batch_no, "qty")
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'qty', batch_qty + row.quantity)
+
+
+
+@frappe.whitelist()
+def get_opportunity_party_details(self):
+	doc = json.loads(self)
+	inquiry = frappe.get_doc("Opportunity", doc.get('party'))
+	return get_party_details(party = inquiry , party_type=inquiry.get('opportunity_from'))
+
+@frappe.whitelist()
+def make_courier_management(source_name, target_doc=None):
+	doclist = get_mapped_doc(
+		"Outward Sample",
+		source_name,
+		{
+			"Outward Sample": {
+				"doctype": "Courier Management",
+				"validation": {"docstatus": ["=", 1]},
+				"field_map":{
+					"party_type" : "link_to"
+				}
+			},
+		},
+		target_doc,
+	)
+	
+	return doclist

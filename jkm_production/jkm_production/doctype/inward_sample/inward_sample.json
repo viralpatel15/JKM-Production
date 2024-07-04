@@ -32,8 +32,7 @@
   "contact_person",
   "contact_display",
   "contact_mobile",
-  "contact_email",
-  "amended_from"
+  "contact_email"
  ],
  "fields": [
   {
@@ -59,24 +58,6 @@
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Inward Sample",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Inward Sample",
-   "print_hide": 1,
-   "read_only": 1
   },
   {
    "fieldname": "supplier",
@@ -187,18 +168,21 @@
    "options": "Opportunity\nCustomer\nQuotation"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "courier_service_name",
    "fieldtype": "Data",
    "label": "Courier Service Name",
    "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "courier_docket_no",
    "fieldtype": "Data",
    "label": "Courier Docket No.",
    "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
   },
   {
+   "allow_on_submit": 1,
    "depends_on": "eval:doc.status == \"Delivered\"",
    "fieldname": "delivery_date",
    "fieldtype": "Date",
@@ -217,7 +201,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-03 21:00:22.133115",
+ "modified": "2024-07-04 18:24:13.266845",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",

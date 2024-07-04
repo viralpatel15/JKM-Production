@@ -23,13 +23,14 @@ cur_frm.fields_dict["details"].grid.get_field("batch_no").get_query = function (
 
 frappe.ui.form.on('Outward Sample', {
 	setup:frm=>{
-		if(frm.doc.party_type == "Lead"){
-			frappe.model.get_value("Lead", frm.doc.party,['company_name', 'first_name', 'salutation'], r=>{
-				if(r.company_name){
-					frm.set_value('party_name', r.company_name)
-				}
-				else{
-					frm.set_value('party_name', r.salutation + ' ' + r.first_name )
+		if(frm.doc.party_type == "Opportunity" && frm.doc.party){
+			frappe.call({
+				method : "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_opportunity_party_details",
+				args :{
+					self : frm.doc
+				},
+				callback:r=>{
+					frm.set_value(r.message)
 				}
 			})
 		}	
@@ -52,6 +53,12 @@ frappe.ui.form.on('Outward Sample', {
 					link_name: doc.party,
 				},
 			}
+		})
+		frm.add_custom_button(__('Create Courier'), function () {
+			frappe.model.open_mapped_doc({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.make_courier_management",
+				frm: frm,
+			});
 		})
 	},
 	party: function (frm) {
@@ -97,7 +104,6 @@ frappe.ui.form.on('Outward Sample', {
 			if (!doc.party) {
 				frappe.throw(__("Please set Party"));
 			}
-
 			return {
 				query: "frappe.contacts.doctype.address.address.address_query",
 				filters: {
@@ -108,15 +114,15 @@ frappe.ui.form.on('Outward Sample', {
 		});
 	},
 	customer_address:function(frm){
-			frappe.call({
-				method: "frappe.contacts.doctype.address.address.get_address_display",
-				args: { address_dict: frm.doc['customer_address'] },
-				callback: function (r) {
-					if (r.message) {
-						frm.set_value('address_display', r.message);
-					}
-				},
-			});
+		frappe.call({
+			method: "frappe.contacts.doctype.address.address.get_address_display",
+			args: { address_dict: frm.doc['customer_address'] },
+			callback: function (r) {
+				if (r.message) {
+					frm.set_value('address_display', r.message);
+				}
+			},
+		});
 	},
 	contact_person:frm =>{
 		if(frm.doc.contact_person){
