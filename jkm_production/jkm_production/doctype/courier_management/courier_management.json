@@ -9,21 +9,18 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "naming_series",
-  "type",
-  "courier_type",
-  "awb_no",
-  "is_billed",
-  "journal_entry",
   "company",
-  "send_mail",
-  "feedback_recieved",
-  "currency",
+  "naming_series",
+  "courier_type",
   "columnbreak1",
   "date",
+  "is_billed",
+  "send_mail",
+  "feedback_recieved",
   "address_and_contact",
   "link_to",
   "party",
+  "party_name",
   "address_link",
   "address",
   "cb",
@@ -31,14 +28,9 @@
   "contact_display",
   "contact_mobile",
   "contact_email",
-  "party_name",
   "company_address",
-  "sb",
-  "customer",
-  "supplier",
-  "lead",
-  "section_break1",
   "remarks",
+  "section_break1",
   "courier_items",
   "has_sample",
   "sample_items",
@@ -51,21 +43,19 @@
   "courier_delivered_by",
   "tracking_status",
   "courier_delivery_date_and_time",
+  "place_of_origin_of_goods",
   "opening_line",
-  "port_of_loading",
-  "port_of_discharge",
+  "amended_from",
   "column_break2",
+  "awb_no",
   "docket_no",
   "tracking_site",
   "estimated_charges",
   "actual_chargers",
   "signed_by",
-  "closing_line",
-  "amended_from",
   "place_of_precarrier",
   "final_destination",
-  "place_of_origin_of_goods",
-  "amended_from"
+  "closing_line"
  ],
  "fields": [
   {
@@ -73,16 +63,6 @@
    "fieldtype": "Select",
    "label": "Naming Series",
    "options": "OUW-\nSMP-1819-",
-   "reqd": 1
-  },
-  {
-   "default": "OUTWARD",
-   "fieldname": "type",
-   "fieldtype": "Select",
-   "hidden": 1,
-   "label": "Type",
-   "options": "\nINWARD\nOUTWARD",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -107,14 +87,6 @@
    "label": "Is Billed"
   },
   {
-   "allow_on_submit": 1,
-   "depends_on": "eval:doc.is_billed==1",
-   "fieldname": "journal_entry",
-   "fieldtype": "Link",
-   "label": "Journal Entry",
-   "options": "Journal Entry"
-  },
-  {
    "fieldname": "company",
    "fieldtype": "Link",
    "in_standard_filter": 1,
@@ -127,7 +99,6 @@
    "default": "0",
    "fieldname": "send_mail",
    "fieldtype": "Check",
-   "hidden": 1,
    "label": "Send Mail"
   },
   {
@@ -136,12 +107,6 @@
    "fieldname": "feedback_recieved",
    "fieldtype": "Check",
    "label": "Feedback Recieved"
-  },
-  {
-   "fieldname": "currency",
-   "fieldtype": "Link",
-   "label": "Currency",
-   "options": "Currency"
   },
   {
    "fieldname": "columnbreak1",
@@ -163,7 +128,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Link To",
-   "options": "\nLead\nCustomer\nSupplier",
+   "options": "\nOpportunity\nQuotation\nCustomer\nSupplier",
    "reqd": 1
   },
   {
@@ -230,34 +195,6 @@
    "remember_last_selected_value": 1
   },
   {
-   "fieldname": "sb",
-   "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval:doc.link_to == \"Customer\"",
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Customer",
-   "options": "Customer",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:doc.link_to == \"Supplier\"",
-   "fieldname": "supplier",
-   "fieldtype": "Link",
-   "label": "Supplier",
-   "options": "Supplier",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval:doc.link_to == \"Lead\"",
-   "fieldname": "lead",
-   "fieldtype": "Link",
-   "label": "Lead",
-   "options": "Lead",
-   "read_only": 1
-  },
-  {
    "fieldname": "section_break1",
    "fieldtype": "Section Break"
   },
@@ -299,21 +236,18 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval: doc.type == 'OUTWARD'",
    "fieldname": "sectionbreak2",
    "fieldtype": "Section Break",
    "label": "Outward Details"
   },
   {
-   "depends_on": "eval:doc.type == 'OUTWARD'",
    "fieldname": "courier_company",
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Courier Company",
-   "options": "Courier Agency"
+   "options": "Supplier"
   },
   {
-   "depends_on": "eval:doc.type == 'OUTWARD'",
    "fieldname": "weight",
    "fieldtype": "Data",
    "label": "Weight (In Grams)"
@@ -348,18 +282,6 @@
    "fieldname": "opening_line",
    "fieldtype": "Text",
    "label": "Opening Line"
-  },
-  {
-   "fieldname": "port_of_loading",
-   "fieldtype": "Link",
-   "label": "Port of Loading",
-   "options": "Port Details"
-  },
-  {
-   "fieldname": "port_of_discharge",
-   "fieldtype": "Link",
-   "label": "Port of Discharge",
-   "options": "Port Details"
   },
   {
    "fieldname": "column_break2",
@@ -400,15 +322,6 @@
    "label": "Closing Line"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Courier Management",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
    "fieldname": "place_of_precarrier",
    "fieldtype": "Data",
    "label": "Place of Precarrier"
@@ -430,12 +343,13 @@
    "no_copy": 1,
    "options": "Courier Management",
    "print_hide": 1,
-   "read_only": 1
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2022-10-10 16:45:20.608064",
+ "modified": "2024-07-03 21:42:26.114769",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",

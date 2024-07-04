@@ -83,7 +83,7 @@ frappe.ui.form.on('Courier Management', {
 	party: function (frm) {
 		if (frm.doc.party && frm.doc.link_to) {
 			frappe.call({
-				method: "chemical_sample_management.api.get_party_details",
+				method: "jkm_production.api.get_party_details",
 				args: {
 					party: frm.doc.party,
 					party_type: frm.doc.link_to

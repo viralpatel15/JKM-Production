@@ -12,17 +12,19 @@
   "date",
   "supplier",
   "supplier_name",
+  "remarks",
   "column_break_5",
   "company",
-  "remarks",
   "status",
+  "courier_service_name",
+  "courier_docket_no",
+  "delivery_date",
   "section_break_xtmd",
   "party_type",
+  "column_break_hrcj",
   "party",
   "section_break_vohm",
   "sample_details",
-  "section_break_16",
-  "amended_from",
   "tab_break_trrv",
   "supplier_address",
   "address_display",
@@ -30,7 +32,8 @@
   "contact_person",
   "contact_display",
   "contact_mobile",
-  "contact_email"
+  "contact_email",
+  "amended_from"
  ],
  "fields": [
   {
@@ -56,10 +59,6 @@
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
-  },
-  {
-   "fieldname": "section_break_16",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "amended_from",
@@ -102,7 +101,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Requested\nDelivered\nExpired"
+   "options": "Requested\nDispatched\nDelivered\nExpired"
   },
   {
    "fieldname": "naming_series",
@@ -185,7 +184,30 @@
    "fieldname": "party_type",
    "fieldtype": "Select",
    "label": "Party Type",
-   "options": "Lead\nOpportunity\nCustomer\nQuotation"
+   "options": "Opportunity\nCustomer\nQuotation"
+  },
+  {
+   "fieldname": "courier_service_name",
+   "fieldtype": "Data",
+   "label": "Courier Service Name",
+   "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
+  },
+  {
+   "fieldname": "courier_docket_no",
+   "fieldtype": "Data",
+   "label": "Courier Docket No.",
+   "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
+  },
+  {
+   "depends_on": "eval:doc.status == \"Delivered\"",
+   "fieldname": "delivery_date",
+   "fieldtype": "Date",
+   "label": "Delivery Date",
+   "mandatory_depends_on": "eval:doc.status == \"Delivered\""
+  },
+  {
+   "fieldname": "column_break_hrcj",
+   "fieldtype": "Column Break"
   }
  ],
  "is_submittable": 1,
@@ -195,7 +217,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-03 18:52:12.972850",
+ "modified": "2024-07-03 21:00:22.133115",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",

@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2023-05-02 00:28:32.407437",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "je_no",
+  "account",
+  "debit_amount",
+  "cheque_no",
+  "cheque_date",
+  "shipping_bill_no",
+  "received_amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "je_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "JE No",
+   "options": "Journal Entry"
+  },
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "debit_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Debit Amount"
+  },
+  {
+   "fetch_from": "je_no.cheque_no",
+   "fieldname": "cheque_no",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "cheque_date",
+   "fieldtype": "Date",
+   "label": "Reference Date"
+  },
+  {
+   "fieldname": "shipping_bill_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Shipping Bill No"
+  },
+  {
+   "default": "0",
+   "fieldname": "received_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Received Amount",
+   "mandatory_depends_on": "eval:doc.docstatus == 1;"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-11 21:55:53.656772",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "Drawback Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
