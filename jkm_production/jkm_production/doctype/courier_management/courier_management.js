@@ -3,7 +3,6 @@
 
 // Copyright (c) 2018, Finbyz Tech Pvt Ltd and contributors
 // For license information, please see license.txt
-
 cur_frm.fields_dict.sample_items.grid.get_field("sample_ref").get_query = function (doc) {
 	return {
 		filters: {

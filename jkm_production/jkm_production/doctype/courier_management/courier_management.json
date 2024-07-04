@@ -35,7 +35,6 @@
   "has_sample",
   "sample_items",
   "total_qty",
-  "total_amount",
   "sectionbreak2",
   "courier_company",
   "weight",
@@ -229,13 +228,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "total_amount",
-   "fieldtype": "Currency",
-   "label": "Total Amount",
-   "options": "currency",
-   "read_only": 1
-  },
-  {
    "fieldname": "sectionbreak2",
    "fieldtype": "Section Break",
    "label": "Outward Details"
@@ -349,7 +341,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-04 19:03:35.449583",
+ "modified": "2024-07-04 21:22:47.442288",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",

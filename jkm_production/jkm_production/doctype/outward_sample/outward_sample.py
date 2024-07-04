@@ -63,5 +63,14 @@ def make_courier_management(source_name, target_doc=None):
 		},
 		target_doc,
 	)
-	
+	doc = frappe.get_doc("Outward Sample", source_name)
+	for row in doc.details:
+		doclist.append("sample_items", {
+			"sample_ref" : source_name,
+			"batch_no" : row.batch_no,
+			"quantity" : row.quantity,
+			"manufacturing_date":row.manufacturing_date,
+			"item" : row.item_code,
+			"product_name" : row.item_name
+		})
 	return doclist
