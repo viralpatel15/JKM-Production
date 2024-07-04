@@ -32,7 +32,8 @@
   "contact_person",
   "contact_display",
   "contact_mobile",
-  "contact_email"
+  "contact_email",
+  "amended_from"
  ],
  "fields": [
   {
@@ -183,7 +184,6 @@
   },
   {
    "allow_on_submit": 1,
-   "depends_on": "eval:doc.status == \"Delivered\"",
    "fieldname": "delivery_date",
    "fieldtype": "Date",
    "label": "Delivery Date",
@@ -192,6 +192,16 @@
   {
    "fieldname": "column_break_hrcj",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inward Sample",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "is_submittable": 1,
@@ -201,7 +211,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-04 18:24:13.266845",
+ "modified": "2024-07-04 21:40:27.433043",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",
