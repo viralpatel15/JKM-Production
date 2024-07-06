@@ -42,7 +42,7 @@ frappe.ui.form.on('Outward Sample', {
 		frm.set_query("party_type", function () {
 			return {
 				filters: {
-					name: ['in', "Customer, Lead, Quotation"],
+					name: ['in', "Customer, Opportunity, Quotation"],
 				},
 			}
 		})
@@ -73,6 +73,17 @@ frappe.ui.form.on('Outward Sample', {
 				};
 			}
 		});
+		if(frm.doc.party_type == "Opportunity" && frm.doc.party){
+			frappe.call({
+				method : "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_opportunity_party_details",
+				args :{
+					self : frm.doc
+				},
+				callback:r=>{
+					frm.set_value(r.message)
+				}
+			})
+		}
 		if(frm.doc.party_type == "Quotation"){
 			frappe.model.get_value("Quotation", frm.doc.party,'customer_name', r=>{
 				frm.set_value('party_name', r.customer_name)
@@ -87,19 +98,21 @@ frappe.ui.form.on('Outward Sample', {
 					frm.set_value('party_name', r.salutation + ' ' + r.first_name )
 				}
 			})
-		}	
-		frappe.call({
-			method: "jkm_production.api.get_party_details",
-			args: {
-				party: frm.doc.party,
-				party_type: frm.doc.party_type
-			},
-			callback: function (r) {
-				if (r.message) {
-					frm.set_value(r.message);
+		}
+		if(frm.doc.party_type == "Opportunity"){
+			frappe.call({
+				method: "jkm_production.api.get_party_details",
+				args: {
+					party: frm.doc.party,
+					party_type: frm.doc.party_type
+				},
+				callback: function (r) {
+					if (r.message) {
+						frm.set_value(r.message);
+					}
 				}
-			}
-		});
+			});
+		}	
 		frm.set_query("customer_address", function (doc) {
 			if (!doc.party) {
 				frappe.throw(__("Please set Party"));

@@ -12,7 +12,6 @@
   "party_type",
   "party",
   "party_name",
-  "courier_tracking_no",
   "column_break_12",
   "company",
   "status",
@@ -24,7 +23,6 @@
   "section_break_37",
   "total_qty",
   "column_break_40",
-  "amended_from",
   "address_and_contact_tab",
   "customer_address",
   "address_display",
@@ -34,7 +32,8 @@
   "contact_phone",
   "contact_mobile",
   "contact_email",
-  "contact_designation"
+  "contact_designation",
+  "amended_from"
  ],
  "fields": [
   {
@@ -154,15 +153,6 @@
    "options": "Inward Sample"
   },
   {
-   "allow_on_submit": 1,
-   "fieldname": "courier_tracking_no",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Courier Tracking No",
-   "mandatory_depends_on": "eval:doc.docstatus == 1;"
-  },
-  {
    "fieldname": "party_name",
    "fieldtype": "Data",
    "label": "Party Name"
@@ -237,7 +227,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-03 21:09:53.897667",
+ "modified": "2024-07-06 17:49:20.840049",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Outward Sample",
@@ -299,7 +289,7 @@
    "write": 1
   }
  ],
- "search_fields": "party, courier_tracking_no",
+ "search_fields": "party",
  "sort_field": "modified",
  "sort_order": "ASC",
  "states": [],
