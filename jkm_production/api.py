@@ -7,6 +7,7 @@ from frappe.contacts.doctype.address.address import get_address_display, get_def
 from frappe.contacts.doctype.contact.contact import get_contact_details, get_default_contact
 from frappe.desk.notifications import get_filters_for
 from datetime import date
+from frappe.model.mapper import get_mapped_doc
 from erpnext.accounts.utils import get_fiscal_year, flt
 from erpnext.stock.stock_ledger import update_entries_after
 
@@ -135,3 +136,30 @@ def set_organization_details(out, party, party_type):
 def get_customer_ref_code(item_code, customer):
 	ref_code = frappe.db.get_value("Item Customer Detail", {'parent': item_code, 'customer_name': customer}, 'ref_code')
 	return ref_code if ref_code else ''
+
+@frappe.whitelist()
+@frappe.whitelist()
+def make_courier_management(source_name, target_doc=None):
+	doclist = get_mapped_doc(
+		"Quotation",
+		source_name,
+		{
+			"Quotation": {
+				"doctype": "Inward Sample",
+				"validation": {"docstatus": ["=", 1]},
+				"field_map":{
+					"name" : "party",
+					"doctype" : "party_type"
+				}
+			},
+			"Quotation Item": {
+				"doctype": "Inward Sample Details",
+				"field_map": {
+					
+				},	
+			}
+		},
+		target_doc,
+	)
+	
+	return doclist

@@ -83,7 +83,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Requested\nOrdered\nDispatched\nDelivered\nExpired\nCancelled"
+   "options": "Requested\nOrdered\nDispatched\nDelivered\nCancelled"
   },
   {
    "fieldname": "naming_series",
@@ -211,7 +211,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-06 18:15:10.414787",
+ "modified": "2024-07-06 19:35:56.649833",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",
