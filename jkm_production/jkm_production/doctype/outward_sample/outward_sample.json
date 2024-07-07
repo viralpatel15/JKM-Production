@@ -32,7 +32,8 @@
   "contact_phone",
   "contact_mobile",
   "contact_email",
-  "contact_designation"
+  "contact_designation",
+  "amended_from"
  ],
  "fields": [
   {
@@ -204,11 +205,29 @@
    "label": "Party Type",
    "options": "DocType",
    "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Outward Sample",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "is_submittable": 1,
- "links": [],
- "modified": "2024-07-06 22:15:53.802105",
+ "links": [
+  {
+   "is_child_table": 1,
+   "link_doctype": "Sample List",
+   "link_fieldname": "sample_ref",
+   "parent_doctype": "Courier Management",
+   "table_fieldname": "sample_items"
+  }
+ ],
+ "modified": "2024-07-07 13:21:58.892488",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Outward Sample",
