@@ -49,7 +49,7 @@ class InwardSample(Document):
 			doc.manufacturing_date = row.manufacturing_date
 			doc.expiry_date = row.expiry_date
 			doc.save()
-			frappe.db.set_value(row.doctype, row.docname, 'batch_no', doc.name)
+			frappe.db.set_value(row.doctype, row.name, 'batch_no', doc.name)
 			
 	def before_cancel(self):
 		for row in self.sample_details:
