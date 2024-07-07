@@ -33,7 +33,34 @@ frappe.ui.form.on('Outward Sample', {
 					frm.set_value(r.message)
 				}
 			})
-		}	
+		}
+		if(frm.doc.party_type == "Customer"){
+			frappe.call({
+				method: "jkm_production.api.get_party_details",
+				args: {
+					party: frm.doc.party,
+					party_type: frm.doc.party_type
+				},
+				callback: function (r) {
+					if (r.message) {
+						frm.set_value(r.message);
+					}
+				}
+			});
+		}
+		if(frm.doc.party_type == "Quotation"){
+			frappe.call({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_quotation_party_details",
+				args: {
+					self : frm.doc
+				},
+				callback: function (r) {
+					if (r.message) {
+						frm.set_value(r.message);
+					}
+				}
+			});
+		}
 	},
 	refresh:function(frm){
 		if(!frm.doc.satatus){
@@ -80,7 +107,7 @@ frappe.ui.form.on('Outward Sample', {
 				}
 			})
 		}
-		if(frm.doc.party_type == "Opportunity"){
+		if(frm.doc.party_type == "Customer"){
 			frappe.call({
 				method: "jkm_production.api.get_party_details",
 				args: {
@@ -93,7 +120,20 @@ frappe.ui.form.on('Outward Sample', {
 					}
 				}
 			});
-		}	
+		}
+		if(frm.doc.party_type == "Quotation"){
+			frappe.call({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_quotation_party_details",
+				args: {
+					self : frm.doc
+				},
+				callback: function (r) {
+					if (r.message) {
+						frm.set_value(r.message);
+					}
+				}
+			});
+		}
 	},
 	customer_address:function(frm){
 		frappe.call({

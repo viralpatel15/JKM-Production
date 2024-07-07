@@ -45,7 +45,7 @@ class OutwardSample(Document):
 def get_opportunity_party_details(self):
 	doc = json.loads(self)
 	inquiry = frappe.get_doc("Opportunity", doc.get('party'))
-	return get_party_details(party = inquiry , party_type=inquiry.get('opportunity_from'))
+	return get_party_details(party = inquiry.get('party_name') , party_type=inquiry.get('opportunity_from'))
 
 @frappe.whitelist()
 def make_courier_management(source_name, target_doc=None):
@@ -74,3 +74,10 @@ def make_courier_management(source_name, target_doc=None):
 			"product_name" : row.item_name
 		})
 	return doclist
+
+
+@frappe.whitelist()
+def get_quotation_party_details(self):
+	doc = json.loads(self)
+	quotation = frappe.get_doc("Quotation", doc.get('party'))
+	return get_party_details(party = quotation.get('party_name') , party_type=quotation.get('quotation_to'))
