@@ -23,8 +23,7 @@ class OutwardSample(Document):
 		self.total_qty = total_qty
 		
 	def on_submit(self):
-		if not self.courier_tracking_no:
-			frappe.throw("Courier Tracking Number is Required")
+		
 		for row in self.details:
 			if row.item_code != frappe.db.get_value("Sample Batch Details", row.batch_no, 'item_code'):
 				frappe.throw("Row #{0}: Selected batch is not for item code {1}. Please select a correct batch".format(row.idx, row.item_code))

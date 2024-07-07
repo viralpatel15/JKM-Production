@@ -30,7 +30,9 @@ frappe.ui.form.on('Outward Sample', {
 					self : frm.doc
 				},
 				callback:r=>{
-					frm.set_value(r.message)
+					if(frm.doc.docstatus ==0){
+						frm.set_value(r.message)
+					}
 				}
 			})
 		}
@@ -42,7 +44,7 @@ frappe.ui.form.on('Outward Sample', {
 					party_type: frm.doc.party_type
 				},
 				callback: function (r) {
-					if (r.message) {
+					if (r.message && frm.doc.docstatus == 0) {
 						frm.set_value(r.message);
 					}
 				}
@@ -55,7 +57,7 @@ frappe.ui.form.on('Outward Sample', {
 					self : frm.doc
 				},
 				callback: function (r) {
-					if (r.message) {
+					if (r.message && frm.doc.docstatus ==0) {
 						frm.set_value(r.message);
 					}
 				}
