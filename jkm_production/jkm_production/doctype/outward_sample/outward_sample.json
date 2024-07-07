@@ -33,7 +33,10 @@
   "contact_mobile",
   "contact_email",
   "contact_designation",
-  "amended_from"
+  "amended_from",
+  "sop_for_dispatch_sample_tab",
+  "sample_with_requierment",
+  "sample_details"
  ],
  "fields": [
   {
@@ -215,6 +218,24 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "sop_for_dispatch_sample_tab",
+   "fieldtype": "Tab Break",
+   "label": "SOP for Dispatch Sample"
+  },
+  {
+   "default": "SOP for Dispatch sample Via Air",
+   "fieldname": "sample_with_requierment",
+   "fieldtype": "Link",
+   "label": "Sample With Requierment",
+   "options": "Terms and Conditions"
+  },
+  {
+   "fetch_from": "sample_with_requierment.terms",
+   "fieldname": "sample_details",
+   "fieldtype": "Text Editor",
+   "label": "Sample Details"
   }
  ],
  "is_submittable": 1,
@@ -227,7 +248,7 @@
    "table_fieldname": "sample_items"
   }
  ],
- "modified": "2024-07-07 13:21:58.892488",
+ "modified": "2024-07-07 19:54:14.092928",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Outward Sample",

@@ -24,7 +24,7 @@
    "fieldname": "number",
    "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Number"
+   "label": "Number of Copies"
   },
   {
    "fieldname": "image",
@@ -35,7 +35,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-09-30 18:11:21.241840",
+ "modified": "2024-07-07 19:55:42.471140",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Item List",
