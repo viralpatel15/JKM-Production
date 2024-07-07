@@ -32,8 +32,7 @@
   "contact_phone",
   "contact_mobile",
   "contact_email",
-  "contact_designation",
-  "amended_from"
+  "contact_designation"
  ],
  "fields": [
   {
@@ -123,24 +122,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Outward Sample",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Outward Sample",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
    "fieldname": "details",
    "fieldtype": "Table",
    "label": "Details",
@@ -227,7 +208,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-06 17:49:20.840049",
+ "modified": "2024-07-06 22:15:53.802105",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Outward Sample",
@@ -256,34 +237,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Sales User",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "cancel": 1,
-   "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Purchase User",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "cancel": 1,
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Analytics",
+   "role": "Sales JKM",
    "share": 1,
    "submit": 1,
    "write": 1

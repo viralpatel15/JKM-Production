@@ -147,6 +147,7 @@ def make_courier_management(source_name, target_doc=None):
 			"Quotation": {
 				"doctype": "Inward Sample",
 				"validation": {"docstatus": ["=", 1]},
+				"field_no_map": ["address_display", "contact_person", "contact_display", "contact_mobile", "contact_email"],
 				"field_map":{
 					"name" : "party",
 					"doctype" : "party_type"

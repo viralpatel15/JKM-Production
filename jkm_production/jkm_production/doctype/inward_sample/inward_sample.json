@@ -33,7 +33,10 @@
   "contact_display",
   "contact_mobile",
   "contact_email",
-  "amended_from"
+  "amended_from",
+  "tab_3_tab",
+  "terms",
+  "details"
  ],
  "fields": [
   {
@@ -58,7 +61,8 @@
   {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
-   "label": "Remarks"
+   "label": "Remarks",
+   "permlevel": 2
   },
   {
    "fieldname": "supplier",
@@ -66,7 +70,7 @@
    "in_list_view": 1,
    "label": "Supplier",
    "options": "Supplier",
-   "reqd": 1
+   "permlevel": 2
   },
   {
    "fieldname": "section_break_vohm",
@@ -83,7 +87,9 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Requested\nOrdered\nDispatched\nDelivered\nCancelled"
+   "options": "Draft\nRequested\nOrdered\nDispatched\nDelivered\nCancelled",
+   "read_only": 1,
+   "translatable": 1
   },
   {
    "fieldname": "naming_series",
@@ -101,14 +107,16 @@
    "fieldname": "party",
    "fieldtype": "Dynamic Link",
    "label": "Party",
-   "options": "party_type"
+   "options": "party_type",
+   "permlevel": 1
   },
   {
    "fetch_from": "supplier.supplier_name",
    "fieldname": "supplier_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Supplier Name"
+   "label": "Supplier Name",
+   "permlevel": 2
   },
   {
    "fieldname": "details_section",
@@ -124,8 +132,8 @@
    "fieldname": "supplier_address",
    "fieldtype": "Link",
    "label": "Supplier Address",
-   "options": "Address",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "options": "Address"
   },
   {
    "fieldname": "address_display",
@@ -141,8 +149,8 @@
    "fieldname": "contact_person",
    "fieldtype": "Link",
    "label": "Contact Person",
-   "options": "Contact",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "options": "Contact"
   },
   {
    "fieldname": "contact_display",
@@ -166,28 +174,29 @@
    "fieldname": "party_type",
    "fieldtype": "Select",
    "label": "Party Type",
-   "options": "Opportunity\nCustomer\nQuotation"
+   "options": "Opportunity\nCustomer\nQuotation",
+   "permlevel": 1
   },
   {
    "allow_on_submit": 1,
    "fieldname": "courier_service_name",
    "fieldtype": "Data",
    "label": "Courier Service Name",
-   "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
   },
   {
    "allow_on_submit": 1,
    "fieldname": "courier_docket_no",
    "fieldtype": "Data",
    "label": "Courier Docket No.",
-   "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
   },
   {
    "allow_on_submit": 1,
    "fieldname": "delivery_date",
    "fieldtype": "Date",
    "label": "Delivery Date",
-   "mandatory_depends_on": "eval:doc.status == \"Delivered\""
+   "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
   },
   {
    "fieldname": "column_break_hrcj",
@@ -202,6 +211,24 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "tab_3_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sample Requirement from Sales"
+  },
+  {
+   "fieldname": "terms",
+   "fieldtype": "Link",
+   "label": "Requirement List ",
+   "options": "Terms and Conditions"
+  },
+  {
+   "fetch_from": "terms.terms",
+   "fetch_if_empty": 1,
+   "fieldname": "details",
+   "fieldtype": "Text Editor",
+   "label": "Details"
   }
  ],
  "is_submittable": 1,
@@ -211,7 +238,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-06 19:35:56.649833",
+ "modified": "2024-07-07 11:05:50.675450",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",
@@ -234,35 +261,6 @@
    "write": 1
   },
   {
-   "amend": 1,
-   "cancel": 1,
-   "create": 1,
-   "email": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Sales User",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "amend": 1,
-   "cancel": 1,
-   "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Purchase User",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "amend": 1,
-   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -270,9 +268,32 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Analytics",
+   "role": "Sales JKM",
    "share": 1,
-   "submit": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales JKM",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Purchase Manager",
+   "share": 1,
    "write": 1
   }
  ],

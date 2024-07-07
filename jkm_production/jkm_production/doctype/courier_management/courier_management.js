@@ -116,6 +116,9 @@ frappe.ui.form.on('Courier Management', {
 			});
 		}
 	},
+	calculate:frm=>{
+		frm.set_value("weight_", (flt(frm.doc.length_cm) * flt(frm.doc.width_cm) * flt(frm.doc.height_cm))/5000)
+	},
 	before_save: function (frm) {
 		let total_qty = 0.0;
 		// let total_amount = 0.0;

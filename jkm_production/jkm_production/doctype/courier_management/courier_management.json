@@ -12,11 +12,13 @@
   "company",
   "naming_series",
   "courier_type",
+  "charges_depends_on",
   "columnbreak1",
   "date",
   "is_billed",
   "send_mail",
   "feedback_recieved",
+  "invoice_no",
   "address_and_contact",
   "link_to",
   "party",
@@ -35,6 +37,13 @@
   "has_sample",
   "sample_items",
   "total_qty",
+  "section_break_uqmh",
+  "length_cm",
+  "width_cm",
+  "height_cm",
+  "column_break_odao",
+  "weight_",
+  "calculate",
   "sectionbreak2",
   "courier_company",
   "weight",
@@ -74,6 +83,7 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.courier_type == \"International\"",
    "fieldname": "awb_no",
    "fieldtype": "Data",
    "label": "AWB No"
@@ -81,6 +91,7 @@
   {
    "allow_on_submit": 1,
    "default": "0",
+   "depends_on": "eval:doc.charges_depends_on == \"On Company\"",
    "fieldname": "is_billed",
    "fieldtype": "Check",
    "label": "Is Billed"
@@ -280,6 +291,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.courier_type == \"Domestic\";",
    "fieldname": "docket_no",
    "fieldtype": "Data",
    "label": "Docket No"
@@ -337,11 +349,59 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.is_billed == \"1\"",
+   "fieldname": "invoice_no",
+   "fieldtype": "Data",
+   "label": "Invoice No",
+   "mandatory_depends_on": "eval:doc.is_billed == \"1\""
+  },
+  {
+   "fieldname": "section_break_uqmh",
+   "fieldtype": "Section Break",
+   "label": "Calculate volumetric weight"
+  },
+  {
+   "fieldname": "length_cm",
+   "fieldtype": "Float",
+   "label": "Length (CM)"
+  },
+  {
+   "fieldname": "width_cm",
+   "fieldtype": "Float",
+   "label": "Width (CM)"
+  },
+  {
+   "fieldname": "height_cm",
+   "fieldtype": "Float",
+   "label": "Height (CM)"
+  },
+  {
+   "fieldname": "column_break_odao",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "weight_",
+   "fieldtype": "Float",
+   "label": "Weight (KG)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "calculate",
+   "fieldtype": "Button",
+   "label": "Calculate"
+  },
+  {
+   "fieldname": "charges_depends_on",
+   "fieldtype": "Select",
+   "label": "Courier Charges Depends On",
+   "options": "\nOn Customer\nOn Company"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-04 21:22:47.442288",
+ "modified": "2024-07-07 11:45:15.030548",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",
