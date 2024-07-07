@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "creation": "2022-09-30 18:00:03.361887",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "outward_sample",
+  "ref_no",
+  "product_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "outward_sample",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Outward Sample",
+   "options": "Outward Sample"
+  },
+  {
+   "fetch_from": "outward_sample.ref_no",
+   "fieldname": "ref_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Ref No",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "outward_sample.product_name",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Product Name",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-09-30 18:00:03.361887",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "Outward Sample Print Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -44,14 +44,29 @@ doc_events = {
 	"Lead":{
 		"validate":"jkm_production.jkm_production.doc_events.lead.validate",
 		"after_insert":"jkm_production.jkm_production.doc_events.lead.after_insert"
+	},
+	"Payment Entry": {
+		"on_submit": "jkm_production.api.pe_on_submit",
+		"before_cancel": "jkm_production.api.pe_on_cancel",
+	},
+	"Journal Entry": {
+    	"on_cancel": "jkm_production.jkm_production.doc_events.journal_entry.before_cancel",
 	}
 }
 
 doctype_js = { 
 	"Lead": "public/js/lead.js",
 	"Opportunity": "public/js/opportunity.js",
+    "Quotation": "public/js/quotation.js",
 	"Supplier Quotation": "public/js/supplier_quotation.js",
+	"Payment Entry": "public/js/doctype_js/payment_entry.js",
+	"Sales Invoice": "public/js/doctype_js/sales_invoice.js",
+    "Journal Entry": "public/js/doctype_js/journal_entry.js"
 }
+
+
+
+
 # application home page (will override Website Settings)
 # home_page = "login"
 
@@ -144,23 +159,12 @@ override_doctype_class = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"jkm_production.tasks.all"
-# 	],
-# 	"daily": [
-# 		"jkm_production.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"jkm_production.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"jkm_production.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"jkm_production.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	
+	"daily": [
+		"jkm_production.jkm_production.doctype.sample_batch_details.sample_batch_details.disable_batch"
+	]
+}
 
 # Testing
 # -------

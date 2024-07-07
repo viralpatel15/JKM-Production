@@ -1,0 +1,77 @@
+{
+ "actions": [],
+ "creation": "2022-09-30 18:13:17.731671",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "sample_ref",
+  "item",
+  "batch_no",
+  "quantity",
+  "column_break_5",
+  "product_name",
+  "manufacturing_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "sample_ref",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Sample Ref",
+   "options": "Outward Sample"
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item"
+  },
+  {
+   "fetch_from": "sample_ref.total_qty",
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Sample Qty"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "item.item_name",
+   "fieldname": "product_name",
+   "fieldtype": "Data",
+   "label": "Product Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "batch_no",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Batch Ref NO",
+   "options": "Batch"
+  },
+  {
+   "fetch_from": "sample_ref.date",
+   "fieldname": "manufacturing_date",
+   "fieldtype": "Date",
+   "label": "Manufacturing Date"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-05 20:55:57.658515",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "Sample List",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -1,0 +1,304 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "naming_series:",
+ "creation": "2022-09-30 16:52:56.462545",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "naming_series",
+  "date",
+  "supplier",
+  "supplier_name",
+  "remarks",
+  "column_break_5",
+  "company",
+  "status",
+  "courier_service_name",
+  "courier_docket_no",
+  "delivery_date",
+  "section_break_xtmd",
+  "party_type",
+  "column_break_hrcj",
+  "party",
+  "section_break_vohm",
+  "sample_details",
+  "tab_break_trrv",
+  "supplier_address",
+  "address_display",
+  "column_break_rnms",
+  "contact_person",
+  "contact_display",
+  "contact_mobile",
+  "contact_email",
+  "amended_from",
+  "tab_3_tab",
+  "terms",
+  "details"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Supplier",
+   "options": "Supplier",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "section_break_vohm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sample_details",
+   "fieldtype": "Table",
+   "label": "Sample Details",
+   "options": "Inward Sample Details"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nRequested\nOrdered\nDispatched\nDelivered\nCancelled",
+   "read_only": 1,
+   "translatable": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "INW-.###"
+  },
+  {
+   "fieldname": "section_break_xtmd",
+   "fieldtype": "Section Break",
+   "label": "Sample Request For"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type",
+   "permlevel": 1
+  },
+  {
+   "fetch_from": "supplier.supplier_name",
+   "fieldname": "supplier_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Supplier Name",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "tab_break_trrv",
+   "fieldtype": "Tab Break",
+   "label": "Address And Contact"
+  },
+  {
+   "fieldname": "supplier_address",
+   "fieldtype": "Link",
+   "label": "Supplier Address",
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "options": "Address"
+  },
+  {
+   "fieldname": "address_display",
+   "fieldtype": "Small Text",
+   "label": "Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rnms",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contact_person",
+   "fieldtype": "Link",
+   "label": "Contact Person",
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "contact_display",
+   "fieldtype": "Small Text",
+   "label": "Contact Display",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_mobile",
+   "fieldtype": "Small Text",
+   "label": "Contact Mobile",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contact_email",
+   "fieldtype": "Small Text",
+   "label": "contact_email",
+   "read_only": 1
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "label": "Party Type",
+   "options": "Opportunity\nCustomer\nQuotation",
+   "permlevel": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "courier_service_name",
+   "fieldtype": "Data",
+   "label": "Courier Service Name",
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "courier_docket_no",
+   "fieldtype": "Data",
+   "label": "Courier Docket No.",
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "delivery_date",
+   "fieldtype": "Date",
+   "label": "Delivery Date",
+   "mandatory_depends_on": "eval:doc.status == \"Dispatched\""
+  },
+  {
+   "fieldname": "column_break_hrcj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inward Sample",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "tab_3_tab",
+   "fieldtype": "Tab Break",
+   "label": "Sample Requirement from Sales"
+  },
+  {
+   "fieldname": "terms",
+   "fieldtype": "Link",
+   "label": "Requirement List ",
+   "options": "Terms and Conditions"
+  },
+  {
+   "fetch_from": "terms.terms",
+   "fetch_if_empty": 1,
+   "fieldname": "details",
+   "fieldtype": "Text Editor",
+   "label": "Details"
+  }
+ ],
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Outward Sample",
+   "link_fieldname": "inward_ref"
+  }
+ ],
+ "modified": "2024-07-07 11:05:50.675450",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "Inward Sample",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales JKM",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales JKM",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Purchase Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
