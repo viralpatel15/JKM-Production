@@ -23,8 +23,7 @@ class OutwardSample(Document):
 		self.total_qty = total_qty
 		
 	def on_submit(self):
-		if not self.courier_tracking_no:
-			frappe.throw("Courier Tracking Number is Required")
+		
 		for row in self.details:
 			if row.item_code != frappe.db.get_value("Sample Batch Details", row.batch_no, 'item_code'):
 				frappe.throw("Row #{0}: Selected batch is not for item code {1}. Please select a correct batch".format(row.idx, row.item_code))
@@ -45,7 +44,7 @@ class OutwardSample(Document):
 def get_opportunity_party_details(self):
 	doc = json.loads(self)
 	inquiry = frappe.get_doc("Opportunity", doc.get('party'))
-	return get_party_details(party = inquiry , party_type=inquiry.get('opportunity_from'))
+	return get_party_details(party = inquiry.get('party_name') , party_type=inquiry.get('opportunity_from'))
 
 @frappe.whitelist()
 def make_courier_management(source_name, target_doc=None):
@@ -74,3 +73,10 @@ def make_courier_management(source_name, target_doc=None):
 			"product_name" : row.item_name
 		})
 	return doclist
+
+
+@frappe.whitelist()
+def get_quotation_party_details(self):
+	doc = json.loads(self)
+	quotation = frappe.get_doc("Quotation", doc.get('party'))
+	return get_party_details(party = quotation.get('party_name') , party_type=quotation.get('quotation_to'))

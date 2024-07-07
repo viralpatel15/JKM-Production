@@ -30,10 +30,39 @@ frappe.ui.form.on('Outward Sample', {
 					self : frm.doc
 				},
 				callback:r=>{
-					frm.set_value(r.message)
+					if(frm.doc.docstatus ==0){
+						frm.set_value(r.message)
+					}
 				}
 			})
-		}	
+		}
+		if(frm.doc.party_type == "Customer"){
+			frappe.call({
+				method: "jkm_production.api.get_party_details",
+				args: {
+					party: frm.doc.party,
+					party_type: frm.doc.party_type
+				},
+				callback: function (r) {
+					if (r.message && frm.doc.docstatus == 0) {
+						frm.set_value(r.message);
+					}
+				}
+			});
+		}
+		if(frm.doc.party_type == "Quotation"){
+			frappe.call({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_quotation_party_details",
+				args: {
+					self : frm.doc
+				},
+				callback: function (r) {
+					if (r.message && frm.doc.docstatus ==0) {
+						frm.set_value(r.message);
+					}
+				}
+			});
+		}
 	},
 	refresh:function(frm){
 		if(!frm.doc.satatus){
@@ -46,14 +75,6 @@ frappe.ui.form.on('Outward Sample', {
 				},
 			}
 		})
-		frm.set_query("customer_address", function (doc) {
-			return {
-				filters: {
-					link_doctype: doc.party_type,
-					link_name: doc.party,
-				},
-			}
-		})
 		frm.add_custom_button(__('Create Courier'), function () {
 			frappe.model.open_mapped_doc({
 				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.make_courier_management",
@@ -62,17 +83,6 @@ frappe.ui.form.on('Outward Sample', {
 		})
 	},
 	party: function (frm) {
-		frm.set_query("contact_person", function (doc) {
-			if (doc.party) {
-				return {
-					query: "frappe.contacts.doctype.contact.contact.contact_query",
-					filters: {
-						link_doctype: doc.party_types,
-						link_name: doc.party,
-					},
-				};
-			}
-		});
 		if(frm.doc.party_type == "Opportunity" && frm.doc.party){
 			frappe.call({
 				method : "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_opportunity_party_details",
@@ -99,7 +109,7 @@ frappe.ui.form.on('Outward Sample', {
 				}
 			})
 		}
-		if(frm.doc.party_type == "Opportunity"){
+		if(frm.doc.party_type == "Customer"){
 			frappe.call({
 				method: "jkm_production.api.get_party_details",
 				args: {
@@ -112,19 +122,20 @@ frappe.ui.form.on('Outward Sample', {
 					}
 				}
 			});
-		}	
-		frm.set_query("customer_address", function (doc) {
-			if (!doc.party) {
-				frappe.throw(__("Please set Party"));
-			}
-			return {
-				query: "frappe.contacts.doctype.address.address.address_query",
-				filters: {
-					link_doctype: doc.party_type,
-					link_name: doc.party,
+		}
+		if(frm.doc.party_type == "Quotation"){
+			frappe.call({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_quotation_party_details",
+				args: {
+					self : frm.doc
 				},
-			};
-		});
+				callback: function (r) {
+					if (r.message) {
+						frm.set_value(r.message);
+					}
+				}
+			});
+		}
 	},
 	customer_address:function(frm){
 		frappe.call({

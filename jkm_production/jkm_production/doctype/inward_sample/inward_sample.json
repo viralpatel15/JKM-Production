@@ -33,10 +33,7 @@
   "contact_display",
   "contact_mobile",
   "contact_email",
-  "amended_from",
-  "tab_3_tab",
-  "terms",
-  "details"
+  "amended_from"
  ],
  "fields": [
   {
@@ -69,6 +66,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Supplier",
+   "mandatory_depends_on": "eval:doc.status == \"Requested\"",
    "options": "Supplier",
    "permlevel": 2
   },
@@ -116,6 +114,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Supplier Name",
+   "mandatory_depends_on": "eval:doc.status == \"Requested\"",
    "permlevel": 2
   },
   {
@@ -132,7 +131,7 @@
    "fieldname": "supplier_address",
    "fieldtype": "Link",
    "label": "Supplier Address",
-   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "mandatory_depends_on": "eval:doc.status == \"Requested\"",
    "options": "Address"
   },
   {
@@ -149,7 +148,7 @@
    "fieldname": "contact_person",
    "fieldtype": "Link",
    "label": "Contact Person",
-   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "mandatory_depends_on": "eval:doc.status == \"Requested\"",
    "options": "Contact"
   },
   {
@@ -211,24 +210,6 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
-  },
-  {
-   "fieldname": "tab_3_tab",
-   "fieldtype": "Tab Break",
-   "label": "Sample Requirement from Sales"
-  },
-  {
-   "fieldname": "terms",
-   "fieldtype": "Link",
-   "label": "Requirement List ",
-   "options": "Terms and Conditions"
-  },
-  {
-   "fetch_from": "terms.terms",
-   "fetch_if_empty": 1,
-   "fieldname": "details",
-   "fieldtype": "Text Editor",
-   "label": "Details"
   }
  ],
  "is_submittable": 1,
@@ -238,7 +219,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-07 16:17:18.660869",
+ "modified": "2024-07-07 17:30:46.448176",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",
@@ -294,6 +275,7 @@
    "report": 1,
    "role": "Purchase Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {

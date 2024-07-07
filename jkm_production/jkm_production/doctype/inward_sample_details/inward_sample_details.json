@@ -47,7 +47,7 @@
    "fieldname": "sample_size",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Quantity",
+   "label": "Ordered Qty",
    "mandatory_depends_on": "eval:doc.status == \"Requested\""
   },
   {
@@ -101,7 +101,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-07 11:00:28.471391",
+ "modified": "2024-07-07 17:33:53.006635",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample Details",
