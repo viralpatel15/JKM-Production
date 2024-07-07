@@ -46,14 +46,6 @@ frappe.ui.form.on('Outward Sample', {
 				},
 			}
 		})
-		frm.set_query("customer_address", function (doc) {
-			return {
-				filters: {
-					link_doctype: doc.party_type,
-					link_name: doc.party,
-				},
-			}
-		})
 		frm.add_custom_button(__('Create Courier'), function () {
 			frappe.model.open_mapped_doc({
 				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.make_courier_management",
@@ -62,17 +54,6 @@ frappe.ui.form.on('Outward Sample', {
 		})
 	},
 	party: function (frm) {
-		frm.set_query("contact_person", function (doc) {
-			if (doc.party) {
-				return {
-					query: "frappe.contacts.doctype.contact.contact.contact_query",
-					filters: {
-						link_doctype: doc.party_types,
-						link_name: doc.party,
-					},
-				};
-			}
-		});
 		if(frm.doc.party_type == "Opportunity" && frm.doc.party){
 			frappe.call({
 				method : "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_opportunity_party_details",
@@ -113,18 +94,6 @@ frappe.ui.form.on('Outward Sample', {
 				}
 			});
 		}	
-		frm.set_query("customer_address", function (doc) {
-			if (!doc.party) {
-				frappe.throw(__("Please set Party"));
-			}
-			return {
-				query: "frappe.contacts.doctype.address.address.address_query",
-				filters: {
-					link_doctype: doc.party_type,
-					link_name: doc.party,
-				},
-			};
-		});
 	},
 	customer_address:function(frm){
 		frappe.call({
