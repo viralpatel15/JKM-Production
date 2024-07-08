@@ -17,8 +17,8 @@ class InwardSample(Document):
 				if not row.requested_qty:
 					frappe.throw("Row #{0}: Requested Qty is required for sample request".format(row.idx))
 		if self.status == "Dispatched":
-			if not self.courier_service_name or not self.courier_docket_no:
-				frappe.throw("Input a Courier Details <br><br> Courier Service Name and Courier Docket No is required")
+			if not self.courier_service_name or not self.courier_docket_no or not self.courier_contact_no:
+				frappe.throw("Input a Courier Details <br><br> Courier Service Name, Courier Docket No and Contact No is required")
 			
 		if self.status == "Ordered":
 			for row in self.sample_details:
