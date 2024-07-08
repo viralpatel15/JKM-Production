@@ -9,8 +9,8 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "company",
   "naming_series",
+  "company",
   "courier_type",
   "charges_depends_on",
   "columnbreak1",
@@ -66,13 +66,6 @@
   "closing_line"
  ],
  "fields": [
-  {
-   "fieldname": "naming_series",
-   "fieldtype": "Select",
-   "label": "Naming Series",
-   "options": "OUW-.YYYY.-.####",
-   "reqd": 1
-  },
   {
    "fieldname": "courier_type",
    "fieldtype": "Select",
@@ -397,11 +390,18 @@
    "fieldtype": "Select",
    "label": "Courier Charges Depends On",
    "options": "\nOn Customer\nOn Company"
+  },
+  {
+   "default": "OUW-.YYYY.-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "OUW-.YYYY.-.####"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 11:45:15.030548",
+ "modified": "2024-07-07 20:23:17.673812",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",

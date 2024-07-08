@@ -18,6 +18,7 @@
   "status",
   "courier_service_name",
   "courier_docket_no",
+  "courier_contact_no",
   "delivery_date",
   "section_break_xtmd",
   "party_type",
@@ -210,6 +211,12 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "courier_contact_no",
+   "fieldtype": "Data",
+   "label": "Courier Contact No",
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
   }
  ],
  "is_submittable": 1,
@@ -219,7 +226,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-07 17:30:46.448176",
+ "modified": "2024-07-08 10:34:06.226017",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",

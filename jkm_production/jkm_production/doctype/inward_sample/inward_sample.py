@@ -17,8 +17,8 @@ class InwardSample(Document):
 				if not row.requested_qty:
 					frappe.throw("Row #{0}: Requested Qty is required for sample request".format(row.idx))
 		if self.status == "Dispatched":
-			if not self.courier_service_name or not self.courier_docket_no:
-				frappe.throw("Input a Courier Details <br><br> Courier Service Name and Courier Docket No is required")
+			if not self.courier_service_name or not self.courier_docket_no or not self.courier_contact_no:
+				frappe.throw("Input a Courier Details <br><br> Courier Service Name, Courier Docket No and Contact No is required")
 			
 		if self.status == "Ordered":
 			for row in self.sample_details:
@@ -49,7 +49,7 @@ class InwardSample(Document):
 			doc.manufacturing_date = row.manufacturing_date
 			doc.expiry_date = row.expiry_date
 			doc.save()
-			frappe.db.set_value(row.doctype, row.docname, 'batch_no', doc.name)
+			frappe.db.set_value(row.doctype, row.name, 'batch_no', doc.name)
 			
 	def before_cancel(self):
 		for row in self.sample_details:
