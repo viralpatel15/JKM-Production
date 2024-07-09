@@ -16,15 +16,24 @@ class QualityInspectionJKM(QualityInspection):
 	def on_submit(self):
 		if self.reference_type != "Inward Sample":
 			self.update_qc_reference()
-		frappe.db.set_value("Inward Sample Details", self.custom_table_ref, "quality_inspection", self.name)
+
+		if self.reference_type == "Inward Sample":
+			frappe.db.set_value("Inward Sample Details", self.custom_table_ref, "quality_inspection", self.name)
+	
+	def before_cancel(self):
+		if self.reference_type == "Inward Sample":
+			frappe.db.set_value("Inward Sample Details", self.custom_table_ref, "quality_inspection", "")
 
 	def on_cancel(self):
 		if self.reference_type != "Inward Sample":
 			self.update_qc_reference()
 
+
 	def on_trash(self):
 		if self.reference_type != "Inward Sample":
 			self.update_qc_reference()
+		if self.reference_type == "Inward Sample":
+			frappe.db.set_value("Inward Sample Details", self.custom_table_ref, "quality_inspection", "")
 
 	def validate(self):
 		if not self.readings and self.item_code:
@@ -41,5 +50,7 @@ class QualityInspectionJKM(QualityInspection):
 
 		if self.readings:
 			self.inspect_and_set_status()
+		if self.reference_type == "Inward Sample":
+			frappe.db.set_value("Inward Sample Details", self.custom_table_ref, "quality_inspection", self.name)
 		
 		
