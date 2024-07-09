@@ -55,3 +55,19 @@ frappe.ui.form.on('Inward Sample', {
 		erpnext.utils.get_address_display(frm);
 	}
 });
+
+
+frappe.ui.form.on('Inward Sample Details', {
+	create_qc: (frm, cdt, cdn)=>{
+		let d = locals[cdt][cdn]
+		frappe.new_doc("Quality Inspection",{
+			"reference_name" : d.parent,
+			"reference_type" : "Inward Sample",
+			"item_code" : d.item_code,
+			"item_name" : d.item_name,
+			"custom_table_ref":d.name,
+			"inspected_by":frappe.session.user
+		})
+	}
+})
+

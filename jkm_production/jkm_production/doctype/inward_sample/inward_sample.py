@@ -62,25 +62,25 @@ def create_outward_sample(source_name, target_doc=None):
 		"Inward Sample",
 		source_name,
 		{
-			"Inward Sample": {"doctype": "Outward Sample", 
+			"Inward Sample": {"doctype": "Outward Sample", "validation": {"docstatus": ["=", 1]},
 					 "field_map": {"name": "inward_ref"},
 					 'field_no_map': ["contact_person", "address_display", "contact_display", "contact_mobile", "contact_mobile","status","contact_email"]
 					 },
 			"Inward Sample Details" : {
 				"doctype": "Outward Sample Detail",
 				'field_map' : {
-					'sample_size' : 'quantity',
+					'requested_qty' : 'quantity',
 					"batch_no" : 'batch_no'
-
 				},
 				
 			}
 		},
 		target_doc,
 	)
+	
 	doc = frappe.get_doc("Inward Sample", source_name)
 	if doc.party_type == "Quotation":
 		party_name = frappe.db.get_value("Quotation", doc.party, 'customer_name')
 		doclist.update({'party_name' : party_name})
 
-	return doclist				
+	return doclist
