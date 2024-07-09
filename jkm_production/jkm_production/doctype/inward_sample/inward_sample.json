@@ -182,14 +182,16 @@
    "fieldname": "courier_service_name",
    "fieldtype": "Data",
    "label": "Courier Service Name",
-   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "permlevel": 2
   },
   {
    "allow_on_submit": 1,
    "fieldname": "courier_docket_no",
    "fieldtype": "Data",
    "label": "Courier Docket No.",
-   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "permlevel": 2
   },
   {
    "allow_on_submit": 1,
@@ -216,7 +218,8 @@
    "fieldname": "courier_contact_no",
    "fieldtype": "Data",
    "label": "Courier Contact No",
-   "mandatory_depends_on": "eval:doc.status == \"Ordered\""
+   "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
+   "permlevel": 2
   }
  ],
  "is_submittable": 1,
@@ -226,7 +229,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-08 10:34:06.226017",
+ "modified": "2024-07-09 00:03:06.975034",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",
