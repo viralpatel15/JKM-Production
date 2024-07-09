@@ -48,6 +48,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Naming Series",
+   "no_copy": 1,
    "options": "OWT/.YY./.####",
    "read_only": 1,
    "reqd": 1
@@ -248,7 +249,7 @@
    "table_fieldname": "sample_items"
   }
  ],
- "modified": "2024-07-07 19:54:14.092928",
+ "modified": "2024-07-09 20:39:52.050138",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Outward Sample",

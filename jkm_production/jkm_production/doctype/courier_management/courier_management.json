@@ -58,6 +58,7 @@
   "awb_no",
   "docket_no",
   "tracking_site",
+  "html_wqig",
   "estimated_charges",
   "actual_chargers",
   "signed_by",
@@ -397,12 +398,19 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Naming Series",
-   "options": "OUW-.YYYY.-.####"
+   "options": "OUW-.YYYY.-.####",
+   "sort_options": 1
+  },
+  {
+   "fieldname": "html_wqig",
+   "fieldtype": "Text Editor",
+   "label": "Link",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-08 22:11:21.305729",
+ "modified": "2024-07-09 19:25:37.396961",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",
