@@ -8,11 +8,11 @@ frappe.listview_settings["Inward Sample"] = {
 	],
 	get_indicator: function (doc) {
 		const status_colors = {
-			'Draft': "grey",
-			'Requested': "orange",
-			'Ordered': "green",
-			'Dispatched': "gray",
-			'Delivered': "red",
+			Draft: "red",
+			Requested: "orange",
+			Ordered: "green",
+			Dispatched: "gray",
+			Delivered: "blue",
 		};
 		return [__(doc.status), status_colors[doc.status], "status,=," + doc.status];
 	},

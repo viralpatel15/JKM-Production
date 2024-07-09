@@ -6,4 +6,6 @@ import frappe
 from frappe.model.document import Document
 
 class CourierManagement(Document):
-	pass
+	def validate(self):
+		html = f"<p style='font-size:18px; color:blue;'><a href={self.tracking_site}>Tracking Site</a></p>"
+		self.html_wqig = html

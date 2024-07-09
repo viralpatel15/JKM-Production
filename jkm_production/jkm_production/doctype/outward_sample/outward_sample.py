@@ -70,7 +70,8 @@ def make_courier_management(source_name, target_doc=None):
 			"quantity" : row.quantity,
 			"manufacturing_date":row.manufacturing_date,
 			"item" : row.item_code,
-			"product_name" : row.item_name
+			"product_name" : row.item_name,
+			"uom" : row.uom
 		})
 	return doclist
 
