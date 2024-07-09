@@ -65,7 +65,8 @@ frappe.ui.form.on('Inward Sample Details', {
 			"reference_type" : "Inward Sample",
 			"item_code" : d.item_code,
 			"item_name" : d.item_name,
-			"custom_table_ref":d.name
+			"custom_table_ref":d.name,
+			"inspected_by":frappe.session.user
 		})
 	}
 })

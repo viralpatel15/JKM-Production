@@ -16,7 +16,6 @@ class QualityInspectionJKM(QualityInspection):
 	def on_submit(self):
 		if self.reference_type != "Inward Sample":
 			self.update_qc_reference()
-			
 		frappe.db.set_value("Inward Sample Details", self.custom_table_ref, "quality_inspection", self.name)
 
 	def on_cancel(self):
