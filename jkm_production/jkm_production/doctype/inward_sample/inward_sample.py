@@ -55,6 +55,7 @@ class InwardSample(Document):
 		for row in self.sample_details:
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'disabled', 1)
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'inward_sample', '')
+			frappe.db.set_value("Sample Batch Details", row.batch_no, "qty", "")
 
 @frappe.whitelist()
 def create_outward_sample(source_name, target_doc=None):
