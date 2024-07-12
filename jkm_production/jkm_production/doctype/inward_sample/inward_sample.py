@@ -50,11 +50,14 @@ class InwardSample(Document):
 			doc.expiry_date = row.expiry_date
 			doc.save()
 			frappe.db.set_value(row.doctype, row.name, 'batch_no', doc.name)
+			self.reload()
+
 			
 	def before_cancel(self):
 		for row in self.sample_details:
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'disabled', 1)
 			frappe.db.set_value("Sample Batch Details", row.batch_no, 'inward_sample', '')
+			frappe.db.set_value("Sample Batch Details", row.batch_no, "qty", 0)
 
 @frappe.whitelist()
 def create_outward_sample(source_name, target_doc=None):

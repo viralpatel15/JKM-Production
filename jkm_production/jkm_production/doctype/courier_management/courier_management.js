@@ -69,11 +69,27 @@ cur_frm.set_query("address_link", function () {
 
 //Get Contact updated in Courier Management
 frappe.ui.form.on('Courier Management', {
+	setup:frm=>{
+		if (frm.doc.link_to == "Quotation"){
+			frappe.call({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_quotation_party_details",
+				args: {
+					self : frm.doc
+				},
+				callback: function (r) {
+					if (r.message && frm.doc.docstatus ==0) {
+						frm.set_value("address_link", r.message.customer_address);
+						frm.set_value("address", r.message.address_display);
+					}
+				}
+			});
+		}
+	},
 	link_to: function (frm) {
 		frm.set_value('party', '')
 	},
 	party: function (frm) {
-		if (frm.doc.party && frm.doc.link_to) {
+		if (frm.doc.party && frm.doc.link_to && frm.doc.link_to != "Quotation") {
 			frappe.call({
 				method: "jkm_production.api.get_party_details",
 				args: {
@@ -97,6 +113,20 @@ frappe.ui.form.on('Courier Management', {
 						else {
 							frm.set_value('address_link', r.message.lead_address)
 						}
+					}
+				}
+			});
+		}
+		if (frm.doc.link_to == "Quotation"){
+			frappe.call({
+				method: "jkm_production.jkm_production.doctype.outward_sample.outward_sample.get_quotation_party_details",
+				args: {
+					self : frm.doc
+				},
+				callback: function (r) {
+					if (r.message && frm.doc.docstatus ==0) {
+						console.log(r.message)
+						frm.set_value(r.message);
 					}
 				}
 			});
