@@ -51,6 +51,9 @@ doc_events = {
 	},
 	"Journal Entry": {
     	"on_cancel": "jkm_production.jkm_production.doc_events.journal_entry.before_cancel",
+	},
+    "Sales Order":{
+        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
 	}
 }
 

@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "autoname": "field:lc_no",
+ "creation": "2024-07-20 15:37:03.584163",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ocxl",
+  "customer",
+  "lc_no",
+  "amended_from",
+  "column_break_bzig",
+  "lc_date",
+  "lc_expire_date",
+  "currency",
+  "section_break_corv",
+  "lc_item_details",
+  "total_lc_amount",
+  "total_lc_qty"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ocxl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "LC Details",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "lc_no",
+   "fieldtype": "Data",
+   "label": "LC No.",
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_bzig",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "lc_date",
+   "fieldtype": "Date",
+   "label": "LC Date"
+  },
+  {
+   "fieldname": "lc_expire_date",
+   "fieldtype": "Date",
+   "label": "LC Expire Date"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "section_break_corv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lc_item_details",
+   "fieldtype": "Table",
+   "label": "LC Item Details",
+   "options": "LC Item Details"
+  },
+  {
+   "fieldname": "total_lc_amount",
+   "fieldtype": "Currency",
+   "label": "Total LC Amount",
+   "options": "currency"
+  },
+  {
+   "fieldname": "total_lc_qty",
+   "fieldtype": "Float",
+   "label": "Total LC Qty"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-20 17:21:46.112935",
+ "modified_by": "Administrator",
+ "module": "JKM Production",
+ "name": "LC Details",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
