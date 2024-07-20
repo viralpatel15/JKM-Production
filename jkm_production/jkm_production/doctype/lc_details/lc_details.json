@@ -7,6 +7,7 @@
  "field_order": [
   "section_break_ocxl",
   "customer",
+  "customer_name",
   "lc_no",
   "amended_from",
   "column_break_bzig",
@@ -85,12 +86,18 @@
    "fieldtype": "Link",
    "label": "Currency",
    "options": "Currency"
+  },
+  {
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "Customer Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-20 17:21:46.112935",
+ "modified": "2024-07-20 18:54:19.018889",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "LC Details",

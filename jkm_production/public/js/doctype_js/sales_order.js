@@ -1,16 +1,17 @@
 // Copyright (c) 2023, Finbyz Tech PVT LTD and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Sales Invoice', {
-	custom_notify_party_address:frm=>{
-		erpnext.utils.get_address_display(frm, "custom_notify_party_address", "custom_notify_party_address_details", false);
-	}
+frappe.ui.form.on('Sales Order', {
+	refresh:frm=>{
+
+    }
 })
 
 
-frappe.ui.form.on('Sales Invoice Item', {
+frappe.ui.form.on('Sales Order Item', {
 	custom_packing_size:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
+        console.log("he;llo")
         if(d.custom_packing_size > 0){
             frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
         }
@@ -44,3 +45,4 @@ frappe.ui.form.on('Sales Invoice Item', {
         frappe.model.set_value(cdt, cdn, "custom_total_cbm_of_package", (flt(d.custom_length)*flt(d.custom_width)*flt(d.custom_height))/1000000 * d.custom_no_of_package)
     }
 })
+

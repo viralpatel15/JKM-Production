@@ -54,6 +54,12 @@ doc_events = {
 	},
     "Sales Order":{
         "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+    "Sales Invoice":{
+        "validate":"jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+    "Delivery Note":{
+        "validate":"jkm_production.jkm_production.doc_events.sales_order.validate"
 	}
 }
 
@@ -64,7 +70,9 @@ doctype_js = {
 	"Supplier Quotation": "public/js/supplier_quotation.js",
 	"Payment Entry": "public/js/doctype_js/payment_entry.js",
 	"Sales Invoice": "public/js/doctype_js/sales_invoice.js",
-    "Journal Entry": "public/js/doctype_js/journal_entry.js"
+    "Journal Entry": "public/js/doctype_js/journal_entry.js",
+    "Sales Order" : "public/js/doctype_js/sales_order.js",
+    "Delivery Note":"public/js/doctype_js/delivery_note.js"
 }
 
 

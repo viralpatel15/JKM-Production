@@ -1,14 +1,6 @@
-// Copyright (c) 2023, Finbyz Tech PVT LTD and contributors
-// For license information, please see license.txt
-
-frappe.ui.form.on('Sales Invoice', {
-	custom_notify_party_address:frm=>{
-		erpnext.utils.get_address_display(frm, "custom_notify_party_address", "custom_notify_party_address_details", false);
-	}
-})
 
 
-frappe.ui.form.on('Sales Invoice Item', {
+frappe.ui.form.on('Delivery Note Item', {
 	custom_packing_size:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         if(d.custom_packing_size > 0){

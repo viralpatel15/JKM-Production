@@ -12,7 +12,7 @@ def validate(self, method):
             custom_total_packages += row.custom_no_of_package
 
         if flt(row.custom_per_package_weight) and flt(row.custom_no_of_package):
-            row.custom_total_weight_of_package = flt(row.custom_no_of_package) + flt(row.custom_per_package_weight)
+            row.custom_total_weight_of_package = flt(row.custom_no_of_package) * flt(row.custom_per_package_weight)
 
         custom_total_net_weight_exim_ += flt(row.custom_net_weight)
         
