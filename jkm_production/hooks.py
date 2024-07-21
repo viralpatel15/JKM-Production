@@ -51,6 +51,26 @@ doc_events = {
 	},
 	"Journal Entry": {
     	"on_cancel": "jkm_production.jkm_production.doc_events.journal_entry.before_cancel",
+	},
+    "Sales Order":{
+        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+	"Duty DrawBack Claim":{
+        "on_submit":"jkm_production.jkm_production.doctype.duty_drawback_claim.duty_drawback_claim.create_jv_on_submit"
+    },
+	"Rodtep Claim":{
+        "on_submit":"jkm_production.jkm_production.doctype.rodtep_claim.rodtep_claim.create_jv_on_submit"
+    },
+    "Sales Invoice":{
+        "validate":[
+		"jkm_production.jkm_production.doc_events.sales_order.validate",
+		"jkm_production.jkm_production.doc_events.sales_invoice.validate"
+		],
+		"on_submit": "jkm_production.api.si_on_submit",
+        "on_cancel": "jkm_production.api.si_on_cancel"
+	},
+    "Delivery Note":{
+        "validate":"jkm_production.jkm_production.doc_events.sales_order.validate"
 	}
 }
 
@@ -61,7 +81,9 @@ doctype_js = {
 	"Supplier Quotation": "public/js/supplier_quotation.js",
 	"Payment Entry": "public/js/doctype_js/payment_entry.js",
 	"Sales Invoice": "public/js/doctype_js/sales_invoice.js",
-    "Journal Entry": "public/js/doctype_js/journal_entry.js"
+    "Journal Entry": "public/js/doctype_js/journal_entry.js",
+    "Sales Order" : "public/js/doctype_js/sales_order.js",
+    "Delivery Note":"public/js/doctype_js/delivery_note.js"
 }
 
 
