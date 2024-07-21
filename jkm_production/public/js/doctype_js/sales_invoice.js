@@ -8,6 +8,11 @@ frappe.ui.form.on('Sales Invoice', {
 })
 
 frappe.ui.form.on('Sales Invoice Item', {
+    net_amount:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, "fob_value", d.net_amount)
+        calculate_total_fob_value(frm, cdt, cdn)
+    },
 	custom_packing_size:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         if(d.custom_packing_size > 0){

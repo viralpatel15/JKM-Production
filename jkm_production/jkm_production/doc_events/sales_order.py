@@ -21,8 +21,8 @@ def validate(self, method):
             custom_gross_weight += flt(row.custom_gross_weight)
 
         if flt(row.custom_no_of_package):
-            row.custom_per_package_cbm = (flt(row.custom_height) * flt(row.custom_width) * flt(row.custom_length))/1000000 * flt(row.custom_no_of_package)
-            row.custom_total_cbm_of_package =+ flt(row.custom_per_package_cbm) * (row.custom_no_of_package)
+            row.custom_per_package_cbm = (flt(row.custom_height) * flt(row.custom_width) * flt(row.custom_length))/1000000
+            row.custom_total_cbm_of_package = flt(row.custom_per_package_cbm) * (row.custom_no_of_package)
             custom_total_cbm += row.custom_total_cbm_of_package
 
 

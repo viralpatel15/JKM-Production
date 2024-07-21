@@ -42,7 +42,7 @@ frappe.ui.form.on('Sales Order Item', {
     },
     custom_per_package_cbm:(frm,cdt, cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, "custom_total_cbm_of_package", (flt(d.custom_length)*flt(d.custom_width)*flt(d.custom_height))/1000000 * d.custom_no_of_package)
+        frappe.model.set_value(cdt, cdn, "custom_total_cbm_of_package", flt(d.custom_per_package_cbm) * (d.custom_no_of_package))
     }
 })
 
