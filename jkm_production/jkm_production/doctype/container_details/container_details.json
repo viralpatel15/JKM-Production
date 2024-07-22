@@ -23,8 +23,8 @@
    "fieldname": "container_type",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Container Type",
-   "options": "20 Fit\n20 Fit HC\n40 Fit\n40 Fit HC"
+   "label": "Container Size",
+   "options": "20 Fit\n20 Fit HC\n40 Fit\n40 Fit HC\nLCL"
   },
   {
    "fieldname": "line_seal_no",
@@ -48,7 +48,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-20 15:28:02.023132",
+ "modified": "2024-07-21 15:56:52.219636",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Container Details",
