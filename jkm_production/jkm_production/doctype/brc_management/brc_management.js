@@ -115,7 +115,7 @@ frappe.ui.form.on('BRC Payment', {
 		frm.events.add_unique_payment_entry(frm);
 		
 		frappe.call({
-			method: 'jkm.jkm.doctype.brc_management.brc_management.get_payment_entry_amount',
+			method: 'jkm_production.jkm_production.doctype.brc_management.brc_management.get_payment_entry_amount',
 			args: {
 				'reference_name': frm.doc.invoice_no,
 				'reference_doctype': d.voucher_type
