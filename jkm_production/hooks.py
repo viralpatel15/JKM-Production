@@ -70,7 +70,16 @@ doc_events = {
         "on_cancel": "jkm_production.api.si_on_cancel"
 	},
     "Delivery Note":{
-        "validate":"jkm_production.jkm_production.doc_events.sales_order.validate"
+        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+    "Purchase Invoice":{
+        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+    "Purchase Order":{
+        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+    "Purchase Receipt":{
+        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
 	}
 }
 
@@ -83,7 +92,8 @@ doctype_js = {
 	"Sales Invoice": "public/js/doctype_js/sales_invoice.js",
     "Journal Entry": "public/js/doctype_js/journal_entry.js",
     "Sales Order" : "public/js/doctype_js/sales_order.js",
-    "Delivery Note":"public/js/doctype_js/delivery_note.js"
+    "Delivery Note":"public/js/doctype_js/delivery_note.js",
+    "Purchase Invoice":"public/js/doctype_js/delivery_note.js"
 }
 
 
