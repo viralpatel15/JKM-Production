@@ -2,8 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("LC Details", {
-	refresh(frm) {
-
+	validate(frm) {
+        let amount = 0
+        let qty = 0
+        frm.doc.lc_item_details.forEach(r => {
+            amount += r.amount
+            qty += r.lc_qty
+        });
+        frm.set_value("total_lc_amount", amount)
+        frm.set_value("total_lc_qty", qty)
 	},
 });
 

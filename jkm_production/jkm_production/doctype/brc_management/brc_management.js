@@ -3,7 +3,7 @@
 let payment_entry_list = [];
 cur_frm.fields_dict.invoice_no.get_query = function(doc) {
 	return {
-		query: "exim.query.get_invoce_no_based_on_customer"
+		query: "jkm_production.query.get_invoce_no_based_on_customer"
 	}
 };
 
@@ -11,7 +11,7 @@ cur_frm.set_query("voucher_no", "brc_payment", function(doc,cdt,cdn) {
 	var row = frappe.get_doc(cdt, cdn);
 	if(row.voucher_type == "Payment Entry")	{
 		return {
-			query: "exim.query.get_invoce_no",
+			query: "jkm_production.query.get_invoce_no",
 			filters: {
 				'invoice_no': doc.invoice_no
 			}
