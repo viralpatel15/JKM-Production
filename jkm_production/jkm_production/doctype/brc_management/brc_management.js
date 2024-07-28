@@ -3,7 +3,7 @@
 let payment_entry_list = [];
 cur_frm.fields_dict.invoice_no.get_query = function(doc) {
 	return {
-		query: "exim.query.get_invoce_no_based_on_customer"
+		query: "jkm_production.query.get_invoce_no_based_on_customer"
 	}
 };
 
@@ -11,7 +11,7 @@ cur_frm.set_query("voucher_no", "brc_payment", function(doc,cdt,cdn) {
 	var row = frappe.get_doc(cdt, cdn);
 	if(row.voucher_type == "Payment Entry")	{
 		return {
-			query: "exim.query.get_invoce_no",
+			query: "jkm_production.query.get_invoce_no",
 			filters: {
 				'invoice_no': doc.invoice_no
 			}
@@ -115,7 +115,7 @@ frappe.ui.form.on('BRC Payment', {
 		frm.events.add_unique_payment_entry(frm);
 		
 		frappe.call({
-			method: 'jkm.jkm.doctype.brc_management.brc_management.get_payment_entry_amount',
+			method: 'jkm_production.jkm_production.doctype.brc_management.brc_management.get_payment_entry_amount',
 			args: {
 				'reference_name': frm.doc.invoice_no,
 				'reference_doctype': d.voucher_type
