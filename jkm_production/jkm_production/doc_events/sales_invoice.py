@@ -1,4 +1,5 @@
 import frappe
+from frappe.utils import flt
 def validate(self,method):
 	calc(self)
 def calc(self):
@@ -18,6 +19,11 @@ def calc(self):
 		self.total_fob_value=total_fob
 		total_rodtep+=row.meis_value
 		self.total_meis=total_rodtep
+	
+	total_tare_weight = 0
+	for row in self.container_tare_weight:
+		total_tare_weight += flt(row.container_tare_weight)
+	self.custom_total_tare_weight = total_tare_weight
 
 
 		
