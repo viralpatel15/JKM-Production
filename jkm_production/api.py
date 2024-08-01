@@ -375,8 +375,6 @@ def import_lic(self):
 				"uom": row.uom,
 				"cif_value" : flt(row.net_amount),
 				"currency" : self.currency,
-				"shipping_bill_no": self.shipping_bill,
-				"shipping_bill_date": self.shipping_bill_date,
 				"port_of_loading" : self.custom_port_of_loading,
 				"port_of_discharge" : self.custom_port_of_discharge,
 				"purchase_invoice" : self.name,
