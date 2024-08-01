@@ -102,12 +102,14 @@ frappe.ui.form.on('BRC Management', {
 			frm.doc.brc_payment.forEach(function (d) {
 				total_brc_amount += flt(d.brc_amount);
 				total_payment_receipt += flt(d.paid_amount);
-				total_bank_charges_inr += flt(d.brc_amount_inr)
-				total_brc_amount_inr += flt(d.total_brc_amount_inr)
+				total_bank_charges_inr += flt(d.bank_charges_inr)
+				total_brc_amount_inr += flt(d.brc_amount_inr)
 			})
 		}
 		frm.set_value("total_brc_amount", total_brc_amount);
 		frm.set_value("total_payment_receipt", total_payment_receipt);
+		frm.set_value("total_bank_charges_inr", total_bank_charges_inr);
+		frm.set_value("total_brc_amount_inr", total_brc_amount_inr);
 	},
 	add_unique_payment_entry: function(frm){
 		payment_entry_list = [];
