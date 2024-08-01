@@ -1,4 +1,4 @@
-cur_frm.add_fetch("item_code", "license_name", "license_name");
+cur_frm.add_fetch("item_code", "custom_license_name", "license_name");
 
 let set_currency = 0;
 

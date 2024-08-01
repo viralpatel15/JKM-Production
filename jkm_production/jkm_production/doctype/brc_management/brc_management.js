@@ -53,7 +53,7 @@ frappe.ui.form.on('BRC Management', {
 	cal_bank_difference: function(frm){
 		if(frm.doc.brc_payment){
 			frm.doc.brc_payment.forEach(function (d) {
-				frappe.model.set_value(d.doctype, d.name, 'bank_charges', (flt(d.paid_amount - d.brc_amount)));
+				frappe.model.set_value(d.doctype, d.name, 'bank_charges', (flt(d.total_allocated_amount - d.brc_amount)));
 			})
 		}
 	},
@@ -121,6 +121,7 @@ frappe.ui.form.on('BRC Payment', {
 				'reference_doctype': d.voucher_type
 			},
 			callback: function(r){
+				console.log(r.message)
 				if(r.message[0]){
 					frappe.model.set_value(d.doctype, d.name, 'paid_amount', flt(r.message[0].allocated_amount));
 					frappe.model.set_value(d.doctype, d.name, 'total_allocated_amount', flt(r.message[0].allocated_amount * r.message[0].source_exchange_rate ));

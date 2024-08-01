@@ -170,11 +170,28 @@ import frappe
 from frappe import _
 @frappe.whitelist()
 def si_on_submit(self, method):
+	export_lic(self)
 	create_jv(self)
-	
+	create_brc(self)
+
 @frappe.whitelist()
 def si_on_cancel(self, method):
+	export_lic_cancel(self)
 	cancel_jv(self, method)
+	
+@frappe.whitelist()
+def si_before_save(self,method):
+	duty_calculation(self)
+	meis_calculation(self)
+	cal_total_fob_value(self)
+	
+@frappe.whitelist()
+def pi_on_submit(self, method):
+	import_lic(self)
+	
+@frappe.whitelist()
+def pi_on_cancel(self, method):
+	import_lic_cancel(self)
 
 def create_jv(self):
 	if self.total_duty_drawback:
@@ -258,4 +275,313 @@ def cancel_jv(self, method):
 	if self.get('rodtep_jv'):
 		jv = frappe.get_doc("Journal Entry", self.rodtep_jv)
 		jv.cancel()
-		self.rodtep_jv = ''
+		self.meis_jv = ''
+	
+
+def duty_calculation(self):
+	total_duty_drawback = 0.0
+	if frappe.db.get_value('Address', self.customer_address, 'country') != "India":
+		for row in self.items:
+			if row.duty_drawback_rate and row.fob_value:
+				duty_drawback_amount = flt(row.fob_value * row.duty_drawback_rate / 100.0)
+				if row.maximum_cap == 1:
+					if row.capped_amount < duty_drawback_amount:
+						row.duty_drawback_amount = row.capped_amount
+						row.effective_rate = flt(row.capped_amount / row.fob_value * 100.0)
+					else:
+						row.duty_drawback_amount = duty_drawback_amount
+						row.effective_rate = row.duty_drawback_rate
+				else:
+					row.duty_drawback_amount = duty_drawback_amount
+					
+			#row.fob_value = flt(row.base_amount)
+			row.igst_taxable_value = flt(row.amount)
+			total_duty_drawback += flt(row.duty_drawback_amount) or 0.0
+			
+			
+		self.total_duty_drawback = total_duty_drawback
+
+def cal_total_fob_value(self):
+	total_fob = 0.0
+	for row in self.items:
+		row.fob_value = flt(row.base_amount - row.freight - row.insurance)
+		if row.fob_value:
+			total_fob += flt(row.fob_value)
+	self.total_fob_value = flt(flt(total_fob) - (flt(self.freight) * flt(self.conversion_rate)) -(flt(self.insurance) * flt(self.conversion_rate)))
+	
+	
+def meis_calculation(self):
+	total_meis = 0.0
+	if frappe.db.get_value('Address', self.customer_address, 'country') != "India":
+		for row in self.items:
+			if row.fob_value and row.meis_rate:
+				meis_value = flt(row.fob_value * row.meis_rate / 100.0)
+				row.meis_value = meis_value
+
+				total_meis += flt(row.meis_value)
+		self.total_meis = total_meis
+	
+def export_lic(self):
+	for row in self.items:
+		if row.get('custom_advance_authorisation_license'):
+			aal = frappe.get_doc("Advance Authorisation License", row.custom_advance_authorisation_license)
+			aal.append("exports", {
+				"item_code": row.item_code,
+				"item_name": row.item_name,
+				"quantity": row.qty,
+				"uom": row.uom,
+				"cif_value" : flt(row.net_amount),
+				"fob_value" : flt(row.fob_value),
+				"currency" : self.currency,
+				"shipping_bill_no": self.shipping_bill_number,
+				"shipping_bill_date": self.shipping_bill_date,
+				"port_of_loading" : self.custom_port_of_loading,
+				"port_of_discharge" : self.custom_port_of_discharge,
+				"sales_invoice" : self.name,
+			})
+
+			aal.total_export_qty = sum([flt(d.quantity) for d in aal.exports])
+			aal.total_export_amount = sum([flt(d.fob_value) for d in aal.exports])
+			aal.save()
+	# else:
+	# 	frappe.db.commit()
+
+def export_lic_cancel(self):
+	doc_list = list(set([row.custom_advance_authorisation_license for row in self.items if row.custom_advance_authorisation_license]))
+
+	for doc_name in doc_list:
+		doc = frappe.get_doc("Advance Authorisation License", doc_name)
+		to_remove = []
+
+		for row in doc.exports:
+			if row.parent == doc_name and row.sales_invoice == self.name:
+				to_remove.append(row)
+
+		[doc.remove(row) for row in to_remove]
+		doc.total_export_qty = sum([flt(d.quantity) for d in doc.exports])
+		doc.total_export_amount = sum([flt(d.fob_value) for d in doc.exports])
+		doc.save()
+	# else:
+	# 	frappe.db.commit()
+
+def import_lic(self):
+	for row in self.items:
+		if row.custom_advance_authorisation_license:
+			aal = frappe.get_doc("Advance Authorisation License", row.custom_advance_authorisation_license)
+			aal.append("imports", {
+				"item_code": row.item_code,
+				"item_name": row.item_name,
+				"quantity": row.qty,
+				"uom": row.uom,
+				"cif_value" : flt(row.net_amount),
+				"currency" : self.currency,
+				"shipping_bill_no": self.shipping_bill,
+				"shipping_bill_date": self.shipping_bill_date,
+				"port_of_loading" : self.custom_port_of_loading,
+				"port_of_discharge" : self.custom_port_of_discharge,
+				"purchase_invoice" : self.name,
+			})
+
+			aal.total_import_qty = sum([flt(d.quantity) for d in aal.imports])
+			aal.total_import_amount = sum([flt(d.cif_value) for d in aal.imports])
+			aal.save()
+	# else:
+	# 	frappe.db.commit()
+
+def import_lic_cancel(self):
+	doc_list = list(set([row.custom_advance_authorisation_license for row in self.items if row.custom_advance_authorisation_license]))
+
+	for doc_name in doc_list:
+		doc = frappe.get_doc("Advance Authorisation License", doc_name)
+		to_remove = []
+
+		for row in doc.imports:
+			if row.parent == doc_name and row.purchase_invoice == self.name:
+				to_remove.append(row)
+
+		[doc.remove(row) for row in to_remove]
+		doc.total_import_qty = sum([flt(d.quantity) for d in doc.imports])
+		doc.total_import_amount = sum([flt(d.cif_value) for d in doc.imports])
+		doc.save()
+	# else:
+	# 	frappe.db.commit()		
+	
+@frappe.whitelist()
+def get_custom_address(party=None, party_type="Customer", ignore_permissions=False):
+
+	if not party:
+		return {}
+
+	if not frappe.db.exists(party_type, party):
+		frappe.throw(_("{0}: {1} does not exists").format(party_type, party))
+
+	return _get_custom_address(party, party_type, ignore_permissions)
+
+def _get_custom_address(party=None, party_type="Customer", ignore_permissions=False):
+
+	out = frappe._dict({
+		party_type.lower(): party
+	})
+
+	party = out[party_type.lower()]
+
+	if not ignore_permissions and not frappe.has_permission(party_type, "read", party):
+		frappe.throw(_("Not permitted for {0}").format(party), frappe.PermissionError)
+
+	party = frappe.get_doc(party_type, party)
+	
+	set_custom_address_details(out, party, party_type)
+	return out
+
+def set_custom_address_details(out, party, party_type):
+	billing_address_field = "customer_address" if party_type == "Lead" \
+		else party_type.lower() + "_address"
+	out[billing_address_field] = get_custom_default_address(party_type, party.name)
+	
+	# address display
+	out.address_display = get_custom_address_display(out[billing_address_field])
+
+def get_custom_address_display(address_dict):
+	if not address_dict:
+		return
+
+	if not isinstance(address_dict, dict):
+		address_dict = frappe.db.get_value("Address", address_dict, "*", as_dict=True, cache=True) or {}
+
+	name, template = get_custom_address_templates(address_dict)
+
+	try:
+		return frappe.render_template(template, address_dict)
+	except TemplateSyntaxError:
+		frappe.throw(_("There is an error in your Address Template {0}").format(name))
+
+def get_custom_address_templates(address):
+	result = frappe.db.get_value("Address Template", \
+		{"country": address.get("country")}, ["name", "template"])
+
+	if not result:
+		result = frappe.db.get_value("Address Template", \
+			{"is_default": 1}, ["name", "template"])
+
+	if not result:
+		frappe.throw(_("No default Address Template found. Please create a new one from Setup > Printing and Branding > Address Template."))
+	else:
+		return result
+
+def get_custom_default_address(doctype, name, sort_key='is_primary_address'):
+	'''Returns default Address name for the given doctype, name'''
+	out = frappe.db.sql('''select
+			parent, (select name from tabAddress a where a.name=dl.parent) as name,
+			(select address_type from tabAddress a where a.name=dl.parent and a.address_type="Consignee-Custom") as address_type
+			from
+			`tabDynamic Link` dl
+			where
+			link_doctype=%s and
+			link_name=%s and
+			parenttype = "Address" and
+			(select address_type from tabAddress a where a.name=dl.parent)="Consignee-Custom"
+		'''.format(sort_key),(doctype, name))
+
+	if out:
+		return sorted(out, key = functools.cmp_to_key(lambda x,y: cmp(y[1], x[1])))[0][0]
+	else:
+		return None
+
+@frappe.whitelist()
+def company_address(company):
+	return get_company_address(company)
+
+@frappe.whitelist()
+def make_lc(source_name, target_doc=None):
+	def postprocess(source, target):
+		target.append('contract_term_order', {
+				'sales_order': source.name,
+				'grand_total': source.grand_total,
+				'net_total': source.net_total,
+			})
+
+	doclist = get_mapped_doc("Sales Order", source_name, {
+			"Sales Order": {
+				"doctype": "Contract Term",
+				"field_map": {
+					"name": "sales_order",
+					"transaction_date":"contract_date",
+					"grand_total": "contract_amount",
+				},	
+			},		
+		}, target_doc, postprocess)
+
+	return doclist
+	
+@frappe.whitelist()
+def contract_and_lc_filter(doctype, txt, searchfield, start, page_len, filters, as_dict=False):
+	so_list = filters.get("sales_order_item")
+
+	return frappe.db.sql("""
+		SELECT DISTINCT ct.name
+		FROM `tabContract Term` AS ct JOIN `tabContract Term Order` as cto ON (cto.parent = ct.name) 
+		WHERE cto.sales_order in (%s) """% ', '.join(['%s']*len(so_list)), tuple(so_list))
+
+		
+def validate_document_checks(self):
+	if self.get('sales_invoice_export_document_item') and not all([row.checked for row in self.get('sales_invoice_export_document_item')]):
+		frappe.throw(_("Not all documents are checked for Export Documents"))
+
+	elif self.get('sales_invoice_contract_term_check') and not all([row.checked for row in self.get('sales_invoice_contract_term_check')]):
+		frappe.throw(_("Not all documents are checked for Document Checks"))
+		
+@frappe.whitelist()
+def docs_before_naming(self, method):
+	from erpnext.accounts.utils import get_fiscal_year
+
+	date = self.get("transaction_date") or self.get("posting_date") or getdate()
+
+	fy = get_fiscal_year(date)[0]
+	fiscal = frappe.db.get_value("Fiscal Year", fy, 'fiscal')
+
+	if fiscal:
+		self.fiscal = fiscal
+	else:
+		fy_years = fy.split("-")
+		fiscal = fy_years[0][2:] + fy_years[1][2:]
+		self.fiscal = fiscal
+
+@frappe.whitelist()
+def send_lead_mail(recipients, person, email_template, doc_name):
+
+	doc = frappe.get_doc('Email Template',email_template)
+	context = {"person": person}
+	message = frappe.render_template(doc.response, context)
+	subject = doc.subject
+	# email_account = get_outgoing_email_account(True, append_to = "Lead")
+	email_account = EmailAccount.find_outgoing(match_by_doctype="Lead", match_by_email=None, _raise_error=True)
+	sender = email_account.default_sender
+
+	make(
+		recipients = recipients,
+		subject = subject,
+		content = message,
+		sender = sender,
+		doctype = "Lead",
+		name = doc_name,
+		send_email = True
+	)
+
+	return "Mail send successfully!"
+
+def create_brc(self):
+	if frappe.db.get_value('Address', self.customer_address, 'country') != "India":
+		if frappe.db.exists("DocType", "BRC Management"):
+			brc = frappe.new_doc("BRC Management")
+			brc.invoice_no = self.name
+			if not self.is_return:
+				if self.shipping_bill_number and self.shipping_bill_date and self.rounded_total:
+					brc.append("shipping_bill_details", {
+							"shipping_bill": self.shipping_bill_number,
+							"shipping_date": self.shipping_bill_date,
+							"shipping_bill_amount": self.rounded_total
+						})
+				try:
+					brc.save(ignore_permissions=True)
+				except Exception as e:
+					frappe.throw(str(e))

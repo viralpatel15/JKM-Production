@@ -21,7 +21,7 @@ def calc(self):
 		self.total_meis=total_rodtep
 	
 	total_tare_weight = 0
-	for row in self.container_tare_weight:
+	for row in self.custom_container_details:
 		total_tare_weight += flt(row.container_tare_weight)
 	self.custom_total_tare_weight = total_tare_weight
 
