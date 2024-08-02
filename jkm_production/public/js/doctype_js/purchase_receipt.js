@@ -1,6 +1,6 @@
 
 
-frappe.ui.form.on('Purchase Receipt', {
+frappe.ui.form.on('Purchase Receipt Item', {
     qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         frappe.model.set_value(cdt,cdn, "custom_net_weight", d.qty)

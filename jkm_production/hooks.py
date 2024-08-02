@@ -95,7 +95,7 @@ doctype_js = {
     "Journal Entry": "public/js/doctype_js/journal_entry.js",
     "Sales Order" : "public/js/doctype_js/sales_order.js",
     "Delivery Note":"public/js/doctype_js/delivery_note.js",
-    "Purchase Invoice":"public/js/doctype_js/delivery_note.js"
+    "Purchase Invoice":"public/js/doctype_js/purchase_invoice.js"
 }
 
 

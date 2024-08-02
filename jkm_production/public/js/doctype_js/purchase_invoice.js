@@ -1,9 +1,14 @@
 
 
-frappe.ui.form.on('Purchase Invoice', {
+frappe.ui.form.on('Purchase Invoice Item', {
+    calculate_rante:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, "fob_value", flt(d.base_amount - flt(d.custom_freight * frm.doc.conversion_rate) - flt(d.custom_insurance * frm.doc.conversion_rate)));
+    },
     qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         frappe.model.set_value(cdt,cdn, "custom_net_weight", d.qty)
+        frm.trigger("calculate_rante")
     },
 	custom_packing_size:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
