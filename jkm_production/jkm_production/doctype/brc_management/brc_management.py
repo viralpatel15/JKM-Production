@@ -74,24 +74,22 @@ class BRCManagement(Document):
 		self.db_set('status', status)
 
 @frappe.whitelist()
-def get_payment_entry_amount(reference_name,reference_doctype):
-	if 	reference_doctype == "Payment Entry":
-		return frappe.db.sql(f"""
-					SELECT
-						SUM(per.allocated_amount) as allocated_amount,
-						pe.source_exchange_rate,
-						pe.name
-					FROM
-						`tabPayment Entry Reference` as per
-					LEFT JOIN
-						`tabPayment Entry` pe ON pe.name=per.parent
-					WHERE
-						per.reference_name = '{reference_name}'
-					AND
-						per.reference_doctype = 'Sales Invoice'
-					AND
-						pe.docstatus = 1
-					GROUP BY per.reference_name;
-				""",as_dict = 1)
+def get_payment_entry_amount(reference_name):
+	return frappe.db.sql(f"""
+				SELECT
+					per.allocated_amount as allocated_amount,
+					pe.source_exchange_rate,
+					pe.name
+				FROM
+					`tabPayment Entry Reference` as per
+				LEFT JOIN
+					`tabPayment Entry` pe ON pe.name=per.parent
+				WHERE
+					per.reference_name = '{reference_name}'
+				AND
+					per.reference_doctype = 'Sales Invoice'
+				AND
+					pe.docstatus = 1
+			""",as_dict = 1)
 
 import frappe

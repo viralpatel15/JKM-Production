@@ -20,7 +20,7 @@ cur_frm.set_query("voucher_no", "brc_payment", function(doc,cdt,cdn) {
 });
 frappe.ui.form.on('BRC Management', {
 	onload: function (frm) {
-        frm.trigger("add_unique_payment_entry");
+		frm.trigger("add_unique_payment_entry");
 	},
 
 	before_save: function (frm) {
@@ -41,6 +41,31 @@ frappe.ui.form.on('BRC Management', {
 		})
 		
 	},
+	get_payment_entry:frm=>{
+		frappe.call({
+			method: 'jkm_production.jkm_production.doctype.brc_management.brc_management.get_payment_entry_amount',
+			args: {
+				'reference_name': frm.doc.invoice_no,
+			},
+			callback: function(r){
+				console.log(r.message)
+				if(r.message){
+					frm.doc.brc_payment = []
+					r.message.forEach(e => {
+						let row = frm.add_child("brc_payment");
+						row.voucher_type = "Payment Entry"
+						row.voucher_no = e.name
+						row.paid_amount = e.allocated_amount
+						row.total_allocated_amount = flt(e.allocated_amount) * flt(e.source_exchange_rate)
+						row.source_exchange_rate = e.source_exchange_rate
+						frm.refresh_field("brc_payment")
+					});
+					
+				}
+				
+			}
+		})
+	},
 	cal_total: function (frm) {
 		let total_shipping_bill_amount = 0.0;
 		if(frm.doc.shipping_bill_details){
@@ -54,6 +79,7 @@ frappe.ui.form.on('BRC Management', {
 		if(frm.doc.brc_payment){
 			frm.doc.brc_payment.forEach(function (d) {
 				frappe.model.set_value(d.doctype, d.name, 'bank_charges', (flt(d.paid_amount - d.brc_amount)));
+				frappe.model.set_value(d.doctype, d.name, 'bank_charges_inr', (flt(d.total_allocated_amount - d.brc_amount_inr)));
 			})
 		}
 	},
@@ -69,15 +95,21 @@ frappe.ui.form.on('BRC Management', {
 	cal_total_brc_amount: function(frm){
 		let total_brc_amount = 0.0;
 		let total_payment_receipt = 0.0;
+		let total_bank_charges_inr = 0;
+		let total_brc_amount_inr = 0.0;
 
 		if(frm.doc.brc_payment){
 			frm.doc.brc_payment.forEach(function (d) {
 				total_brc_amount += flt(d.brc_amount);
 				total_payment_receipt += flt(d.paid_amount);
+				total_bank_charges_inr += flt(d.bank_charges_inr)
+				total_brc_amount_inr += flt(d.brc_amount_inr)
 			})
 		}
 		frm.set_value("total_brc_amount", total_brc_amount);
 		frm.set_value("total_payment_receipt", total_payment_receipt);
+		frm.set_value("total_bank_charges_inr", total_bank_charges_inr);
+		frm.set_value("total_brc_amount_inr", total_brc_amount_inr);
 	},
 	add_unique_payment_entry: function(frm){
 		payment_entry_list = [];
@@ -101,34 +133,34 @@ frappe.ui.form.on('BRC Payment', {
 		frm.events.cal_total_brc_amount(frm);
 		frm.events.cal_bank_difference(frm);
 	},
+	brc_amount_inr: function(frm, cdt, cdn){
+		var d = locals[cdt][cdn];
+		frm.events.cal_total_brc_amount(frm);
+		frm.events.cal_bank_difference(frm);
+	},
 	bank_charges: function(frm,cdt,cdn){
 		frm.events.cal_bank_total_charges(frm)
 	},
-	voucher_no: function(frm,cdt,cdn){
-		let d = locals[cdt][cdn];
-		frm.events.cal_total_brc_amount(frm);
-
-		if(payment_entry_list.includes(d.voucher_no)){
-			frappe.throw("Payment Entry Number Must be Unique")
-		}
-
-		frm.events.add_unique_payment_entry(frm);
-		
-		frappe.call({
-			method: 'jkm_production.jkm_production.doctype.brc_management.brc_management.get_payment_entry_amount',
-			args: {
-				'reference_name': frm.doc.invoice_no,
-				'reference_doctype': d.voucher_type
-			},
-			callback: function(r){
-				if(r.message[0]){
-					frappe.model.set_value(d.doctype, d.name, 'paid_amount', flt(r.message[0].allocated_amount));
-					frappe.model.set_value(d.doctype, d.name, 'total_allocated_amount', flt(r.message[0].allocated_amount * r.message[0].source_exchange_rate ));
-				}
+	// voucher_no: function(frm,cdt,cdn){
+	// 	let d = locals[cdt][cdn];
+	// 	frm.events.cal_total_brc_amount(frm);
+	
+	// 	frappe.call({
+	// 		method: 'jkm_production.jkm_production.doctype.brc_management.brc_management.get_payment_entry_amount',
+	// 		args: {
+	// 			'reference_name': frm.doc.invoice_no,
+	// 			'reference_doctype': d.voucher_type
+	// 		},
+	// 		callback: function(r){
+	// 			console.log(r.message)
+	// 			if(r.message[0]){
+	// 				// frappe.model.set_value(d.doctype, d.name, 'paid_amount', flt(r.message[0].allocated_amount));
+	// 				// frappe.model.set_value(d.doctype, d.name, 'total_allocated_amount', flt(r.message[0].allocated_amount * r.message[0].source_exchange_rate ));
+	// 			}
 				
-			}
-		})
-	},
+	// 		}
+	// 	})
+	// },
 	brc_payment_remove: function (frm, cdt, cdn) {
 		frm.events.cal_total_brc_amount(frm);
 		frm.events.cal_bank_total_charges(frm);
