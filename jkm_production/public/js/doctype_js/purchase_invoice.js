@@ -3,7 +3,15 @@
 frappe.ui.form.on('Purchase Invoice Item', {
     calculate_rante:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, "fob_value", flt(d.base_amount - flt(d.custom_freight * frm.doc.conversion_rate) - flt(d.custom_insurance * frm.doc.conversion_rate)));
+        if(frm.doc.currency=='INR'){
+            frappe.model.set_value(cdt,cdn,'custom_fob_value' , d.base_amount - (d.custom_insurance + d.custom_freight))
+            frappe.model.set_value(cdt,cdn,'custom_fob_value_inr' , d.base_amount - ( d.custom_insurance + d.custom_freight ))
+        }
+        if(frm.doc.currency != 'INR'){
+            frappe.model.set_value(cdt,cdn,'custom_fob_value', d.amount - ( d.custom_freight + d.custom_insurance ))
+            frappe.model.set_value(cdt,cdn,'custom_fob_value_inr', d.base_amount - ( d.custom_freight * frm.doc.conversion_rate + frm.doc.conversion_rate * d.insurance)) 
+           
+        }
     },
     qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
