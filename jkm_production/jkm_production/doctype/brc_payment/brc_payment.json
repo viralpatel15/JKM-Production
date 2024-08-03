@@ -13,16 +13,20 @@
   "brc_date",
   "column_break_7",
   "brc_amount",
-  "bank_charges"
+  "bank_charges",
+  "brc_amount_inr",
+  "bank_charges_inr",
+  "source_exchange_rate"
  ],
  "fields": [
   {
    "allow_on_submit": 1,
+   "default": "Payment Entry",
    "fieldname": "voucher_type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Voucher Type",
-   "options": "Payment Entry\nJournal Entry"
+   "options": "Payment Entry"
   },
   {
    "allow_on_submit": 1,
@@ -39,7 +43,8 @@
    "fieldname": "brc_no",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "BRC No"
+   "label": "BRC No",
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -47,7 +52,8 @@
    "fieldname": "brc_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "BRC Date"
+   "label": "BRC Date",
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -68,22 +74,45 @@
    "allow_on_submit": 1,
    "fieldname": "brc_amount",
    "fieldtype": "Currency",
-   "label": "BRC Amount"
+   "label": "BRC Amount",
+   "options": "currency",
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
    "fieldname": "bank_charges",
    "fieldtype": "Currency",
-   "label": "Bank Charges"
+   "label": "Bank Charges",
+   "options": "currency",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_7",
    "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "brc_amount_inr",
+   "fieldtype": "Currency",
+   "label": "BRC Amount (INR)"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "bank_charges_inr",
+   "fieldtype": "Currency",
+   "label": "Bank Charges (INR)"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "source_exchange_rate",
+   "fieldtype": "Float",
+   "label": "Source Exchange Rate",
+   "read_only": 1
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2022-08-10 14:54:20.421114",
+ "modified": "2024-08-03 09:59:32.791651",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "BRC Payment",
@@ -92,5 +121,6 @@
  "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "track_changes": 1
 }
