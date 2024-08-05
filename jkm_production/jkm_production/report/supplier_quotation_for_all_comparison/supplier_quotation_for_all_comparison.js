@@ -93,7 +93,7 @@ frappe.query_reports["Supplier Quotation For All Comparison"] = {
 			label: __("Quotation Type"),
 			fieldname: "quotation_type",
 			fieldtype: "Select",
-			options:['Product Quotation', 'Local Transport Quotation', 'Shipping Quotation'],
+			options:["",'Product Quotation', 'Local Transport Quotation', 'Shipping Quotation'],
 			default: 'Product Quotation',
 			on_change:()=>{
 				togglefilter()
