@@ -80,11 +80,68 @@ def get_supplier_quotation(doctype, txt, searchfield, start, page_len, filters):
 	
 	if doc.get('opportunity') or doc.get("request_for_quotation"):
 		return frappe.db.sql(f"""
-				Select sq.name
+				Select sq.name, sq.workflow_state , sq.supplier, sq.status, sq.supplier_name
 				From `tabSupplier Quotation` as sq
 				Left Join `tabSupplier Quotation Item` as sqi ON sqi.parent = sq.name
 				Left join `tabRequest for Quotation` as rfq ON rfq.name = sqi.request_for_quotation
 				Where sq.docstatus = 1 and sq.custom_quotation_request_for = "Product Quotation" {condition}
+		""")
+	else:
+		return frappe.db.sql(f"""
+				Select name
+				From `tabSupplier Quotation`
+				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
+			""")
+
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_supplier_quotation_ltc(doctype, txt, searchfield, start, page_len, filters):
+	condition = ''
+	if filters.get('custom_port_of_origin'):
+		condition += f" and sq.custom_port_of_origin = '{filters.get('custom_port_of_origin')}'"
+
+	if filters.get('custom_place_of_delivery'):
+		condition += f" and sq.custom_place_of_delivery = '{filters.get('custom_place_of_delivery')}'"
+	
+	if filters.get("request_for_quotation"):
+		condition += f" and sqi.request_for_quotation = '{filters.get('request_for_quotation')}'"
+
+	if filters.get('custom_port_of_origin') or filters.get("custom_place_of_delivery") or filters.get("request_for_quotation_ltc"):
+		return frappe.db.sql(f"""
+				Select sq.name, sq.workflow_state , sq.supplier, sq.status, sq.supplier_name
+				From `tabSupplier Quotation` as sq
+				Left Join `tabSupplier Quotation Item` as sqi ON sqi.parent = sq.name
+				Left join `tabRequest for Quotation` as rfq ON rfq.name = sqi.request_for_quotation
+				Where sq.docstatus = 1 and sq.custom_quotation_request_for = "Local Transport Quotation" {condition}
+		""")
+	else:
+		return frappe.db.sql(f"""
+				Select name
+				From `tabSupplier Quotation`
+				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
+			""")
+	
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_supplier_quotation_ex(doctype, txt, searchfield, start, page_len, filters):
+	condition = ''
+	if filters.get('custom_port_of_origin'):
+		condition += f" and sq.custom_port_of_origin = '{filters.get('custom_port_of_origin')}'"
+
+	if filters.get('custom_port_of_destination'):
+		condition += f" and sq.custom_port_of_destination = '{filters.get('custom_port_of_destination')}'"
+	
+	if filters.get("request_for_quotation"):
+		condition += f" and sqi.request_for_quotation = '{filters.get('request_for_quotation')}'"
+
+	if filters.get('custom_port_of_origin') or filters.get("custom_place_of_delivery") or filters.get("request_for_quotation_ltc"):
+		return frappe.db.sql(f"""
+				Select sq.name, sq.workflow_state , sq.supplier, sq.status, sq.supplier_name
+				From `tabSupplier Quotation` as sq
+				Left Join `tabSupplier Quotation Item` as sqi ON sqi.parent = sq.name
+				Left join `tabRequest for Quotation` as rfq ON rfq.name = sqi.request_for_quotation
+				Where sq.docstatus = 1 and sq.custom_quotation_request_for = " Quotation" {condition}
 		""")
 	else:
 		return frappe.db.sql(f"""

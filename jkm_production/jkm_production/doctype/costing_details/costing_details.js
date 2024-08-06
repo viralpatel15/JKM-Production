@@ -11,16 +11,18 @@ frappe.ui.form.on("Costing Details", {
                 },
             };
         })
-        frm.set_query("supplier_quotation", function () {
-			return {
-				filters: {
+        frm.set_query("supplier_quotation", function (doc, cdt, cdn) {
+            return {
+                query: "jkm_production.jkm_production.doctype.costing_details.costing_details.get_supplier_quotation_ltc",
+                filters: {
 					docstatus: 1,
                     custom_place_of_delivery:frm.doc.place_of_delivery,
                     custom_port_of_origin:frm.doc.port_of_origin,
-                    custom_quotation_request_for: ['!=',"Product Quotation"]
+                    request_for_quotation:frm.doc.request_for_quotation_ltc,
+                    custom_quotation_request_for: ['=',"Local Transport Quotation"]
 				},
-			};
-		});
+            };
+        })
         cur_frm.fields_dict["export_charges"].grid.get_field("item_code").get_query = function (doc, cdt, cdn) {
             return {
                 filters: { is_stock_item: 0 },
@@ -31,13 +33,22 @@ frappe.ui.form.on("Costing Details", {
                 filters: { is_stock_item: 0 },
             };
         };
+        frm.set_query("request_for_quotation_ltc", function () {
+			return {
+				filters: {
+                    custom_quotation_request_for: ['!=',"Local Transport Quotation"]
+				},
+			};
+		});
         frm.set_query("export_quotation", function () {
 			return {
+                query: "jkm_production.jkm_production.doctype.costing_details.costing_details.get_supplier_quotation_ex",
 				filters: {
 					docstatus: 1,
                     custom_port_of_origin :frm.doc.port_of_origin_e,
                     custom_port_of_destination :frm.doc.port_of_destination_e,
-                    custom_quotation_request_for: ['!=',"Product Quotation"]
+                    request_for_quotation:frm.doc.request_for_quotation_e,
+                    custom_quotation_request_for: ['!=',"Shipping Quotation"]
 				},
 			};
 		});
