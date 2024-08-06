@@ -15,7 +15,10 @@
   "column_break_txke",
   "company",
   "posting_date",
+  "section_break_mesh",
   "opportunity",
+  "column_break_ehko",
+  "request_for_quotation",
   "product_details_section",
   "items_quotation",
   "fetch_details",
@@ -28,6 +31,7 @@
   "domestic",
   "local_transportar_section",
   "place_of_delivery",
+  "request_for_quotation_ltc",
   "column_break_lyye",
   "port_of_origin",
   "section_break_grcb",
@@ -38,6 +42,7 @@
   "total_amount_domestic",
   "export_charges_tab",
   "port_of_origin_e",
+  "request_for_quotation_e",
   "column_break_nfla",
   "port_of_destination_e",
   "section_break_qgym",
@@ -341,12 +346,38 @@
    "fieldname": "total_cif_value",
    "fieldtype": "Currency",
    "label": "Total CIF Value"
+  },
+  {
+   "fieldname": "request_for_quotation",
+   "fieldtype": "Link",
+   "label": "Request For Quotation",
+   "options": "Request for Quotation"
+  },
+  {
+   "fieldname": "section_break_mesh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ehko",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "request_for_quotation_ltc",
+   "fieldtype": "Link",
+   "label": "Request for Quotation",
+   "options": "Request for Quotation"
+  },
+  {
+   "fieldname": "request_for_quotation_e",
+   "fieldtype": "Link",
+   "label": "Request for Quotation e",
+   "options": "Request for Quotation"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-27 09:43:28.088857",
+ "modified": "2024-08-06 20:36:08.338634",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Costing Details",
