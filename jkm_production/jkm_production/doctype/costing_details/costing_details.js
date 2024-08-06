@@ -3,14 +3,6 @@
 
 frappe.ui.form.on("Costing Details", {
     refresh:frm=>{
-        frm.set_query("items_quotation", function () {
-			return {
-				filters: {
-					docstatus: 1,
-                    custom_quotation_request_for: "Product Quotation"
-				},
-			};
-		});
         frm.set_query("items_quotation", function (doc, cdt, cdn) {
             return {
                 query: "jkm_production.jkm_production.doctype.costing_details.costing_details.get_supplier_quotation",
@@ -18,7 +10,6 @@ frappe.ui.form.on("Costing Details", {
                     doc : frm.doc
                 },
             };
-			
         })
         frm.set_query("supplier_quotation", function () {
 			return {
