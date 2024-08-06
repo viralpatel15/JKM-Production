@@ -82,6 +82,16 @@ doc_events = {
 	},
     "Purchase Receipt":{
         "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+	},
+    "Request for Quotation":{
+        "on_submit":[
+            "jkm_production.jkm_production.doc_events.request_for_quotation.on_submit"
+		]
+	},
+    "Supplier Quotation":{
+        "on_submit":[
+            "jkm_production.jkm_production.doc_events.supplier_quotation.on_submit"
+		]
 	}
 }
 
