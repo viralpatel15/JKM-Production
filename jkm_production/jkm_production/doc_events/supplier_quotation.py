@@ -28,11 +28,13 @@ class jkmsupplierquotation(SupplierQuotation):
         self.validate_with_previous_doc()
         self.validate_uom_is_integer("uom", "qty")
         self.validate_valid_till()
+
 def on_submit(self, method):
     update_workflow(self)
 
 def on_update_after_submit(self,method):
     update_workflow(self)
+
 def update_workflow(self):
     rfq = self.items[0].get("request_for_quotation")
     if rfq:

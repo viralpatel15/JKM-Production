@@ -11,6 +11,15 @@ frappe.ui.form.on("Costing Details", {
 				},
 			};
 		});
+        frm.set_query("items_quotation", function (doc, cdt, cdn) {
+            return {
+                query: "jkm_production.jkm_production.doctype.costing_details.costing_details.get_supplier_quotation",
+                filters: {
+                    doc : frm.doc
+                },
+            };
+			
+        })
         frm.set_query("supplier_quotation", function () {
 			return {
 				filters: {

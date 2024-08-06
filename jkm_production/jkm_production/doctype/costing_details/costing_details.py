@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
+import json
 
 class CostingDetails(Document):
 	def validate(self):
@@ -64,3 +65,30 @@ def get_items_conversion_fector(uom, item_code):
 		if row.uom == uom:
 			return row.conversion_factor 
 	return 1  
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_supplier_quotation(doctype, txt, searchfield, start, page_len, filters):
+	doc = filters.get('doc')
+	condition = ''
+	
+	if doc.get('opportunity'):
+		condition += f" and rfq.opportunity = '{doc.get('opportunity')}'"
+	
+	if doc.get("request_for_quotation"):
+		condition += f" and sqi.request_for_quotation = '{doc.get('request_for_quotation')}'"
+	
+	if doc.get('opportunity') or doc.get("request_for_quotation"):
+		return frappe.db.sql(f"""
+				Select sq.name
+				From `tabSupplier Quotation` as sq
+				Left Join `tabSupplier Quotation Item` as sqi ON sqi.parent = sq.name
+				Left join `tabRequest for Quotation` as rfq ON rfq.name = sqi.request_for_quotation
+				Where sq.docstatus = 1 and sq.custom_quotation_request_for = "Product Quotation" {condition}
+		""")
+	else:
+		return frappe.db.sql(f"""
+				Select name
+				From `tabSupplier Quotation`
+				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
+			""")
