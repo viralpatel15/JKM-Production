@@ -31,9 +31,11 @@ class jkmsupplierquotation(SupplierQuotation):
 
 def on_submit(self, method):
     update_workflow(self)
+    update_rfq_status(self)
 
 def on_update_after_submit(self,method):
     update_workflow(self)
+    
 
 def update_workflow(self):
     rfq = self.items[0].get("request_for_quotation")
@@ -54,3 +56,20 @@ def update_workflow(self):
 
         for row in reject:
             frappe.db.set_value("Supplier Quotation", row, "workflow_state", "Rejected")
+
+
+def update_rfq_status(self):
+    rfq = self.items[0].get("request_for_quotation")
+    if rfq:
+        data = frappe.db.sql(f"""
+                    select parent
+                    From `tabSupplier Quotation Item`
+                    Where docstatus = 1 and request_for_quotation = '{rfq}'
+        """,as_dict=1)
+        sq = []
+        if data:
+            for row in data:
+                sq.append(row.parent)
+        sq = list(set(sq))
+        doc = frappe.get_doc("Request for Quotation")
+        frappe.db.set_value("Request for Quotation", doc.name, "workflow_state", "Completed")
