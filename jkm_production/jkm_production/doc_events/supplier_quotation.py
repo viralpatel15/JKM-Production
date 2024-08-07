@@ -71,5 +71,5 @@ def update_rfq_status(self):
             for row in data:
                 sq.append(row.parent)
         sq = list(set(sq))
-        doc = frappe.get_doc("Request for Quotation")
+        doc = frappe.get_doc("Request for Quotation", rfq)
         frappe.db.set_value("Request for Quotation", doc.name, "workflow_state", "Completed")

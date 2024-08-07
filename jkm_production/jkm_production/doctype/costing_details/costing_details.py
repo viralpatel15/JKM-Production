@@ -88,7 +88,7 @@ def get_supplier_quotation(doctype, txt, searchfield, start, page_len, filters):
 		""")
 	else:
 		return frappe.db.sql(f"""
-				Select name
+				Select name, workflow_state , supplier, status, supplier_name
 				From `tabSupplier Quotation`
 				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
 			""")
@@ -117,9 +117,9 @@ def get_supplier_quotation_ltc(doctype, txt, searchfield, start, page_len, filte
 		""")
 	else:
 		return frappe.db.sql(f"""
-				Select name
-				From `tabSupplier Quotation`
-				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
+				Select sq.name, sq.workflow_state , sq.supplier, sq.status, sq.supplier_name
+				From `tabSupplier Quotation` as sq
+				Where sq.docstatus = 1 and sq.custom_quotation_request_for = "Product Quotation"
 			""")
 	
 @frappe.whitelist()
@@ -141,11 +141,11 @@ def get_supplier_quotation_ex(doctype, txt, searchfield, start, page_len, filter
 				From `tabSupplier Quotation` as sq
 				Left Join `tabSupplier Quotation Item` as sqi ON sqi.parent = sq.name
 				Left join `tabRequest for Quotation` as rfq ON rfq.name = sqi.request_for_quotation
-				Where sq.docstatus = 1 and sq.custom_quotation_request_for = " Quotation" {condition}
+				Where sq.docstatus = 1 and sq.custom_quotation_request_for = "Shipping Quotation" {condition}
 		""")
 	else:
 		return frappe.db.sql(f"""
-				Select name , workflow_state , supplier, status, supplier_name 
-				From `tabSupplier Quotation`
-				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
+				Select sq.name , sq.workflow_state , sq.supplier, sq.status, sq.supplier_name 
+				From `tabSupplier Quotation` as sq
+				Where sq.docstatus = 1 and sq.custom_quotation_request_for = "Shipping Quotation"
 			""")
