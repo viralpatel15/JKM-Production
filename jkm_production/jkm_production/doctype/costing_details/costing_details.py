@@ -145,7 +145,7 @@ def get_supplier_quotation_ex(doctype, txt, searchfield, start, page_len, filter
 		""")
 	else:
 		return frappe.db.sql(f"""
-				Select name
+				Select name , workflow_state , supplier, status, supplier_name 
 				From `tabSupplier Quotation`
 				Where docstatus = 1 and custom_quotation_request_for = "Product Quotation"
 			""")
