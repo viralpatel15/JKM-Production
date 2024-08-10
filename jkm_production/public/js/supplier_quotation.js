@@ -49,11 +49,6 @@ cur_frm.fields_dict["custom_transporter"].get_query = function (doc) {
 frappe.ui.form.on("Supplier Quotation Item", {
     items_add:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
-        if(d.custom_packing_type){
-            frappe.model.get_value("Packing", d.custom_packing_type, 'package', r => {
-                frappe.model.set_value(cdt, cdn, 'custom_packing_size', r.package)
-            })
-        }
         if(d.custom_packing_size){
             frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
             if(frm.doc.custom_cost_per_packages){
@@ -61,6 +56,21 @@ frappe.ui.form.on("Supplier Quotation Item", {
             }
         }
         calculate_cbm(frm, cdt, cdn)
+    },
+    custom_length:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, "custom_per_package_cbm", (flt(d.custom_length)*flt(d.custom_width)*flt(d.custom_height))/1000000)
+        calculate_cbm(frm,cdt,cdn)
+    },
+    custom_width:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, "custom_per_package_cbm", (flt(d.custom_length)*flt(d.custom_width)*flt(d.custom_height))/1000000)
+        calculate_cbm(frm,cdt,cdn)
+    },
+    custom_height:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, "custom_per_package_cbm", (flt(d.custom_length)*flt(d.custom_width)*flt(d.custom_height))/1000000)
+        calculate_cbm(frm,cdt,cdn)
     },
     custom_rate_currency:(frm, cdt, cdn) => {
         let d = locals[cdt][cdn]
@@ -78,24 +88,11 @@ frappe.ui.form.on("Supplier Quotation Item", {
     },  
     custom_packing_type:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
-        if(d.custom_packing_type){
-            frappe.model.get_value("Packing", d.custom_packing_type, 'package', r => {
-                frappe.model.set_value(cdt, cdn, 'custom_packing_size', r.package)
-            })
-        }
         if(d.custom_packing_size){
             frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
         }
     },
-    custom_length:(frm, cdt, cdn)=>{
-        calculate_cbm(frm, cdt, cdn)
-    },
-    custom_width:(frm, cdt, cdn)=>{
-        calculate_cbm(frm, cdt, cdn)
-    },
-    custom_height:(frm, cdt, cdn)=>{
-        calculate_cbm(frm, cdt, cdn)
-    },
+   
     custom_cbm_qty:(frm, cdt, cdn)=>{
         calculate_cbm(frm, cdt, cdn)
     },
@@ -145,25 +142,26 @@ frappe.ui.form.on("Supplier Quotation Item", {
     },
     custom_margin:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
-        frappe.model.set_value(cdt,cdn, "custom_final_rate", d.custom_final_rate + d.custom_total_cif_value)
+        frappe.model.set_value(cdt,cdn, "custom_final_rate", d.custom_margin + d.custom_total_cif_value)
     }
 })
 
 function calculate_cbm(frm, cdt, cdn){
     let d = locals[cdt][cdn]
-    if(d.parenttype == "Supplier Quotation"){
-        let custom_total_cbm = (d.custom_length * d.custom_width * d.custom_height)/1000000 * d.custom_cbm_qty
-        frappe.model.set_value(cdt, cdn, 'custom_total_cbm', custom_total_cbm)
+        let custom_total_cbm = (d.custom_length * d.custom_width * d.custom_height)/1000000
+        frappe.model.set_value(cdt, cdn, 'custom_per_package_cbm', custom_total_cbm)
+        frappe.model.set_value(cdt , cdn, "custom_total_cbm_of_package", (flt(custom_total_cbm) * flt(d.custom_total_packages)))
         let total_cbm = 0
         frm.doc.items.forEach(r=>{
-            total_cbm += r.custom_total_cbm  
+            total_cbm += r.custom_total_cbm_of_package  
         })
         frm.set_value("custom_total_cbm", total_cbm)
-    }
+    
 }
 
 function calculate_transporter_charges(frm){
-    let ltch = flt(frm.doc.custom_local_transport_charges_at_origin)+flt(frm.doc.custom_transporter_changers_) + flt(frm.doc.custom_transporter_changers_) + flt(frm.doc.custom_local_transport_charges_at_designation) + flt(frm.doc.custom_local_transport_charges_at_designation) + flt(frm.doc.custom_loading_charges_at_origin) + flt(frm.doc.custom_other_charges) + flt(frm.doc.custom_unloading_at_destination_)
+    console.log("hhh")
+    let ltch = flt(frm.doc.custom_local_transport_charges_at_origin) + flt(frm.doc.custom_transporter_changers_) + flt(frm.doc.custom_local_transport_charges_at_designation)  + flt(frm.doc.custom_loading_charges_at_origin) + flt(frm.doc.custom_other_charges) + flt(frm.doc.custom_unloading_at_destination_)
     frm.set_value('custom_total_transportation_expenses', ltch)
 }
 

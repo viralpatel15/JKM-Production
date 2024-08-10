@@ -41,7 +41,7 @@ class jkmsupplierquotation(SupplierQuotation):
             if self.custom_total_cif_value:
                 row.custom_cif_charges = flt(self.custom_total_cif_value)/self.total_qty
             row.custom_total_fob_value = flt(row.rate) + flt(row.custom_local_transport_charges) + flt(row.custom_interest_) + flt(row.custom_other_charges) + flt(row.custom_shipping_fob)
-            row.custom_total_cif_value  = flt(row.custom_total_cif_value) + flt(row.custom_cif_charges)
+            row.custom_total_cif_value  = flt(row.custom_total_fob_value) + flt(row.custom_cif_charges)
             row.custom_final_rate = flt(row.custom_margin) + flt(row.custom_total_cif_value)
         
 
