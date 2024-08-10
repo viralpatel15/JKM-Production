@@ -131,3 +131,101 @@ function calculate_transporter_charges(frm){
     let ltch = flt(frm.doc.custom_local_transport_charges_at_origin)+flt(frm.doc.custom_transporter_changers_) + flt(frm.doc.custom_transporter_changers_) + flt(frm.doc.custom_local_transport_charges_at_designation) + flt(frm.doc.custom_local_transport_charges_at_designation) + flt(frm.doc.custom_loading_charges_at_origin) + flt(frm.doc.custom_other_charges) + flt(frm.doc.custom_unloading_at_destination_)
     frm.set_value('custom_total_transportation_expenses', ltch)
 }
+
+
+frappe.ui.form.on("Export Charges", {
+    rate:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate )
+        calculate_totals(frm, cdt, cdn)
+    }, 
+    amount:(frm,cdt, cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amount * d.exchange_rate)
+        calculate_totals(frm, cdt, cdn)
+    },
+    rate_currency:function(frm,cdt, cdn){
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.amouont * d.exchange_rate)
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_export_charges_add:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_export_charges_add:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    exchange_rate:(frm, cdt, cdn) =>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate)
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_rate:(frm, cdt, cdn) =>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt, cdn, 'rate', d.rate_currency)
+        frappe.model.set_value(cdt, cdn, 'amount', d.rate)
+        frappe.model.set_value(cdt, cdn, 'base_rate', d.rate * d.exchange_rate)
+        frappe.model.set_value(cdt, cdn, 'base_amount', d.rate * d.exchange_rate)
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_export_charges_add:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    custom_export_charges_add:(frm, cdt, cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    },
+    include_in_fob_value:(frm,cdt,cdn)=>{
+        calculate_totals(frm, cdt, cdn)
+    }
+})
+
+function calculate_totals(frm , cdt, cdn){
+    let d = locals[cdt][cdn]
+    total_amount_e = 0
+    total_fob_value = 0
+    total_cif_value = 0
+    frm.doc.custom_export_charges.forEach(r=>{
+        total_amount_e += r.base_amount
+        if(r.include_in_fob_value){
+            total_fob_value += r.base_amount
+        }else{
+            total_cif_value += r.base_amount
+        }
+    })
+    frm.set_value("custom_total_amount_e", total_amount_e)
+    frm.set_value("custom_total_fob_value", total_fob_value)
+    frm.set_value("custom_total_cif_value", total_cif_value)
+}
+
+frappe.ui.form.on("Other Charges", {
+    charges_amount:frm=>{
+        total_charges = 0
+        frm.doc.custom_packing_chagres.forEach(r=>{
+            total_charges += r.charges_amount
+        })
+        frm.set_value('custom_total_packing_charges', total_charges)
+    },
+    custom_packing_chagres_add:frm=>{
+        total_charges = 0
+        frm.doc.custom_packing_chagres.forEach(r=>{
+            total_charges += r.charges_amount
+        })
+        frm.set_value('custom_total_packing_charges', total_charges)
+    },
+    custom_packing_chagres_remove:frm=>{
+        total_charges = 0
+        frm.doc.custom_packing_chagres.forEach(r=>{
+            total_charges += r.charges_amount
+        })
+        frm.set_value('custom_total_packing_charges', total_charges)
+    },
+})
