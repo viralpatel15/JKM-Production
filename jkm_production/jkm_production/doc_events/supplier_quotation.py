@@ -3,6 +3,7 @@ from frappe.model.mapper import get_mapped_doc
 
 from erpnext.buying.doctype.supplier_quotation.supplier_quotation import SupplierQuotation
 from erpnext.buying.utils import validate_for_items
+from frappe.utils import flt
 
 
 class jkmsupplierquotation(SupplierQuotation):
@@ -28,6 +29,21 @@ class jkmsupplierquotation(SupplierQuotation):
         self.validate_with_previous_doc()
         self.validate_uom_is_integer("uom", "qty")
         self.validate_valid_till()
+
+        
+        for row in self.items:
+            if self.custom_total_transportation_expenses:
+                row.custom_local_transport_charges = flt(self.custom_total_transportation_expenses)/self.total_qty
+            if self.custom_total_packing_charges:
+                row.custom_other_charges = flt(self.custom_total_packing_charges)/self.total_qty
+            if self.custom_total_fob_value:
+                row.custom_shipping_fob = flt(self.custom_total_fob_value)/self.total_qty
+            if self.custom_total_cif_value:
+                row.custom_cif_charges = flt(self.custom_total_cif_value)/self.total_qty
+            row.custom_total_fob_value = flt(row.rate) + flt(row.custom_local_transport_charges) + flt(row.custom_interest_) + flt(row.custom_other_charges) + flt(row.custom_shipping_fob)
+            row.custom_total_cif_value  = flt(row.custom_total_cif_value) + flt(row.custom_cif_charges)
+            row.custom_final_rate = flt(row.custom_margin) + flt(row.custom_total_cif_value)
+        
 
 def on_submit(self, method):
     update_workflow(self)

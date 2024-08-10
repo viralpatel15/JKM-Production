@@ -47,6 +47,21 @@ cur_frm.fields_dict["custom_transporter"].get_query = function (doc) {
 	};
 };
 frappe.ui.form.on("Supplier Quotation Item", {
+    items_add:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        if(d.custom_packing_type){
+            frappe.model.get_value("Packing", d.custom_packing_type, 'package', r => {
+                frappe.model.set_value(cdt, cdn, 'custom_packing_size', r.package)
+            })
+        }
+        if(d.custom_packing_size){
+            frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
+            if(frm.doc.custom_cost_per_packages){
+                frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', d.custom_cost_per_packages * d.custom_packing_size / d.qty)
+            }
+        }
+        calculate_cbm(frm, cdt, cdn)
+    },
     custom_rate_currency:(frm, cdt, cdn) => {
         let d = locals[cdt][cdn]
         frappe.model.set_value(cdt, cdn, 'rate', d.custom_rate_currency * d.custom_exchange_rate)
@@ -89,6 +104,9 @@ frappe.ui.form.on("Supplier Quotation Item", {
         if(d.custom_packing_size){
             frappe.model.set_value(cdt,cdn, 'custom_total_packages', d.qty/d.custom_packing_size)
         }
+        if(d.custom_cost_per_packages && d.custom_total_packages){
+            frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', (d.custom_cost_per_packages * d.custom_total_packages / d.qty))
+        }
     },
     items_add:(frm, cdt, cdn) => {
         let d = locals[cdt][cdn]
@@ -111,7 +129,24 @@ frappe.ui.form.on("Supplier Quotation Item", {
         }
         calculate_cbm(frm,cdt,cdn)
     },
-
+    custom_cost_per_packages:(frm, cdt, cdn)=>{
+        let d = locals[cdt][cdn]
+        if(d.custom_cost_per_packages && d.custom_total_packages){
+            console.log('h')
+            frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', (d.custom_cost_per_packages * d.custom_total_packages / d.qty))
+        }
+    },
+    custom_interest_:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        custom_total_fob_value = flt(d.rate) + flt(d.custom_local_transport_charges) + flt(d.custom_interest_) + flt(d.custom_other_charges) + flt(d.custom_shipping_fob)
+        frappe.model.set_value(cdt,cdn,'custom_total_fob_value',custom_total_fob_value)
+        frappe.model.set_value(cdt,cdn,"custom_total_cif_value",(flt(d.custom_total_fob_value) + flt(d.custom_total_cif_value)))
+        frappe.model.set_value(cdt,cdn,"custom_final_rate", (d.custom_final_rate, d.custom_total_cif_value))
+    },
+    custom_margin:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        frappe.model.set_value(cdt,cdn, "custom_final_rate", d.custom_final_rate + d.custom_total_cif_value)
+    }
 })
 
 function calculate_cbm(frm, cdt, cdn){
