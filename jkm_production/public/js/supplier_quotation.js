@@ -33,6 +33,43 @@ frappe.ui.form.on("Supplier Quotation", {
     },
     custom_other_charges:(frm)=>{
         calculate_transporter_charges(frm)
+    },
+    custom_transporter:(frm)=>{
+        if(frm.doc.custom_transporter){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter
+                },
+                callback:(r)=>{
+                    frm.set_value(r.message)
+                }
+            })
+        }
+    },
+    custom_contact:(frm)=>{
+        if(frm.doc.custom_contact){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
+                args:{
+                    contact : frm.doc.custom_contact
+                },
+                callback:(r)=>{
+                    console.log(r.message)
+                    if(r.message){
+                        console.log("hh")
+                        frm.set_value(r.message)
+                    }
+                    else{
+                        console.log('kkk')
+                        frm.set_value("custom_contact", '')
+                        frm.set_value("custom_contact_person_name", "")
+                        frm.set_value("custom_mobile_no", '')
+                        frm.set_value("custom_email_id",'')
+                    }
+                }
+            })
+        }
     }
 
 
@@ -160,7 +197,6 @@ function calculate_cbm(frm, cdt, cdn){
 }
 
 function calculate_transporter_charges(frm){
-    console.log("hhh")
     let ltch = flt(frm.doc.custom_local_transport_charges_at_origin) + flt(frm.doc.custom_transporter_changers_) + flt(frm.doc.custom_local_transport_charges_at_designation)  + flt(frm.doc.custom_loading_charges_at_origin) + flt(frm.doc.custom_other_charges) + flt(frm.doc.custom_unloading_at_destination_)
     frm.set_value('custom_total_transportation_expenses', ltch)
 }

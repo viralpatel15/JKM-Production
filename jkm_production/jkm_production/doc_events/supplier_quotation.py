@@ -89,3 +89,30 @@ def update_rfq_status(self):
         sq = list(set(sq))
         doc = frappe.get_doc("Request for Quotation", rfq)
         frappe.db.set_value("Request for Quotation", doc.name, "workflow_state", "Completed")
+
+@frappe.whitelist()
+def get_contact_detail(contact):
+    doc = frappe.get_doc("Contact", contact)
+    first_name = doc.first_name if doc.first_name else ''
+    last_name = doc.last_name if doc.last_name else ''
+
+    return {
+        "custom_email_id" : doc.email_id,
+        "custom_mobile_no":doc.phone,
+        "custom_contact_person_name": first_name + " " + last_name 
+    }
+
+@frappe.whitelist()
+def get_transporter_contact_detail(transporter):
+    if name := frappe.db.exists("Dynamic Link", {"parenttype": "Contact", "link_name":transporter, "link_doctype" : "Supplier"}):
+        frappe.msgprint(str(name))
+        contact = frappe.db.get_value("Dynamic Link", name, 'parent')
+        return {
+            "custom_contact" : contact
+        }
+    return {
+        "custom_contact" : '',
+        "custom_email_id" : '',
+        "custom_mobile_no":'',
+        "custom_contact_person_name": ''
+    }
