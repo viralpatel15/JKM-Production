@@ -105,7 +105,6 @@ def get_contact_detail(contact):
 @frappe.whitelist()
 def get_transporter_contact_detail(transporter):
     if name := frappe.db.exists("Dynamic Link", {"parenttype": "Contact", "link_name":transporter, "link_doctype" : "Supplier"}):
-        frappe.msgprint(str(name))
         contact = frappe.db.get_value("Dynamic Link", name, 'parent')
         return {
             "custom_contact" : contact

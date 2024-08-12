@@ -12,9 +12,23 @@ frappe.ui.form.on("Supplier Quotation", {
         frm.refresh_field("items")
     },
     custom_transporter:(frm)=>{
+        console.log("LL")
         frappe.model.get_value("Supplier", frm.doc.custom_transporter, "supplier_name", r=>{
+            console.log(r.supplier_name)
             frm.set_value("custom_transporter_name", r.supplier_name)
+            frm.refresh_field('custom_transporter_name')
         })
+        if(frm.doc.custom_transporter){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter
+                },
+                callback:(r)=>{
+                    frm.set_value(r.message)
+                }
+            })
+        }
     },
     custom_transporter_changers_:(frm)=>{
         calculate_transporter_charges(frm)
@@ -33,19 +47,6 @@ frappe.ui.form.on("Supplier Quotation", {
     },
     custom_other_charges:(frm)=>{
         calculate_transporter_charges(frm)
-    },
-    custom_transporter:(frm)=>{
-        if(frm.doc.custom_transporter){
-            frappe.call({
-                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
-                args:{
-                    transporter : frm.doc.custom_transporter
-                },
-                callback:(r)=>{
-                    frm.set_value(r.message)
-                }
-            })
-        }
     },
     custom_contact:(frm)=>{
         if(frm.doc.custom_contact){
