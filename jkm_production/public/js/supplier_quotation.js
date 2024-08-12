@@ -12,7 +12,6 @@ frappe.ui.form.on("Supplier Quotation", {
         frm.refresh_field("items")
     },
     custom_transporter:(frm)=>{
-        console.log("LL")
         frappe.model.get_value("Supplier", frm.doc.custom_transporter, "supplier_name", r=>{
             console.log(r.supplier_name)
             frm.set_value("custom_transporter_name", r.supplier_name)
@@ -171,12 +170,21 @@ frappe.ui.form.on("Supplier Quotation Item", {
             frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', (d.custom_cost_per_packages * d.custom_total_packages / d.qty))
         }
     },
+    custom_interest_in_percentage:(frm,cdt,cdn)=>{
+        let d = locals[cdt][cdn]
+        custom_total_fob_value = flt(d.rate) + flt(d.custom_local_transport_charges) + flt(d.custom_other_charges) + flt(d.custom_shipping_fob)
+        frappe.model.set_value(cdt,cdn,'custom_interest_', (custom_total_fob_value * d.custom_interest_in_percentage/100))
+        custom_total_fob_value = flt(d.rate) + flt(d.custom_local_transport_charges) + flt(d.custom_interest_) + flt(d.custom_other_charges) + flt(d.custom_shipping_fob)
+        frappe.model.set_value(cdt,cdn,'custom_total_fob_value',custom_total_fob_value)
+        frappe.model.set_value(cdt,cdn,"custom_total_cif_value",(flt(d.custom_total_fob_value) + flt(d.custom_cif_charges)))
+        frappe.model.set_value(cdt,cdn,"custom_final_rate", (d.custom_margin+d.custom_total_cif_value))
+    },
     custom_interest_:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]
         custom_total_fob_value = flt(d.rate) + flt(d.custom_local_transport_charges) + flt(d.custom_interest_) + flt(d.custom_other_charges) + flt(d.custom_shipping_fob)
         frappe.model.set_value(cdt,cdn,'custom_total_fob_value',custom_total_fob_value)
-        frappe.model.set_value(cdt,cdn,"custom_total_cif_value",(flt(d.custom_total_fob_value) + flt(d.custom_total_cif_value)))
-        frappe.model.set_value(cdt,cdn,"custom_final_rate", (d.custom_final_rate, d.custom_total_cif_value))
+        frappe.model.set_value(cdt,cdn,"custom_total_cif_value",(flt(d.custom_total_fob_value) + flt(d.custom_cif_charges)))
+        frappe.model.set_value(cdt,cdn,"custom_final_rate", (d.custom_margin+d.custom_total_cif_value))
     },
     custom_margin:(frm,cdt,cdn)=>{
         let d = locals[cdt][cdn]

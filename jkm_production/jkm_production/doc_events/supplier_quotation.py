@@ -40,55 +40,63 @@ class jkmsupplierquotation(SupplierQuotation):
                 row.custom_shipping_fob = flt(self.custom_total_fob_value)/self.total_qty
             if self.custom_total_cif_value:
                 row.custom_cif_charges = flt(self.custom_total_cif_value)/self.total_qty
+            row.custom_total_fob = flt(row.rate) + flt(row.custom_local_transport_charges)  + flt(row.custom_other_charges) + flt(row.custom_shipping_fob)
             row.custom_total_fob_value = flt(row.rate) + flt(row.custom_local_transport_charges) + flt(row.custom_interest_) + flt(row.custom_other_charges) + flt(row.custom_shipping_fob)
             row.custom_total_cif_value  = flt(row.custom_total_fob_value) + flt(row.custom_cif_charges)
             row.custom_final_rate = flt(row.custom_margin) + flt(row.custom_total_cif_value)
+
         
 
 def on_submit(self, method):
-    update_workflow(self)
-    update_rfq_status(self)
+    pass
 
-def on_update_after_submit(self,method):
+def validate(self,method):
     update_workflow(self)
     
 
 def update_workflow(self):
-    rfq = self.items[0].get("request_for_quotation")
-    if rfq:
-        data = frappe.db.sql(f"""
-                    Select rfq.name, sqi.parent
-                    From `tabRequest for Quotation` as rfq
-                    left Join `tabSupplier Quotation Item` as sqi On sqi.request_for_quotation = rfq.name
-                    Where rfq.name = '{rfq}' and sqi.docstatus != 2
-        """,as_dict=1)
-        sq = []
-        reject = []
-        for row in data:
-            if row.parent and row.parent not in sq:
-                sq.append(row.parent)
-                if row.parent != self.name:
-                    reject.append(row.parent)
+    if self.workflow_state == "Approved":
+        rfq = self.items[0].get("request_for_quotation")
+        if rfq:
+            data = frappe.db.sql(f"""
+                        Select rfq.name, sqi.parent
+                        From `tabRequest for Quotation` as rfq
+                        left Join `tabSupplier Quotation Item` as sqi On sqi.request_for_quotation = rfq.name
+                        Where rfq.name = '{rfq}' and sqi.docstatus != 2
+            """,as_dict=1)
+            sq = []
+            reject = []
+            for row in data:
+                if row.parent and row.parent not in sq:
+                    sq.append(row.parent)
+                    if row.parent != self.name:
+                        reject.append(row.parent)
 
-        for row in reject:
-            frappe.db.set_value("Supplier Quotation", row, "workflow_state", "Rejected")
+            for row in reject:
+                frappe.db.set_value("Supplier Quotation", row, "workflow_state", "Rejected")
+        for row in self.items:
+            if not row.custom_margin:
+                frappe.throw(f"Row #{row.idx} : Margin amount is missing")
+            if row.request_for_quotation_item:
+                frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "custom_approved_price", row.custom_final_rate)
 
 
 def update_rfq_status(self):
-    rfq = self.items[0].get("request_for_quotation")
-    if rfq:
-        data = frappe.db.sql(f"""
-                    select parent
-                    From `tabSupplier Quotation Item`
-                    Where docstatus = 1 and request_for_quotation = '{rfq}'
-        """,as_dict=1)
-        sq = []
-        if data:
-            for row in data:
-                sq.append(row.parent)
-        sq = list(set(sq))
-        doc = frappe.get_doc("Request for Quotation", rfq)
-        frappe.db.set_value("Request for Quotation", doc.name, "workflow_state", "Completed")
+    pass
+    # rfq = self.items[0].get("request_for_quotation")
+    # if rfq:
+    #     data = frappe.db.sql(f"""
+    #                 select parent
+    #                 From `tabSupplier Quotation Item`
+    #                 Where docstatus = 1 and request_for_quotation = '{rfq}'
+    #     """,as_dict=1)
+    #     sq = []
+    #     if data:
+    #         for row in data:
+    #             sq.append(row.parent)
+    #     sq = list(set(sq))
+    #     doc = frappe.get_doc("Request for Quotation", rfq)
+    #     frappe.db.set_value("Request for Quotation", doc.name, "workflow_state", "Completed")
 
 @frappe.whitelist()
 def get_contact_detail(contact):

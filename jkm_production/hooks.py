@@ -91,6 +91,9 @@ doc_events = {
     "Supplier Quotation":{
         "on_submit":[
             "jkm_production.jkm_production.doc_events.supplier_quotation.on_submit"
+		],
+        "validate":[
+			"jkm_production.jkm_production.doc_events.supplier_quotation.validate"
 		]
 	}
 }
