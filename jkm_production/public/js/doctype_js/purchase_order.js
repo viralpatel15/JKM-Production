@@ -1,6 +1,5 @@
 frappe.ui.form.on("Purchase Order",{
     custom_is_against_sales_order(frm){
-        console.log("HHHHHHHHHHH")
         frm.set_query("custom_sales_order", function(doc) {
             return {
                 query: "jkm_production.api.get_sales_order",
@@ -11,7 +10,6 @@ frappe.ui.form.on("Purchase Order",{
         });
     },
     refresh(frm){
-        console.log("Hello")
         frm.set_query("custom_sales_order", function(doc) {
             return {
                 query: "jkm_production.api.get_sales_order",
