@@ -1,11 +1,35 @@
+frappe.ui.form.on("Purchase Order",{
+    custom_is_against_sales_order(frm){
+        console.log("HHHHHHHHHHH")
+        frm.set_query("custom_sales_order", function(doc) {
+            return {
+                query: "jkm_production.api.get_sales_order",
+                filters: {
+                    "company": doc.company,
+                }
+            }
+        });
+    },
+    refresh(frm){
+        console.log("Hello")
+        frm.set_query("custom_sales_order", function(doc) {
+            return {
+                query: "jkm_production.api.get_sales_order",
+                filters: {
+                    "company": doc.company,
+                }
+            }
+        });
+    },
 
+})
 
 frappe.ui.form.on('Purchase Order Item', {
     qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         frappe.model.set_value(cdt,cdn, "custom_net_weight", d.qty)
     },
-	custom_packing_size:(frm, cdt, cdn)=>{
+    custom_packing_size:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         if(d.custom_packing_size > 0){
             frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)

@@ -583,3 +583,8 @@ def create_brc(self):
 					brc.save(ignore_permissions=True)
 				except Exception as e:
 					frappe.throw(str(e))
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_sales_order(doctype, txt, searchfield, start, page_len, filters):
+	return frappe.db.sql(f""" Select name From `tabSales Order` where docstatus = 1""")
