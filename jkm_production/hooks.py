@@ -78,7 +78,10 @@ doc_events = {
         "on_cancel": "jkm_production.api.pi_on_cancel",
 	},
     "Purchase Order":{
-        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+        "validate": [
+            "jkm_production.jkm_production.doc_events.sales_order.validate",
+            "jkm_production.jkm_production.doc_events.purchase_order.validate",
+            ]
 	},
     "Purchase Receipt":{
         "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
@@ -109,6 +112,8 @@ doctype_js = {
     "Sales Order" : "public/js/doctype_js/sales_order.js",
     "Delivery Note":"public/js/doctype_js/delivery_note.js",
     "Purchase Invoice":"public/js/doctype_js/purchase_invoice.js",
+    "Purchase Order": "public/js/doctype_js/purchase_order.js",
+    "Purchase Receipt": "public/js/doctype_js/purchase_receipt.js",
     "Request for Quotation":"public/js/request_for_quotation.js"
 }
 

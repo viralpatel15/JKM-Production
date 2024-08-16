@@ -7,6 +7,7 @@ from frappe.contacts.doctype.address.address import get_address_display, get_def
 from frappe.contacts.doctype.contact.contact import get_contact_details, get_default_contact
 from frappe.desk.notifications import get_filters_for
 from datetime import date
+from jinja2 import TemplateSyntaxError
 from frappe.model.mapper import get_mapped_doc
 from erpnext.accounts.utils import get_fiscal_year, flt
 from erpnext.stock.stock_ledger import update_entries_after
@@ -583,3 +584,14 @@ def create_brc(self):
 					brc.save(ignore_permissions=True)
 				except Exception as e:
 					frappe.throw(str(e))
+
+@frappe.whitelist()
+@frappe.validate_and_sanitize_search_inputs
+def get_sales_order(doctype, txt, searchfield, start, page_len, filters):
+	return frappe.db.sql(""" 
+					  Select name 
+					  From `tabSales Order` 
+					  where docstatus = 1 and name like %(txt)s 
+					  """,
+					  {"txt": "%%%s%%" % txt},
+					  )
