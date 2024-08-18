@@ -64,6 +64,7 @@ def get_data(filters):
             sq.custom_total_packing_charges,
             sq.custom_total_transportation_expenses,
             sq_item.amount,
+            sq.workflow_state,
             sq_item.base_rate,
             sq_item.base_amount,
             sq.price_list_currency,
@@ -122,6 +123,7 @@ def prepare_data(supplier_quotation_data, filters):
             "uom": data.get("uom"),
             "price_list_currency": data.get("price_list_currency"),
             "currency": data.get("currency"),
+            "workflow_state":data.get("workflow_state"),
             "custom_transporter":data.get("custom_transporter"),
             "custom_local_transport_charges":data.get("custom_local_transport_charges"),
             "custom_total_amount_e":data.get('custom_total_amount_e'),
@@ -363,6 +365,12 @@ def get_columns(filters):
             "fieldname" : "custom_final_rate",
             "label": "Final Rate",
             "fieldtype": "Currency",
+            "width" : 180,
+        },
+        {
+            "fieldname" : "workflow_state",
+            "label": "Workflow State",
+            "fieldtype": "Data",
             "width" : 180,
         },
         {
