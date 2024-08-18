@@ -67,7 +67,7 @@ def get_data(filters):
             sq.workflow_state,
             sq_item.base_rate,
             sq_item.base_amount,
-            sq.custom_payment_terms,
+            sq.custom_payment_terms_template,
             sq.price_list_currency,
             sq_item.uom,
             sq_item.custom_interest_in_percentage,
@@ -132,7 +132,7 @@ def prepare_data(supplier_quotation_data, filters):
             "per_qty_custom_total_fob_value":data.get('per_qty_custom_total_fob_value'),
             "custom_interest_in_percentage":data.get("custom_interest_in_percentage"),
             "custom_interest_":data.get("custom_interest_"),
-            "custom_payment_terms":data.get("custom_payment_terms"),
+            "custom_payment_terms_template":data.get("custom_payment_terms_template"),
             "custom_total_cif_value":data.get("custom_total_cif_value"),
             "custom_pickup_from":data.get("custom_pickup_from"),
             "per_qty_custom_total_cif_value":data.get("per_qty_custom_total_cif_value"),
@@ -370,8 +370,8 @@ def get_columns(filters):
             "width" : 180,
         },
         {
-            "fieldname" : "custom_payment_terms",
-            "label": "Payment Terms",
+            "fieldname" : "custom_payment_terms_template",
+            "label": "Supplier Payment Terms",
             "fieldtype": "Link",
             "options" : "Payment Term",
             "width" : 180,
@@ -401,7 +401,7 @@ def get_columns(filters):
             "label": _("Request for Quotation"),
             "fieldtype": "Link",
             "options": "Request for Quotation",
-            "width": 150,
+            "width": 200,
         },
     ]
 
