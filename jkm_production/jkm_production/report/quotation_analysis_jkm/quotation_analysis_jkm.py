@@ -85,7 +85,7 @@ def get_data(filters):
         left Join `tabSupplier Quotation Item` as sq_item ON sq_item.parent = sq.name
         left join `tabRequest for Quotation` as rfq ON rfq.name = sq_item.request_for_quotation
         Where sq_item.docstatus < 2 {condition}
-        Order By sq.transaction_date, sq_item.item_code
+        Order By sq_item.custom_total_cif_value DESC
     """,as_dict=1)
 
 
@@ -340,6 +340,12 @@ def get_columns(filters):
             "label": "Per QTY FOB Value",
             "fieldtype": "Currency",
             "width" : 180,
+        },
+        {
+            "fieldname" : "per_qty_custom_cif_charges",
+            "label":"CIF Charges",
+            "field_type":"Currency",
+            "width":180
         },
         {
             "fieldname" : "per_qty_custom_total_cif_value",
