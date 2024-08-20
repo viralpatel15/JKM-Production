@@ -22,6 +22,11 @@ frappe.query_reports["Transporter Detail"] = {
 			"fieldtype":"Link",
 			"options":"City",
 		},
+		{
+			"label":"Type",
+			"fieldname":"type",
+			"fieldtype":"Data",
+		}
 
 	]
 };
