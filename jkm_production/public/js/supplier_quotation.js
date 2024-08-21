@@ -13,7 +13,6 @@ frappe.ui.form.on("Supplier Quotation", {
     },
     custom_transporter:(frm)=>{
         frappe.model.get_value("Supplier", frm.doc.custom_transporter, "supplier_name", r=>{
-            console.log(r.supplier_name)
             frm.set_value("custom_transporter_name", r.supplier_name)
             frm.refresh_field('custom_transporter_name')
         })
@@ -48,6 +47,12 @@ frappe.ui.form.on("Supplier Quotation", {
         calculate_transporter_charges(frm)
     },
     custom_contact:(frm)=>{
+        if(!custom_contact){
+            frm.set_value("custom_contact", '')
+            frm.set_value("custom_contact_person_name", "")
+            frm.set_value("custom_mobile_no", '')
+            frm.set_value("custom_email_id",'')
+        }
         if(frm.doc.custom_contact){
             frappe.call({
                 method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
@@ -55,13 +60,10 @@ frappe.ui.form.on("Supplier Quotation", {
                     contact : frm.doc.custom_contact
                 },
                 callback:(r)=>{
-                    console.log(r.message)
                     if(r.message){
-                        console.log("hh")
                         frm.set_value(r.message)
                     }
                     else{
-                        console.log('kkk')
                         frm.set_value("custom_contact", '')
                         frm.set_value("custom_contact_person_name", "")
                         frm.set_value("custom_mobile_no", '')
@@ -70,7 +72,99 @@ frappe.ui.form.on("Supplier Quotation", {
                 }
             })
         }
-    }
+    },
+    custom_contact_1:(frm)=>{
+        if(!frm.doc.custom_contact_1){
+            frm.set_value("custom_contact_person_name_1", '')
+            frm.set_value("custom_mobile_no_1", '')
+            frm.set_value("custom_email_id_1",'')
+        }
+        if(frm.doc.custom_contact_1){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
+                args:{
+                    contact : frm.doc.custom_contact_1
+                },
+                callback:(r)=>{
+                    if(r.message){
+                        console.log(r.message)
+                        frm.set_value("custom_contact_person_name_1", r.message.custom_contact_person_name)
+                        frm.set_value("custom_mobile_no_1", r.message.custom_mobile_no)
+                        frm.set_value("custom_email_id_1",r.message.custom_email_id)
+                    }
+                    else{
+                        frm.set_value("custom_contact_person_name_1", '')
+                        frm.set_value("custom_mobile_no_1", '')
+                        frm.set_value("custom_email_id_1",'')
+                    }
+                }
+            })
+        }
+    },
+    custom_transporter_1:(frm)=>{
+        frappe.model.get_value("Supplier", frm.doc.custom_transporter_1, "supplier_name", r=>{
+            frm.set_value("custom_transporter_name1", r.supplier_name)
+            frm.refresh_field('custom_transporter_name1')
+        })
+        if(frm.doc.custom_transporter_1){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter_1
+                },
+                callback:(r)=>{
+                    frm.set_value("custom_contact_1", r.message.custom_contact)
+                    frm.refresh_field("custom_contact_1")
+                }
+            })
+        }
+    },
+    custom_transporter_3:(frm)=>{
+        frappe.model.get_value("Supplier", frm.doc.custom_transporter_3, "supplier_name", r=>{
+            frm.set_value("custom_transporter_name_3", r.supplier_name)
+            frm.refresh_field('custom_transporter_name_3')
+        })
+        if(frm.doc.custom_transporter_3){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter_3
+                },
+                callback:(r)=>{
+                    frm.set_value("custom_contact_3", r.message.custom_contact)
+                    frm.refresh_field("custom_contact_3")
+                }
+            })
+        }
+    },
+    custom_contact_3:(frm)=>{
+        if(!custom_contact_3){
+            frm.set_value("custom_contact_person_name_3", '')
+            frm.set_value("custom_mobile_no_3", '')
+            frm.set_value("custom_email_id_3", '')
+        }
+        if(frm.doc.custom_contact_1){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
+                args:{
+                    contact : frm.doc.custom_contact_1
+                },
+                callback:(r)=>{
+                    if(r.message){
+                        console.log(r.message)
+                        frm.set_value("custom_contact_person_name_3", r.message.custom_contact_person_name)
+                        frm.set_value("custom_mobile_no_3", r.message.custom_mobile_no)
+                        frm.set_value("custom_email_id_3",r.message.custom_email_id)
+                    }
+                    else{
+                        frm.set_value("custom_contact_person_name_3", '')
+                        frm.set_value("custom_mobile_no_3", '')
+                        frm.set_value("custom_email_id_3", '')
+                    }
+                }
+            })
+        }
+    },
 
 
 })
@@ -155,7 +249,6 @@ frappe.ui.form.on("Supplier Quotation Item", {
     items_remove:(frm, cdt, cdn) => {
         let d = locals[cdt][cdn]
         if(!d.custom_exchange_rate){
-            console.log("enter")
             frappe.model.set_value(d.doctype, d.name, "custom_exchange_rate", 1)
         }
         if(!d.custom_currency){
@@ -166,7 +259,6 @@ frappe.ui.form.on("Supplier Quotation Item", {
     custom_cost_per_packages:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         if(d.custom_cost_per_packages && d.custom_total_packages){
-            console.log('h')
             frappe.model.set_value(cdt, cdn, 'custom_per_qty_pallet_cost', (d.custom_cost_per_packages * d.custom_total_packages / d.qty))
         }
     },
