@@ -106,7 +106,7 @@ def get_contact_detail(contact):
 
     return {
         "custom_email_id" : doc.email_id,
-        "custom_mobile_no":doc.phone,
+        "custom_mobile_no":doc.phone or doc.mobile_no,
         "custom_contact_person_name": first_name + " " + last_name 
     }
 
