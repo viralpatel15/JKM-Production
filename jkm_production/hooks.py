@@ -89,7 +89,8 @@ doc_events = {
     "Request for Quotation":{
         "on_submit":[
             "jkm_production.jkm_production.doc_events.request_for_quotation.on_submit"
-		]
+		],
+        "on_update_after_submit":"jkm_production.jkm_production.doc_events.request_for_quotation.on_update_after_submit"
 	},
     "Supplier Quotation":{
         "on_submit":[
