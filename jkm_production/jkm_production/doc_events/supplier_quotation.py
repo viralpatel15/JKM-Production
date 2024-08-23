@@ -55,6 +55,7 @@ def validate(self,method):
     
 
 def update_workflow(self):
+    pass
     # if self.workflow_state == "Approved":
     #     rfq = self.items[0].get("request_for_quotation")
     #     if rfq:
@@ -74,11 +75,11 @@ def update_workflow(self):
 
     #         for row in reject:
     #             frappe.db.set_value("Supplier Quotation", row, "workflow_state", "Rejected")
-    for row in self.items:
-        if not row.custom_margin:
-            frappe.throw(f"Row #{row.idx} : Margin amount is missing")
-        if row.request_for_quotation_item:
-            frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "custom_approved_price", row.custom_final_rate)
+    # for row in self.items:
+    #     if not row.custom_margin:
+    #         frappe.throw(f"Row #{row.idx} : Margin amount is missing")
+    #     if row.request_for_quotation_item:
+    #         frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "custom_approved_price", row.custom_final_rate)
 
 
 def update_rfq_status(self):
