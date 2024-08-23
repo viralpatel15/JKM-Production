@@ -52,7 +52,14 @@ def on_submit(self, method):
 
 def validate(self,method):
     update_workflow(self)
-    
+
+    if self.custom_self_pickup:
+        if not (self.custom_total_transportation_expenses > 0):
+            frappe.throw("Transporter details and charges not updated")
+
+    if self.custom_is_export_inquire_:
+        if not (self.custom_total_cif_value > 0 or self.custom_total_fob_value):
+            frappe.throw("Export charges is missing, please update Export charges")
 
 def update_workflow(self):
     if self.workflow_state == "Approved":
