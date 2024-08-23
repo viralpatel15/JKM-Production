@@ -5,7 +5,7 @@ def on_submit(self,method):
         if not len(self.suppliers):
             frappe.throw("Supplier Details is requiered to set RFQ")
 
-            
+
 from erpnext.buying.doctype.request_for_quotation.request_for_quotation import RequestforQuotation
 
 class jkmrequestforquotation(RequestforQuotation):
@@ -23,4 +23,4 @@ class jkmrequestforquotation(RequestforQuotation):
                 rfq_supplier.email_sent = 1
                 if not rfq_supplier.contact:
                     rfq_supplier.contact = contact
-                rfq_supplier.save()
+                rfq_supplier.save(ignore_permissions=True)
