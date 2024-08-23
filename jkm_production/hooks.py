@@ -195,7 +195,8 @@ doctype_js = {
 
 override_doctype_class = {
 	"Supplier Quotation": "jkm_production.jkm_production.doc_events.supplier_quotation.jkmsupplierquotation",
-    "Quality Inspection": "jkm_production.jkm_production.doc_events.quality_inspection.QualityInspectionJKM"
+    "Quality Inspection": "jkm_production.jkm_production.doc_events.quality_inspection.QualityInspectionJKM",
+    "Request for Quotation": "jkm_production.jkm_production.doc_events.request_for_quotation.jkmrequestforquotation"
 }
 
 # Document Events
