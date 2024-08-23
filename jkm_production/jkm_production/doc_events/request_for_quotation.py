@@ -6,6 +6,8 @@ def on_update_after_submit(self, method):
         for row in self.items:
             if not row.custom_is_renegotiable_item:
                 flag =True
+            if not row.custom_target_price:
+                frappe.throw(f"Row #{row.idx} : Target price is required for renegotiate")
 
         if flag:
             frappe.throw("Enable renegotiable item in Item table")
