@@ -1,5 +1,16 @@
 import frappe
 
+def on_update_after_submit(self, method):
+    if self.workflow_state == "Renegotiate":
+        flag = False
+        for row in self.items:
+            if not row.custom_is_renegotiable_item:
+                flag =True
+
+        if flag:
+            frappe.throw("Enable renegotiable item in Item table")
+
+
 def on_submit(self,method):
     if self.workflow_state == "In Progress":
         if not len(self.suppliers):
