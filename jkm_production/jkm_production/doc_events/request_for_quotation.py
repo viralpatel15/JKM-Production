@@ -1,22 +1,24 @@
 import frappe
 
 def on_update_after_submit(self, method):
-    if self.workflow_state == "Renegotiate":
-        flag = False
-        for row in self.items:
-            if not row.custom_is_renegotiable_item:
-                flag =True
-            if not row.custom_target_price:
-                frappe.throw(f"Row #{row.idx} : Target price is required for renegotiate")
+    if self.get('workflow_state'):
+        if self.workflow_state == "Renegotiate":
+            flag = False
+            for row in self.items:
+                if not row.custom_is_renegotiable_item:
+                    flag =True
+                if not row.custom_target_price:
+                    frappe.throw(f"Row #{row.idx} : Target price is required for renegotiate")
 
-        if flag and len(self.items) > 1:
-            frappe.throw("Enable renegotiable item in Item table")
+            if flag and len(self.items) > 1:
+                frappe.throw("Enable renegotiable item in Item table")
 
 
 def on_submit(self,method):
-    if self.workflow_state == "In Progress":
-        if not len(self.suppliers):
-            frappe.throw("Supplier Details is requiered to set RFQ")
+    if self.get('workflow_state'):
+        if self.workflow_state == "In Progress":
+            if not len(self.suppliers):
+                frappe.throw("Supplier Details is requiered to set RFQ")
 
 
 from erpnext.buying.doctype.request_for_quotation.request_for_quotation import RequestforQuotation
