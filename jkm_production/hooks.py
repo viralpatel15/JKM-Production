@@ -230,9 +230,9 @@ scheduler_events = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "jkm_production.event.get_events"
-# }
+override_whitelisted_methods = {
+	"erpnext.selling.doctype.quotation.quotation.make_sales_order": "jkm_production.jkm_production.doc_events.sales_order.make_sales_order"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
