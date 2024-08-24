@@ -10,6 +10,39 @@ frappe.ui.form.on("Supplier Quotation", {
             }
         });
         frm.refresh_field("items")
+        frm.set_query("custom_contact_1", function () {
+			if (frm.doc.custom_transporter_1) {
+				return {
+					query: "frappe.contacts.doctype.contact.contact.contact_query",
+					filters: {
+						link_doctype: "Supplier",
+						link_name: frm.doc.custom_transporter_1,
+					},
+				};
+			}
+		});
+        frm.set_query("custom_contact", function () {
+			if (frm.doc.custom_transporter) {
+				return {
+					query: "frappe.contacts.doctype.contact.contact.contact_query",
+					filters: {
+						link_doctype: "Supplier",
+						link_name: frm.doc.custom_transporter   ,
+					},
+				};
+			}
+		});
+        frm.set_query("custom_contact_3", function () {
+			if (frm.doc.custom_transporter_3) {
+				return {
+					query: "frappe.contacts.doctype.contact.contact.contact_query",
+					filters: {
+						link_doctype: "Supplier",
+						link_name: frm.doc.custom_transporter_3   ,
+					},
+				};
+			}
+		});
     },
     custom_transporter:(frm)=>{
         frappe.model.get_value("Supplier", frm.doc.custom_transporter, "supplier_name", r=>{
