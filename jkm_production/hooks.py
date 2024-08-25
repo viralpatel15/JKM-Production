@@ -224,7 +224,9 @@ scheduler_events = {
 
 # Testing
 # -------
-
+from erpnext.buying.report.requested_items_to_order_and_receive import requested_items_to_order_and_receive
+from jkm_production.jkm_production.requested_items_to_order_and_received import execute as execute_jkm
+requested_items_to_order_and_receive.execute = execute_jkm
 # before_tests = "jkm_production.install.before_tests"
 
 # Overriding Methods
