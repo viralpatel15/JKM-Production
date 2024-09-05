@@ -1,4 +1,19 @@
 frappe.ui.form.on("Purchase Order",{
+    setup:function(frm){
+        frm.doc.items.forEach(e => {
+            if(e.supplier_quotation_item){
+                frappe.call({
+                    method:"jkm_production.api.get_supplier_quotation_rate",
+                    args:{
+                        ref : e.supplier_quotation_item
+                    },
+                    callback:r=>{
+                        frappe.model.set_value(e.doctype, e.docname, 'rate', r.message)
+                    }
+                })
+            }
+        });
+    },
     custom_is_against_sales_order(frm){
         frm.set_query("custom_sales_order", function(doc) {
             return {

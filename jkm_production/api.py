@@ -595,3 +595,9 @@ def get_sales_order(doctype, txt, searchfield, start, page_len, filters):
 					  """,
 					  {"txt": "%%%s%%" % txt},
 					  )
+
+
+@frappe.whitelist()
+def get_supplier_quotation_rate(ref):
+	rate = frappe.db.get_value("Supplier Quotation Item", ref, "rate")
+	return rate

@@ -80,22 +80,6 @@ def update_workflow(self):
                     frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "supplier_quotation_item", row.name)    
 
 
-def update_rfq_status(self):
-    pass
-    # rfq = self.items[0].get("request_for_quotation")
-    # if rfq:
-    #     data = frappe.db.sql(f"""
-    #                 select parent
-    #                 From `tabSupplier Quotation Item`
-    #                 Where docstatus = 1 and request_for_quotation = '{rfq}'
-    #     """,as_dict=1)
-    #     sq = []
-    #     if data:
-    #         for row in data:
-    #             sq.append(row.parent)
-    #     sq = list(set(sq))
-    #     doc = frappe.get_doc("Request for Quotation", rfq)
-    #     frappe.db.set_value("Request for Quotation", doc.name, "workflow_state", "Completed")
 
 @frappe.whitelist()
 def get_contact_detail(contact):
