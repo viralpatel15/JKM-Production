@@ -99,7 +99,10 @@ doc_events = {
         "validate":[
 			"jkm_production.jkm_production.doc_events.supplier_quotation.validate"
 		]
-	}
+	},
+    "Quotation":{
+        "validate": "jkm_production.jkm_production.doc_events.quotation.validate",
+    }
 }
 
 doctype_js = { 

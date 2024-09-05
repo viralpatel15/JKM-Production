@@ -66,35 +66,18 @@ def update_workflow(self):
         if self.workflow_state == "Approved":
             for row in self.items: 
                 if row.request_for_quotation_item:
-                    frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "custom_approved_price", row.custom_final_rate)
-            
+                    frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "custom_approved_price", row.custom_final_rate)        
+
             if self.items[0].get('request_for_quotation'):
                 doc = frappe.get_doc("Request for Quotation", self.items[0].get('request_for_quotation'))
                 doc.workflow_state = "Rate Received"
-                doc.save()    
-
-    #     rfq = self.items[0].get("request_for_quotation")
-    #     if rfq:
-    #         data = frappe.db.sql(f"""
-    #                     Select rfq.name, sqi.parent
-    #                     From `tabRequest for Quotation` as rfq
-    #                     left Join `tabSupplier Quotation Item` as sqi On sqi.request_for_quotation = rfq.name
-    #                     Where rfq.name = '{rfq}' and sqi.docstatus != 2
-    #         """,as_dict=1)
-    #         sq = []
-    #         reject = []
-    #         for row in data:
-    #             if row.parent and row.parent not in sq:
-    #                 sq.append(row.parent)
-    #                 if row.parent != self.name:
-    #                     reject.append(row.parent)
-
-    #         for row in reject:
-    #             frappe.db.set_value("Supplier Quotation", row, "workflow_state", "Rejected")
-    # for row in self.items:
-    #     if not row.custom_margin:
-    #         frappe.throw(f"Row #{row.idx} : Margin amount is missing")
-    #     
+                doc.save()  
+        
+        if self.workflow_state == "PO Requested":
+            for row in self.items: 
+                if row.request_for_quotation_item:
+                    frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "supplier_quotation", self.name)
+                    frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "supplier_quotation_item", row.name)    
 
 
 def update_rfq_status(self):
