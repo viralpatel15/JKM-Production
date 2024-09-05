@@ -9,6 +9,7 @@ frappe.ui.form.on("Purchase Order",{
                     },
                     callback:r=>{
                         frappe.model.set_value(e.doctype, e.docname, 'rate', r.message)
+                        frm.refresh_field('items')
                     }
                 })
             }
