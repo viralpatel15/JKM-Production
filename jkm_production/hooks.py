@@ -80,8 +80,7 @@ doc_events = {
     "Purchase Order":{
         "validate": [
             "jkm_production.jkm_production.doc_events.sales_order.validate",
-            "jkm_production.jkm_production.doc_events.purchase_order.validate",
-            ]
+            ],
 	},
     "Purchase Receipt":{
         "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
@@ -236,7 +235,8 @@ requested_items_to_order_and_receive.execute = execute_jkm
 # ------------------------------
 #
 override_whitelisted_methods = {
-	"erpnext.selling.doctype.quotation.quotation.make_sales_order": "jkm_production.jkm_production.doc_events.sales_order.make_sales_order"
+	"erpnext.selling.doctype.quotation.quotation.make_sales_order": "jkm_production.jkm_production.doc_events.sales_order.make_sales_order",
+    "erpnext.stock.doctype.material_request.material_request.make_purchase_order" : "jkm_production.jkm_production.doc_events.purchase_order.make_purchase_order"
 }
 #
 # each overriding function accepts a `data` argument;

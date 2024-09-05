@@ -73,7 +73,7 @@ def update_workflow(self):
                 doc.workflow_state = "Rate Received"
                 doc.save()  
         
-        if self.workflow_state == "PO Requested":
+        if self.workflow_state == "Approved":
             for row in self.items: 
                 if row.request_for_quotation_item:
                     frappe.db.set_value("Request for Quotation Item", row.request_for_quotation_item, "supplier_quotation", self.name)

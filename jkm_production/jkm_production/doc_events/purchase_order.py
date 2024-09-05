@@ -4,19 +4,6 @@ from erpnext.stock.doctype.item.item import get_item_defaults
 from frappe.model.mapper import get_mapped_doc
 from erpnext.stock.doctype.material_request.material_request import set_missing_values, update_item
 
-def validate(self, method):
-    set_sales_order_ref(self)
-
-def set_sales_order_ref(self):
-    if self.custom_is_against_sales_order and self.custom_sales_order:
-        doc = frappe.get_doc("Sales Order", self.custom_sales_order)
-        item_map = {}
-        for row in doc.items:
-            item_map[row.item_code] = row
-        for row in self.items:
-            if item_map.get(row.item_code):
-                row.sales_order_item = item_map.get(row.item_code).get('name')
-                row.sales_order = self.custom_sales_order
 
 
 
@@ -76,3 +63,8 @@ def make_purchase_order(source_name, target_doc=None, args=None):
 
 	doclist.set_onload("load_after_mapping", False)
 	return doclist
+
+@frappe.whitelist()
+def get_sq_rate(ref):
+	rate = frappe.db.get_value("Supplier Quotation Item", ref, "rate")
+	return rate
