@@ -20,6 +20,23 @@ frappe.ui.form.on("Purchase Order",{
             });
         }
     },
+    custom_transporter:(frm)=>{
+        frappe.model.get_value("Supplier", frm.doc.custom_transporter, "supplier_name", r=>{
+            frm.set_value("custom_transporter_name", r.supplier_name)
+            frm.refresh_field('custom_transporter_name')
+        })
+        if(frm.doc.custom_transporter){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter
+                },
+                callback:(r)=>{
+                    frm.set_value(r.message)
+                }
+            })
+        }
+    },
     refresh(frm){
         if (!frm.doc.supplier){
             frm.add_custom_button(__("Get Supplier"), () => {
@@ -38,6 +55,158 @@ frappe.ui.form.on("Purchase Order",{
                 }
             }
         });
+        frm.set_query("custom_contact_1", function () {
+			if (frm.doc.custom_transporter_1) {
+				return {
+					query: "frappe.contacts.doctype.contact.contact.contact_query",
+					filters: {
+						link_doctype: "Supplier",
+						link_name: frm.doc.custom_transporter_1,
+					},
+				};
+			}
+		});
+        frm.set_query("custom_contact", function () {
+			if (frm.doc.custom_transporter) {
+				return {
+					query: "frappe.contacts.doctype.contact.contact.contact_query",
+					filters: {
+						link_doctype: "Supplier",
+						link_name: frm.doc.custom_transporter,
+					},
+				};
+			}
+		});
+        frm.set_query("custom_contact_3", function () {
+			if (frm.doc.custom_transporter_3) {
+				return {
+					query: "frappe.contacts.doctype.contact.contact.contact_query",
+					filters: {
+						link_doctype: "Supplier",
+						link_name: frm.doc.custom_transporter_3,
+					},
+				};
+			}
+		});
+    },
+    custom_contact:(frm)=>{
+        if(!frm.doc.custom_contact){
+            frm.set_value("custom_contact", '')
+            frm.set_value("custom_contact_person_name", "")
+            frm.set_value("custom_mobile_no", '')
+            frm.set_value("custom_email_id",'')
+        }
+        if(frm.doc.custom_contact){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
+                args:{
+                    contact : frm.doc.custom_contact
+                },
+                callback:(r)=>{
+                    if(r.message){
+                        frm.set_value(r.message)
+                    }
+                    else{
+                        frm.set_value("custom_contact", '')
+                        frm.set_value("custom_contact_person_name", "")
+                        frm.set_value("custom_mobile_no", '')
+                        frm.set_value("custom_email_id",'')
+                    }
+                }
+            })
+        }
+    },
+    custom_contact_1:(frm)=>{
+        if(!frm.doc.custom_contact_1){
+            frm.set_value("custom_contact_person_name_1", '')
+            frm.set_value("custom_mobile_no_1", '')
+            frm.set_value("custom_email_id_1",'')
+        }
+        if(frm.doc.custom_contact_1){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
+                args:{
+                    contact : frm.doc.custom_contact_1
+                },
+                callback:(r)=>{
+                    if(r.message){
+                        console.log(r.message)
+                        frm.set_value("custom_contact_person_name_1", r.message.custom_contact_person_name)
+                        frm.set_value("custom_mobile_no_1", r.message.custom_mobile_no)
+                        frm.set_value("custom_email_id_1",r.message.custom_email_id)
+                    }
+                    else{
+                        frm.set_value("custom_contact_person_name_1", '')
+                        frm.set_value("custom_mobile_no_1", '')
+                        frm.set_value("custom_email_id_1",'')
+                    }
+                }
+            })
+        }
+    },
+    custom_transporter_1:(frm)=>{
+        frappe.model.get_value("Supplier", frm.doc.custom_transporter_1, "supplier_name", r=>{
+            frm.set_value("custom_transporter_name1", r.supplier_name)
+            frm.refresh_field('custom_transporter_name1')
+        })
+        if(frm.doc.custom_transporter_1){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter_1
+                },
+                callback:(r)=>{
+                    frm.set_value("custom_contact_1", r.message.custom_contact)
+                    frm.refresh_field("custom_contact_1")
+                }
+            })
+        }
+    },
+    custom_transporter_3:(frm)=>{
+        frappe.model.get_value("Supplier", frm.doc.custom_transporter_3, "supplier_name", r=>{
+            frm.set_value("custom_transporter_name_3", r.supplier_name)
+            frm.refresh_field('custom_transporter_name_3')
+        })
+        if(frm.doc.custom_transporter_3){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_transporter_contact_detail",
+                args:{
+                    transporter : frm.doc.custom_transporter_3
+                },
+                callback:(r)=>{
+                    frm.set_value("custom_contact_3", r.message.custom_contact)
+                    frm.refresh_field("custom_contact_3")
+                }
+            })
+        }
+    },
+    custom_contact_3:(frm)=>{
+        if(!frm.doc.custom_contact_3){
+            frm.set_value("custom_contact_person_name_3", '')
+            frm.set_value("custom_mobile_no_3", '')
+            frm.set_value("custom_email_id_3", '')
+        }
+        if(frm.doc.custom_contact_3){
+            frappe.call({
+                method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
+                args:{
+                    contact : frm.doc.custom_contact_3
+                },
+                callback:(r)=>{
+                    if(r.message){
+                        console.log(r.message)
+                        frm.set_value("custom_contact_person_name_3", r.message.custom_contact_person_name)
+                        frm.set_value("custom_mobile_no_3", r.message.custom_mobile_no)
+                        frm.set_value("custom_email_id_3",r.message.custom_email_id)
+                    }
+                    else{
+                        frm.set_value("custom_contact_person_name_3", '')
+                        frm.set_value("custom_mobile_no_3", '')
+                        frm.set_value("custom_email_id_3", '')
+                    }
+                }
+            })
+        }
     },
 
 })
