@@ -171,16 +171,16 @@ frappe.ui.form.on("Supplier Quotation", {
         }
     },
     custom_contact_3:(frm)=>{
-        if(!custom_contact_3){
+        if(!frm.doc.custom_contact_3){
             frm.set_value("custom_contact_person_name_3", '')
             frm.set_value("custom_mobile_no_3", '')
             frm.set_value("custom_email_id_3", '')
         }
-        if(frm.doc.custom_contact_1){
+        if(frm.doc.custom_contact_3){
             frappe.call({
                 method:"jkm_production.jkm_production.doc_events.supplier_quotation.get_contact_detail",
                 args:{
-                    contact : frm.doc.custom_contact_1
+                    contact : frm.doc.custom_contact_3
                 },
                 callback:(r)=>{
                     if(r.message){
