@@ -210,7 +210,30 @@ frappe.ui.form.on("Purchase Order",{
     },
 
 })
-
+cur_frm.fields_dict["custom_transporter_1"].get_query = function (doc) {
+	// filter on Account
+	return {
+		filters: {
+			is_transporter : 1
+		},
+	};
+};
+cur_frm.fields_dict["custom_transporter_3"].get_query = function (doc) {
+	// filter on Account
+	return {
+		filters: {
+			is_transporter : 1
+		},
+	};
+};
+cur_frm.fields_dict["custom_transporter"].get_query = function (doc) {
+	// filter on Account
+	return {
+		filters: {
+			is_transporter : 1
+		},
+	};
+};
 frappe.ui.form.on('Purchase Order Item', {
     qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
