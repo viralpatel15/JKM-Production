@@ -1,7 +1,9 @@
 frappe.ui.form.on("Request for Quotation", {
 	refresh: function (frm, cdt, cdn) {
 		frm.add_custom_button(('Quotation Analisys JKM'), () => {
-			window.open(`https://chem.fosscrm.com/app/query-report/Quotation%20Analysis%20JKM?request_for_quotation=${frm.doc.name}&group_by=Group+by+Supplier`)
+			let url = frappe.urllib.get_full_url(`/app/query-report/Quotation%20Analysis%20JKM?request_for_quotation=${frm.doc.name}&group_by=Group+by+Supplier`)
+			// window.open(`https://chem.fosscrm.com/app/query-report/Quotation%20Analysis%20JKM?request_for_quotation=${frm.doc.name}&group_by=Group+by+Supplier`)
+			window.open(url)
 		},("View"))
 	},
 });

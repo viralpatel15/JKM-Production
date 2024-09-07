@@ -9,7 +9,27 @@ frappe.ui.form.on("Purchase Order",{
             }
         });
     },
+    supplier(frm){
+        if(!frm.doc.supplier){
+            frm.add_custom_button(__("Get Supplier"), () => {
+                frm.doc.items.forEach(e => {
+                    frappe.model.get_value("Supplier Quotation", e.supplier_quotation, 'supplier', r=>{
+                        frm.set_value('supplier', r.supplier)
+                    })
+                });
+            });
+        }
+    },
     refresh(frm){
+        if (!frm.doc.supplier){
+            frm.add_custom_button(__("Get Supplier"), () => {
+                frm.doc.items.forEach(e => {
+                    frappe.model.get_value("Supplier Quotation", e.supplier_quotation, 'supplier', r=>{
+                        frm.set_value('supplier', r.supplier)
+                    })
+                });
+            });
+        }
         frm.set_query("custom_sales_order", function(doc) {
             return {
                 query: "jkm_production.api.get_sales_order",
