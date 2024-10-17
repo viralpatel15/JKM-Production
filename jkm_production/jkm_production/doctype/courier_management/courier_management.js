@@ -28,7 +28,7 @@ cur_frm.set_query("contact_person", function () {
 	else {
 		return {
 			query: "frappe.contacts.doctype.contact.contact.contact_query",
-			filters: { link_doctype: "Lead", link_name: cur_frm.doc.party }
+			filters: { link_doctype: cur_frm.doc.link_to, link_name: cur_frm.doc.party }
 		};
 	}
 });
@@ -62,7 +62,7 @@ cur_frm.set_query("address_link", function () {
 	else {
 		return {
 			query: "frappe.contacts.doctype.address.address.address_query",
-			filters: { link_doctype: "Lead", link_name: cur_frm.doc.party }
+			filters: { link_doctype: cur_frm.doc.link_to, link_name: cur_frm.doc.party }
 		};
 	}
 });
