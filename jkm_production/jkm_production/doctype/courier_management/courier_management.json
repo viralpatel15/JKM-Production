@@ -47,8 +47,10 @@
   "sectionbreak2",
   "courier_company",
   "weight",
+  "no_of_packages",
   "print_box",
   "courier_delivered_by",
+  "designation",
   "tracking_status",
   "courier_delivery_date_and_time",
   "place_of_origin_of_goods",
@@ -247,7 +249,7 @@
   {
    "fieldname": "weight",
    "fieldtype": "Data",
-   "label": "Weight (In KG)"
+   "label": "Gross Weight (In KG)"
   },
   {
    "fieldname": "print_box",
@@ -406,11 +408,21 @@
    "fieldtype": "Text Editor",
    "label": "Link",
    "read_only": 1
+  },
+  {
+   "fieldname": "no_of_packages",
+   "fieldtype": "Data",
+   "label": "No of Packages"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-09 19:25:37.396961",
+ "modified": "2024-10-19 11:50:48.116352",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",

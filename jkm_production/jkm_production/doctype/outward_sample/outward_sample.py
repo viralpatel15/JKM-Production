@@ -20,6 +20,8 @@ class OutwardSample(Document):
 		total_qty = 0
 		for row in self.details:
 			total_qty += row.quantity
+			if row.manufacturing_date == row.expiry_date:
+				frappe.throw("Row #{0} : Manufacturing Date and Expiry Date can not be the same")
 		self.total_qty = total_qty
 		
 	def on_submit(self):
@@ -71,7 +73,8 @@ def make_courier_management(source_name, target_doc=None):
 			"manufacturing_date":row.manufacturing_date,
 			"item" : row.item_code,
 			"product_name" : row.item_name,
-			"uom" : row.uom
+			"uom" : row.uom,
+			"expiry_date":row.expiry_date
 		})
 	return doclist
 

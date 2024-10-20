@@ -46,6 +46,14 @@ cur_frm.set_query("company_address", function (doc) {
 	}
 });
 
+cur_frm.set_query("courier_company", function (doc) {
+	return {
+		filters: {
+			"is_transporter": 1,
+		}
+	}
+});
+
 cur_frm.set_query("address_link", function () {
 	if (cur_frm.doc.link_to == "Customer") {
 		return {
