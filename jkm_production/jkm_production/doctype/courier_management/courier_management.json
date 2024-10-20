@@ -47,8 +47,6 @@
   "sectionbreak2",
   "courier_company",
   "weight",
-  "no_of_packages",
-  "print_box",
   "courier_delivered_by",
   "designation",
   "tracking_status",
@@ -206,7 +204,7 @@
   },
   {
    "fieldname": "remarks",
-   "fieldtype": "Data",
+   "fieldtype": "Small Text",
    "label": "Remarks"
   },
   {
@@ -250,12 +248,6 @@
    "fieldname": "weight",
    "fieldtype": "Data",
    "label": "Gross Weight (In KG)"
-  },
-  {
-   "fieldname": "print_box",
-   "fieldtype": "Select",
-   "label": "Print Box",
-   "options": "\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11"
   },
   {
    "fieldname": "courier_delivered_by",
@@ -410,11 +402,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "no_of_packages",
-   "fieldtype": "Data",
-   "label": "No of Packages"
-  },
-  {
    "fieldname": "designation",
    "fieldtype": "Data",
    "label": "Designation"
@@ -422,7 +409,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-19 11:50:48.116352",
+ "modified": "2024-10-20 16:00:22.415721",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Courier Management",
