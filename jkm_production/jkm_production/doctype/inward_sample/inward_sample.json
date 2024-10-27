@@ -20,6 +20,13 @@
   "courier_docket_no",
   "courier_contact_no",
   "delivery_date",
+  "email_sent",
+  "section_break_hmul",
+  "requested_by",
+  "mobile_no",
+  "column_break_lmil",
+  "full_name",
+  "phone",
   "section_break_xtmd",
   "party_type",
   "column_break_hrcj",
@@ -116,7 +123,8 @@
    "in_list_view": 1,
    "label": "Supplier Name",
    "mandatory_depends_on": "eval:doc.status == \"Requested\"",
-   "permlevel": 2
+   "permlevel": 2,
+   "read_only": 1
   },
   {
    "fieldname": "details_section",
@@ -168,6 +176,7 @@
    "fieldname": "contact_email",
    "fieldtype": "Small Text",
    "label": "contact_email",
+   "options": "Email",
    "read_only": 1
   },
   {
@@ -220,6 +229,48 @@
    "label": "Courier Contact No",
    "mandatory_depends_on": "eval:doc.status == \"Ordered\"",
    "permlevel": 2
+  },
+  {
+   "fieldname": "section_break_hmul",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "requested_by",
+   "fieldtype": "Link",
+   "label": "Requested By",
+   "options": "User"
+  },
+  {
+   "fieldname": "column_break_lmil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "requested_by.full_name",
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Full Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "requested_by.mobile_no",
+   "fieldname": "mobile_no",
+   "fieldtype": "Data",
+   "label": "Mobile No",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "requested_by.phone",
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "email_sent",
+   "fieldtype": "Check",
+   "label": "Email Sent",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
@@ -229,7 +280,7 @@
    "link_fieldname": "inward_ref"
   }
  ],
- "modified": "2024-07-09 00:03:06.975034",
+ "modified": "2024-10-27 10:18:00.954925",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Inward Sample",

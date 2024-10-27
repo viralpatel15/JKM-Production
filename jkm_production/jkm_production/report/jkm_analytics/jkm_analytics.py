@@ -32,7 +32,7 @@ def get_data(filters):
 		frappe.qb.from_(sq_item)
 		.from_(sq)
 		.left_join(rfq)
-		.on(rfq.name == sq_item.request_for_quotation,)
+		.on(sq_item.request_for_quotation == rfq.name)
 		.select(
 			sq_item.parent,
 			sq_item.item_code,

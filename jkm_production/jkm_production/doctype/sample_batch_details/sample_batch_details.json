@@ -1,11 +1,12 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "JKM-Batch-.####",
+ "autoname": "naming_series:",
  "creation": "2024-06-29 14:18:58.093945",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "sample_batch_no",
   "item_code",
   "qty",
@@ -66,15 +67,22 @@
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "default": "JKM-Batch-.####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "naming Series",
+   "options": "JKM-Batch-.####"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-07 17:11:49.923643",
+ "modified": "2024-10-27 09:45:50.102004",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Sample Batch Details",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

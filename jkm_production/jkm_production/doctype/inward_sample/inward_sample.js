@@ -33,6 +33,28 @@ frappe.ui.form.on('Inward Sample', {
 			);
 		}
 	},
+	party: function (frm) {
+		if (frm.doc.supplier) {
+			frappe.call({
+				method: "jkm_production.api.get_party_details",
+				args: {
+					party: frm.doc.supplier,
+					party_type: "Supplier"
+				},
+				callback: function (r) {
+					if (r.message) {
+						frm.set_value('contact_person', r.message.contact_person)
+						frm.set_value('contact_display', r.message.contact_display)
+						frm.set_value('contact_mobile', r.message.contact_mobile)
+						frm.set_value('contact_email', r.message.contact_email)
+						frm.set_value('address_display', r.message.address_display)
+						frm.set_value('supplier_name', r.message.party_name)
+						frm.set_value('supplier_address', r.message.supplier_address)
+					}
+				}
+			});
+		}
+	},
 	supplier:frm=>{
 		frm.set_query("contact_person", function (doc) {
 			return {
@@ -40,12 +62,14 @@ frappe.ui.form.on('Inward Sample', {
 				filters: { link_doctype: "Supplier", link_name: doc.supplier }
 			};
 		});
+		frm.set_query('supplier_address', erpnext.queries.address_query);
 		frm.set_query("supplier_address", function (doc) {
 			return {
 				query: "frappe.contacts.doctype.address.address.address_query",
 				filters: { link_doctype: "Supplier", link_name: doc.supplier }
 			};
 		});
+		frm.trigger("party")
 	},
 	contact_person: erpnext.utils.get_contact_details,
 	supplier_address(frm) {
