@@ -142,8 +142,7 @@ doctype_js = {
 
 # add methods and filters to jinja environment
 # jinja = {
-# 	"methods": "jkm_production.utils.jinja_methods",
-# 	"filters": "jkm_production.utils.jinja_filters"
+# 	"methods": "jkm_production.jkm_production.doc_events.sales_order.generate_upi_qr_code"
 # }
 
 # Installation
