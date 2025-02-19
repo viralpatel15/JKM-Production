@@ -10,7 +10,8 @@
   "container_type",
   "line_seal_no",
   "custom_seal_no",
-  "container_tare_weight"
+  "container_tare_weight",
+  "shipment_load"
  ],
  "fields": [
   {
@@ -43,12 +44,19 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Container Tare Weight"
+  },
+  {
+   "fieldname": "shipment_load",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Shipment Load",
+   "options": "\nLCL\nFCL"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-21 15:56:52.219636",
+ "modified": "2025-01-15 20:38:07.927153",
  "modified_by": "Administrator",
  "module": "JKM Production",
  "name": "Container Details",

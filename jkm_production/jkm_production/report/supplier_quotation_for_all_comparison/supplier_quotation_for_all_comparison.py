@@ -27,6 +27,7 @@ def execute(filters=None):
 def get_data(filters):
 	sq = frappe.qb.DocType("Supplier Quotation")
 	sq_item = frappe.qb.DocType("Supplier Quotation Item")
+	quotation_type = ''
 	if filters.get('quotation_type'):
 		quotation_type = filters.get('quotation_type')
 	cond1 = ''

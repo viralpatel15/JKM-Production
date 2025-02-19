@@ -47,7 +47,7 @@ def get_data(filters):
 		.on(mr_item.parent == mr.name)
 		.join(so_detail)
 		.on(mr_item.sales_order == so_detail.name)
-		.join(po_item)
+		.left_join(po_item)
 		.on(po_item.material_request_item == mr_item.name)
 		.left_join(po)
 		.on(po.name == po_item.parent)
