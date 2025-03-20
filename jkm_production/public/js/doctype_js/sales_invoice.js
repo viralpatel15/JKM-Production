@@ -4,7 +4,14 @@
 frappe.ui.form.on('Sales Invoice', {
 	custom_notify_party_address:frm=>{
 		erpnext.utils.get_address_display(frm, "custom_notify_party_address", "custom_notify_party_address_details", false);
-	}
+	},
+    validate: function(frm) {
+        frm.doc.items.forEach(function(d) {
+            if (d.qty > 0 && d.custom_package > 0) {
+                frappe.model.set_value(d.doctype, d.name, "custom_no_of_package", d.qty / d.custom_package);
+            }
+        });
+    }
 })
 
 frappe.ui.form.on('Sales Invoice Item', {
@@ -13,16 +20,34 @@ frappe.ui.form.on('Sales Invoice Item', {
         frappe.model.set_value(cdt, cdn, "fob_value", d.net_amount)
         calculate_total_fob_value(frm, cdt, cdn)
     },
-	custom_packing_size:(frm, cdt, cdn)=>{
+	// custom_packing_size:(frm, cdt, cdn)=>{
+    //     let d = locals[cdt][cdn]
+    //     if(d.custom_packing_size > 0){
+    //         frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
+    //     }
+    // },
+    qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
-        if(d.custom_packing_size > 0){
-            frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
+        if(d.qty > 0){
+            frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_package)
         }
     },
+    
     custom_per_package_weight:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         if(d.custom_per_package_weight > 0){
             frappe.model.set_value(cdt, cdn, "custom_total_weight_of_package", flt(d.custom_no_of_package) * flt(d.custom_per_package_weight))
+        }
+    },
+    custom_packing: function(frm, cdt, cdn) {
+        let d = locals[cdt][cdn];
+        if (d.custom_packing) {
+            frappe.db.get_value('Packing', d.custom_packing, 'package')
+                .then(r => {
+                    if (r.message && r.message.package) {
+                        frappe.model.set_value(cdt, cdn, "custom_package", r.message.package);
+                    }
+                });
         }
     },
     custom_net_weight:(frm,cdt,cdn)=>{

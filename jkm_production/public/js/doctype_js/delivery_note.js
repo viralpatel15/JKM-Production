@@ -1,10 +1,35 @@
-
+frappe.ui.form.on('Delivery Note', {
+    validate: function(frm) {
+        frm.doc.items.forEach(function(d) {
+            if (d.qty > 0 && d.custom_package > 0) {
+                frappe.model.set_value(d.doctype, d.name, "custom_no_of_package", d.qty / d.custom_package);
+            }
+        });
+    }
+})
 
 frappe.ui.form.on('Delivery Note Item', {
-	custom_packing_size:(frm, cdt, cdn)=>{
+	// custom_packing_size:(frm, cdt, cdn)=>{
+    //     let d = locals[cdt][cdn]
+    //     if(d.custom_packing_size > 0){
+    //         frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
+    //     }
+    // },
+    qty:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
-        if(d.custom_packing_size > 0){
-            frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
+        if(d.qty > 0){
+            frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_package)
+        }
+    },
+    custom_packing: function(frm, cdt, cdn) {
+        let d = locals[cdt][cdn];
+        if (d.custom_packing) {
+            frappe.db.get_value('Packing', d.custom_packing, 'package')
+                .then(r => {
+                    if (r.message && r.message.package) {
+                        frappe.model.set_value(cdt, cdn, "custom_package", r.message.package);
+                    }
+                });
         }
     },
     custom_per_package_weight:(frm, cdt, cdn)=>{
