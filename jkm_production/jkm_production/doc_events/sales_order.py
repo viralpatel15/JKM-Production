@@ -9,8 +9,8 @@ def validate(self, method):
 	custom_total_cbm = 0
 	custom_total_packages = 0
 	for row in self.items:
-		if flt(row.qty) and flt(row.custom_packing_size):
-			row.custom_no_of_package = flt(row.qty) / flt(row.custom_packing_size)
+		if flt(row.qty) and flt(row.custom_package):
+			row.custom_no_of_package = flt(row.qty) / flt(row.custom_package)
 			custom_total_packages += row.custom_no_of_package
 
 		if flt(row.custom_per_package_weight) and flt(row.custom_no_of_package):
@@ -67,28 +67,28 @@ def generate_upi_url(upi_id, payee_name, amount):
 	return f"{base_url}?{urllib.parse.urlencode(query_params)}"
 
 
-import qrcode
-import base64
-from io import BytesIO
+# import qrcode
+# import base64
+# from io import BytesIO
 
-@frappe.whitelist()
-def generate_upi_qr_code(upi_id = "mavanidhaval24@okhdfcbank", payee_name = "supplier", amount=0):
-	upi_url = generate_upi_url(upi_id, payee_name, amount)
+# @frappe.whitelist()
+# def generate_upi_qr_code(upi_id = "mavanidhaval24@okhdfcbank", payee_name = "supplier", amount=0):
+# 	upi_url = generate_upi_url(upi_id, payee_name, amount)
 	
-	# Generate the QR code
-	qr = qrcode.QRCode(box_size=10, border=4)
-	qr.add_data(upi_url)
-	qr.make(fit=True)
+# 	# Generate the QR code
+# 	qr = qrcode.QRCode(box_size=10, border=4)
+# 	qr.add_data(upi_url)
+# 	qr.make(fit=True)
 	
-	# Convert QR code to an image
-	img = qr.make_image(fill="black", back_color="white")
-	# Save to a BytesIO stream
-	buffer = BytesIO()
-	img.save(buffer, format="PNG")
-	buffer.seek(0)
+# 	# Convert QR code to an image
+# 	img = qr.make_image(fill="black", back_color="white")
+# 	# Save to a BytesIO stream
+# 	buffer = BytesIO()
+# 	img.save(buffer, format="PNG")
+# 	buffer.seek(0)
 	
-	# Convert the image to a base64 string
-	img_base64 = base64.b64encode(buffer.read()).decode('utf-8')
+# 	# Convert the image to a base64 string
+# 	img_base64 = base64.b64encode(buffer.read()).decode('utf-8')
 
-	return img_base64
+# 	return img_base64
 
