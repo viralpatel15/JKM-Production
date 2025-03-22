@@ -3,6 +3,7 @@ import json
 from erpnext.stock.doctype.item.item import get_item_defaults
 from frappe.model.mapper import get_mapped_doc
 from erpnext.stock.doctype.material_request.material_request import set_missing_values, update_item
+from frappe.utils import flt
 
 
 
