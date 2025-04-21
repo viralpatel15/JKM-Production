@@ -1,4 +1,11 @@
 frappe.ui.form.on("Purchase Order",{
+    validate: function(frm) {
+        frm.doc.items.forEach(function(d) {
+            if (d.qty > 0 && d.custom_package > 0) {
+                frappe.model.set_value(d.doctype, d.name, "custom_no_of_package", d.qty / d.custom_package);
+            }
+        });
+    },
     custom_is_against_sales_order(frm){
         frm.set_query("custom_sales_order", function(doc) {
             return {
@@ -239,12 +246,12 @@ frappe.ui.form.on('Purchase Order Item', {
         let d = locals[cdt][cdn]
         frappe.model.set_value(cdt,cdn, "custom_net_weight", d.qty)
     },
-    custom_packing_size:(frm, cdt, cdn)=>{
-        let d = locals[cdt][cdn]
-        if(d.custom_packing_size > 0){
-            frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
-        }
-    },
+    // custom_packing_size:(frm, cdt, cdn)=>{
+    //     let d = locals[cdt][cdn]
+    //     if(d.custom_packing_size > 0){
+    //         frappe.model.set_value(cdt, cdn, "custom_no_of_package", d.qty/d.custom_packing_size)
+    //     }
+    // },
     custom_per_package_weight:(frm, cdt, cdn)=>{
         let d = locals[cdt][cdn]
         if(d.custom_per_package_weight > 0){
