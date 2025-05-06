@@ -73,17 +73,17 @@ doc_events = {
         "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
 	},
     "Purchase Invoice":{
-        "validate": ["jkm_production.jkm_production.doc_events.sales_order.validate","jkm_production.jkm_production.doc_events.purchase_invoice.validate"],
+        "validate": ["jkm_production.jkm_production.doc_events.purchase_order.validate","jkm_production.jkm_production.doc_events.purchase_invoice.validate"],
         "on_submit": "jkm_production.api.pi_on_submit",
         "on_cancel": "jkm_production.api.pi_on_cancel",
 	},
     "Purchase Order":{
         "validate": [
-            "jkm_production.jkm_production.doc_events.sales_order.validate",
+            "jkm_production.jkm_production.doc_events.purchase_order.validate",
             ],
 	},
     "Purchase Receipt":{
-        "validate": "jkm_production.jkm_production.doc_events.sales_order.validate"
+        "validate": "jkm_production.jkm_production.doc_events.purchase_order.validate"
 	},
     "Request for Quotation":{
         "on_submit":[

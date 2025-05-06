@@ -3,6 +3,7 @@ import json
 from erpnext.stock.doctype.item.item import get_item_defaults
 from frappe.model.mapper import get_mapped_doc
 from erpnext.stock.doctype.material_request.material_request import set_missing_values, update_item
+from frappe.utils import flt
 
 
 
@@ -76,8 +77,8 @@ def validate(self, method):
 	custom_total_cbm = 0
 	custom_total_packages = 0
 	for row in self.items:
-		if flt(row.qty) and flt(row.custom_packing_size):
-			row.custom_no_of_package = flt(row.qty) / flt(row.custom_packing_size)
+		if flt(row.qty) and flt(row.custom_package):
+			row.custom_no_of_package = flt(row.qty) / flt(row.custom_package)
 			custom_total_packages += row.custom_no_of_package
 
 		if flt(row.custom_per_package_weight) and flt(row.custom_no_of_package):
